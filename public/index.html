@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="index.css">
+
+  <title>Messaging App</title>
+</head>
+
+<body>
+
+  <div id="Settings_Tab">
+    <img id="Exit_Settings" onclick="Close_Settings()" src="Images/Exit.png">
+  </div>
+
+
+
+  <div id="Connected_1" class="connect_notif">
+    <p class="notif_text">Successfully connected!</p>
+    <img class="notif_warn" src="Images/warning.png">
+    <img id="remove_connect_1" onclick="connect_1_remove()" class="remove_notif" src="Images/remove.png">
+  </div>
+
+  <div id="Connected_0" class="connect_notif">
+    <p class="notif_text">Successfully disconnected.</p>
+    <img class="notif_warn" src="Images/warning.png">
+    <img id="remove_connect_0" onclick="connect_0_remove()" class="remove_notif" src="Images/remove.png">
+  </div>
+
+  <div id="Connected_3" class="connect_notif">
+    <p class="notif_text">Could not connect or user doesnt exist.</p>
+    <img class="notif_warn" src="Images/warning.png">
+    <img id="remove_connect_3" onclick="connect_3_remove()" class="remove_notif" src="Images/remove.png">
+  </div>
+
+
+
+
+  <div id="Left_NavBar">
+    <div id="Top_Title">
+      <p id="Main_Title">Raven</p>
+      <img id="Setting_Btn" onclick="Open_Settings()" src="Images/settings.png">
+
+      <div id="Search_Bar_Add" class="added_ip">
+        <img id="search_icon_ip" src="Images/search.png">
+        <input id="Search_IP" type="text" placeholder="Enter IP">
+        <button id="Add_IP">ADD</button>
+      </div>
+
+      <div class="added_ip">
+        <img class="user_img" src="Images/user.png">
+        <p class="user_ip">00.00.0.0</p>
+        <img class="delete_saved" src="Images/remove.png">
+      </div>
+
+      <div class="added_ip">
+        <img class="user_img" src="Images/user.png">
+        <p class="user_ip">00.00.0.0</p>
+        <img class="delete_saved" src="Images/remove.png">
+      </div>
+
+      <div class="added_ip">
+        <img class="user_img" src="Images/user.png">
+        <p class="user_ip">00.00.0.0</p>
+        <img class="delete_saved" src="Images/remove.png">
+      </div>
+
+      <div class="added_ip">
+        <img class="user_img" src="Images/user.png">
+        <p class="user_ip">00.00.0.0</p>
+        <img class="delete_saved" src="Images/remove.png">
+      </div>
+
+      <div class="added_ip">
+        <img class="user_img" src="Images/user.png">
+        <p class="user_ip">00.00.0.0</p>
+        <img class="delete_saved" src="Images/remove.png">
+      </div>
+
+      <div class="added_ip">
+        <img class="user_img" src="Images/user.png">
+        <p class="user_ip">00.00.0.0</p>
+        <img class="delete_saved" src="Images/remove.png">
+      </div>
+
+      <div class="added_ip">
+        <img class="user_img" src="Images/user.png">
+        <p class="user_ip">00.00.0.0</p>
+        <img class="delete_saved" src="Images/remove.png">
+      </div>
+
+      <div class="added_ip">
+        <img class="user_img" src="Images/user.png">
+        <p class="user_ip">00.00.0.0</p>
+        <img class="delete_saved" src="Images/remove.png">
+      </div>
+
+      <div class="added_ip">
+        <img class="user_img" src="Images/user.png">
+        <p class="user_ip">00.00.0.0</p>
+        <img class="delete_saved" src="Images/remove.png">
+      </div>
+
+    </div>
+
+    <div id="Scrollable_Nav">
+
+    </div>
+  </div>
+
+  <div>
+
+  </div>
+
+  <div id="Messaging_Area">
+    <video autoplay muted loop>
+      <source src="Videos/purple.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div id="Search_Bar">
+      <div>
+        <form id="form" action="">
+          <input id="Msg_Area" autocomplete="off" type="text" placeholder="Send a message" />
+          <img id="Send_Img" src="./Images/SendImg.png">
+        </form>
+        <p id="Connected_to_text">Connected to <span id="user_id_actual"></span></p>
+        <div id="Receive_Area">
+          <ul id="Sent" class="rec_sent_style">
+            <!--
+            <li class="msg_style_sent">good thanks- sent<span class="sent_time">Sent: 09:49pm</span> <span
+                class="loader"></span></li>
+            <li class="msg_style_sent">good thanks- sent<span class="sent_time">Sent: 09:49pm</span></li>
+            <li class="msg_style_sent">good thanks- sent<span class="sent_time">Sent: 09:49pm</span></li>
+            <li class="msg_style_rec">good how are you - received<span class="rec_time">Received: 09:49pm</span></li>
+            <li class="msg_style_sent">how are you - sent<span class="sent_time">Sent: 09:49pm</span></li>
+            <li class="msg_style_rec">hi - received<span class="rec_time">Received: 09:49pm</span></li>
+            <li class="msg_style_sent">hi - sent<span class="sent_time">Sent: 09:49pm</span></li>
+            -->
+          </ul>
+        </div>
+        <p id="Message">Connect to an IP to start chatting!</p>
+        <div id="Disconnect">
+          <button id="Disconnect_Button">DISCONNECT</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="Connection_Area">
+    <div id="Connection_Title">
+      <p id="Connection_Title_text">Connection</p>
+      <div id="Offline_Status" class="offline-indicator offline"></div>
+      <div id="Online_Status" class="online-indicator online"></div>
+    </div>
+
+    <div id="Connection_Information">
+      <img id="Search_Ip_connect" src="Images/search.png">
+      <input id="connect_IP" type="text" placeholder="Enter User ID" />
+      <button id="Connect_Button">CONNECT</button>
+
+      <p id="Connected_to">Connected to: </p>
+      <p id="Connected_to_IP">N/A</p>
+
+      <div id="Marker"></div>
+
+      <p id="Your_Ip">User ID: </p>
+      <p id="Your_IP_Actual">000.00.0.0</p>
+
+      <div id="Marker_2"></div>
+
+      <p id="Your_Speed">Internet Speed: </p>
+      <p id="Internet_Speed_Actual">000 MBps</p>
+    </div>
+
+
+  </div>
+  <!--offline-indicator offline-->
+  <!--online-indicator online-->
+
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+
+      var socket = io();
+
+
+      var form = document.getElementById('form');
+      var input = document.getElementById('Msg_Area');
+      var connect_btn = document.getElementById("Connect_Button");
+
+      const Ip = document.getElementById("Your_IP_Actual");
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var recipientId = document.getElementById('connect_IP');
+        var recipientId_value = recipientId.value;
+        if (input.value) {
+          console.log("ID: ", recipientId_value);
+          socket.emit('chat message', { recipientId: recipientId_value, content: input.value });
+        }
+        var item = document.createElement('li');
+        var messages = document.getElementById('Sent');
+        item.classList.add('msg_style_sent');
+        item.textContent = input.value;
+        messages.appendChild(item);
+        messages.scrollTop = messages.scrollHeight;
+        input.value = '';
+      });
+
+      connect_btn.addEventListener('click', function (e) { //checks if recipient exists
+        e.preventDefault();
+        var recipientId = document.getElementById('connect_IP');
+        var recipientId_value = recipientId.value;
+        if (recipientId_value) {
+          socket.emit('recipient', { recipient_id: recipientId_value });
+        }
+      });
+
+      socket.on('recipient exist', function (data) {
+        const recipientId = document.getElementById('connect_IP');
+        const recipientId_value = recipientId.value;
+        const connected_to = document.getElementById("Connected_to_text");
+        const connected_to_text = document.getElementById("user_id_actual");
+        const off = document.getElementById("Offline_Status");
+        const on = document.getElementById("Online_Status");
+
+        console.log(`Received message from user ${data.message}`);
+
+        if (data.message === "1") {
+          connect_1();
+          connected_to_text.textContent = recipientId_value;
+          connected_to.style.display = "block";
+          off.style.display = "none";
+          on.style.display = "block";
+          console.log("we are connected");
+        } else if (data.message === "0") {
+          connect_3();
+          off.style.display = "block";
+          on.style.display = "none";
+          console.log("did not connect or doesn't exist");
+        }
+      });
+
+
+      socket.on("")
+
+      socket.on('chat message', function (data) {
+        console.log(`Received message from user ${data.senderId}: ${data.content}`);
+      });
+
+      socket.on('user connected', function (userId) {
+
+        console.log('Received user ID:', userId);
+        Ip.textContent = userId;
+
+      });
+
+      socket.on('chat message', function (data) {
+        const item = document.createElement('li');
+        const messages = document.getElementById('Sent');
+        item.classList.add('msg_style_rec');
+        item.textContent = data.content;
+        messages.appendChild(item);
+        messages.scrollTop = messages.scrollHeight;
+      });
+    });
+  </script>
+
+</body>
+
+</script>
+<script defer type="text/javascript" src="index.js"></script>
+
+</html>
