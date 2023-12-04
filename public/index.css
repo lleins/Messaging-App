@@ -3,6 +3,408 @@ body {
     overflow-y: hidden;
 }
 
+@font-face {
+    font-family: 'Gotham_Font';
+    src: url('Fonts/Gotham/Gotham Light/Gotham Light.otf') format('opentype'),
+}
+
+/*Loader Area*/
+
+
+#Loader_Area {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: rgb(0, 0, 0, .5);
+    display: none;
+    z-index: 9999999;
+}
+
+#loader_login {
+    position: fixed;
+    left: 49%;
+    transform: translate(-49%, 0%);
+    top: 200px;
+}
+
+.loader_login {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid rgb(150, 150, 150);
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation .6s linear infinite;
+    position: absolute;
+    left: -35px;
+    top: 7px;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/*Loader Area*/
+
+
+
+/*Login Notices*/
+.Notice_Img {
+    transform: scale(.5);
+}
+
+.Notice_text {
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(255, 19, 0);
+    font-size: 10px;
+}
+
+
+#Pass_Notice_Login_Img {
+    position: absolute;
+    top: 136px;
+    left: 30px;
+    display: none;
+}
+
+
+#Pass_Wrong_Login_Notice {
+    position: absolute;
+    top: 132px;
+    left: 55px;
+    display: none;
+}
+
+/*Login Notices*/
+
+
+
+
+/*Login_Area*/
+
+#Login_Area {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-color: rgb(7, 7, 7);
+    z-index: 999999;
+    display: none;
+}
+
+#Login_Video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    filter: blur(5px) brightness(50%);
+
+}
+
+#Logo_Sign {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%) scale(.9);
+    top: 10px;
+
+}
+
+#SignIn_Title {
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 65px;
+    white-space: nowrap;
+    background-color: rgb(15, 15, 15);
+    width: 250px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    border: 2px solid rgb(40, 40, 40);
+    display: block;
+}
+
+#Login_Container {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 140px;
+    width: 250px;
+    height: 205px;
+    background-color: rgb(15, 15, 15);
+    border: 2px solid rgb(40, 40, 40);
+    border-radius: 5px;
+    display: block;
+}
+
+
+#email_Login_text {
+    position: absolute;
+    left: 30px;
+    top: 10px;
+}
+
+
+.Sign_create_text {
+    font-size: 12px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+}
+
+.sign_create_input {
+    font-family: "Gotham_Font", sans-serif;
+    height: 20px;
+    font-size: 12px;
+    background-color: rgb(15, 15, 15);
+    width: 180px;
+    border: 1px solid rgb(70, 70, 70);
+    border-radius: 5px;
+    color: rgb(245, 245, 245);
+}
+
+.sign_create_input:focus {
+    outline: 1px solid rgb(213, 45, 255);
+
+}
+
+#Login_Email_Input {
+    position: absolute;
+    top: 45px;
+    left: 30px;
+}
+
+#Forgot_Pass {
+    position: absolute;
+    top: 75px;
+    left: 125px;
+    font-size: 10px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(213, 45, 255);
+    cursor: pointer;
+}
+
+#pass_Login_text {
+    position: absolute;
+    left: 30px;
+    top: 80px;
+}
+
+#Login_pass_Input {
+    position: absolute;
+    top: 115px;
+    left: 30px;
+}
+
+#Sign_In_Button {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 158px;
+    border-radius: 5px;
+    height: 25px;
+    width: 180px;
+    font-size: 12px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+    border: none;
+    background-color: rgb(213, 45, 255);
+    cursor: pointer;
+    font-weight: bold;
+}
+
+#Switch_Tabs {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 358px;
+    width: 250px;
+    height: 70px;
+    background-color: rgb(15, 15, 15);
+    border: 2px solid rgb(40, 40, 40);
+    border-radius: 5px;
+}
+
+#New_Raven_text {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    transform: translate(-50%, -0%);
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 12px;
+    color: rgb(245, 245, 245);
+    white-space: nowrap;
+    display: block;
+}
+
+#Switch_Create_Account {
+    color: rgb(213, 45, 255);
+    cursor: pointer;
+}
+
+
+#Bottom_Links_Container {
+    position: absolute;
+    width: 230px;
+    height: 30px;
+    top: 470px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.Bottom_Links {
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 10px;
+    color: rgb(245, 245, 245);
+    cursor: pointer;
+    transition: .2s;
+
+}
+
+.Bottom_Links:hover {
+    color: rgb(213, 45, 255);
+    text-decoration: underline;
+}
+
+/*Login_Area*/
+
+/*Create Account*/
+
+#CreateAcc_Title {
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 65px;
+    white-space: nowrap;
+    background-color: rgb(15, 15, 15);
+    width: 250px;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    border: 2px solid rgb(40, 40, 40);
+    display: none;
+}
+
+#Create_Container {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 140px;
+    width: 250px;
+    height: 275px;
+    background-color: rgb(15, 15, 15);
+    border: 2px solid rgb(40, 40, 40);
+    border-radius: 5px;
+    display: none;
+}
+
+#Create_Email_Input {
+    position: absolute;
+    top: 45px;
+    left: 30px;
+}
+
+#Create_pass_Input {
+    position: absolute;
+    top: 115px;
+    left: 30px;
+}
+
+#Pass_Notice_Create_Img {
+    position: absolute;
+    top: 66px;
+    left: 30px;
+    display: none;
+}
+
+#Pass_Wrong_Create_Notice {
+    position: absolute;
+    top: 62px;
+    left: 55px;
+    display: none;
+}
+
+
+#Create_Acc_Button {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 228px;
+    border-radius: 5px;
+    height: 25px;
+    width: 180px;
+    font-size: 12px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+    border: none;
+    background-color: rgb(213, 45, 255);
+    cursor: pointer;
+    font-weight: bold;
+
+}
+
+
+#Repass_Login_text {
+    position: absolute;
+    left: 30px;
+    top: 150px;
+}
+
+#Create_Repass_Input {
+    position: absolute;
+    top: 185px;
+    left: 30px;
+}
+
+
+
+#Login_Raven_text {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    transform: translate(-50%, -0%);
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 12px;
+    color: rgb(245, 245, 245);
+    white-space: nowrap;
+    display: none;
+}
+
+#Switch_Log_In {
+    color: rgb(213, 45, 255);
+    cursor: pointer;
+}
+
+
+
+/*Create Account*/
+
 
 /*Notifs*/
 #Connected_1 {
@@ -24,7 +426,7 @@ body {
     position: fixed;
     width: 70%;
     background-color: rgb(80, 80, 80);
-    top: 10px;
+    top: 0px;
     left: 50%;
     transform: translate(-50%, 0%);
     height: 30px;
@@ -36,7 +438,7 @@ body {
     position: absolute;
     left: 60px;
     top: -8px;
-    font-family: monospace;
+    font-family: "Gotham_Font", sans-serif;
     font-size: 14px;
     color: rgb(245, 245, 245);
 }
@@ -64,15 +466,118 @@ body {
     width: 90%;
     height: 20px;
     z-index: 999;
-    font-family: monospace;
+    font-family: "Gotham_Font", sans-serif;
     font-size: 14px;
     color: rgb(65, 65, 65);
     font-weight: bold;
     display: none;
 }
 
+#leave_chat {
+    position: absolute;
+    right: 3%;
+    top: 3%;
+    z-index: 999;
+    display: block;
+    transform: scale(.8);
+    cursor: pointer;
+}
 
 /*Notifs*/
+
+
+
+
+/*Confirm Connection Tab*/
+#Confirm_Connection {
+    position: fixed;
+    width: 25%;
+    left: 100%;
+    /*Show 75%*/
+    top: 100px;
+    height: 200px;
+    background-color: rgb(40, 40, 40);
+    z-index: 999999;
+    display: block;
+    transition: .2s;
+}
+
+#Warning_Connect_Img {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 10px;
+}
+
+#Chat_Request_text {
+    position: relative;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+    font-size: 14px;
+    text-align: center;
+    top: 30px;
+}
+
+#Button_Connect_Container {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 100px;
+}
+
+#Join_Chat {
+    position: absolute;
+    left: 40px;
+    font-size: 12px;
+    transform: translate(-50%, 0%);
+    font-family: "Gotham_Font", sans-serif;
+    background-color: rgb(5, 156, 0);
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: none;
+    cursor: pointer;
+    transform: .2s;
+    transition: .2s
+}
+
+#Join_Chat:hover {
+    background-color: rgb(7, 196, 0);
+}
+
+
+#Deny_Chat {
+    position: absolute;
+    right: -27px;
+    font-size: 12px;
+    transform: translate(-50%, 0%);
+    font-family: "Gotham_Font", sans-serif;
+    background-color: rgb(210, 0, 0);
+    color: white;
+    font-weight: bold;
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: none;
+    cursor: pointer;
+    transform: .2s;
+    transition: .2s
+}
+
+#Deny_Chat:hover {
+    background-color: rgb(255, 0, 0);
+}
+
+/*Confirm Connection Tab*/
+
+
+
 
 
 /*Settings Tab*/
@@ -130,7 +635,7 @@ body {
     width: 100%;
     height: 60px;
     box-shadow: 0px 5px 10px rgb(10, 10, 10, .1);
-    border-radius: 5px;
+
 
 }
 
@@ -140,8 +645,14 @@ body {
     left: 30px;
     font-size: 22px;
     letter-spacing: 1px;
-    font-family: monospace;
+    font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
+}
+
+#Top_Logo_Main {
+    position: absolute;
+    left: 120px;
+    top: 12px;
 }
 
 #Setting_Btn {
@@ -156,14 +667,13 @@ body {
     position: absolute;
     z-index: 999;
     transform: scale(.4);
-    top: 11px;
+    top: 8px;
     left: 2%;
 }
 
 .added_ip {
     position: relative;
     background-color: rgb(35, 35, 35);
-    border-radius: 5px;
     width: 85%;
     height: 80px;
     top: 100px;
@@ -193,7 +703,7 @@ body {
     left: 100px;
     top: 10%;
     white-space: nowrap;
-    font-family: monospace;
+    font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
     font-size: 20px;
 }
@@ -207,9 +717,9 @@ body {
 }
 
 #Search_IP {
-    font-family: monospace;
+    font-family: "Gotham_Font", sans-serif;
     position: absolute;
-    font-size: 15px;
+    font-size: 12px;
     border-radius: 5px;
     padding-left: 8%;
     padding-right: 2px;
@@ -230,11 +740,11 @@ body {
     left: 50%;
     font-size: 12px;
     transform: translate(-50%, 0%);
-    font-family: monospace;
-    background-color: rgb(0, 77, 219);
+    font-family: "Gotham_Font", sans-serif;
+    background-color: rgba(51, 123, 255, 0.5);
     color: white;
     font-weight: bold;
-    border-radius: 10px;
+    border-radius: 5px;
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 5px;
@@ -251,7 +761,11 @@ body {
 
 #Search_Bar_Add {
     margin-bottom: 50px;
-    cursor: de;
+    cursor: default;
+}
+
+#Search_Bar_Add:hover {
+    background-color: rgb(35, 35, 35);
 }
 
 /*rgb(179, 0, 255)*/
@@ -323,7 +837,7 @@ body {
     background-repeat: no-repeat;
 }
 
-video {
+#Msg_Video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -405,7 +919,7 @@ video {
 /*msg area*/
 #Message {
     position: absolute;
-    font-family: monospace;
+    font-family: "Gotham_Font", sans-serif;
     color: rgb(40, 40, 40);
     font-size: 30px;
     text-align: center;
@@ -416,13 +930,12 @@ video {
 }
 
 #Msg_Area {
-    font-family: helvetica;
+    font-family: "Gotham_Font", sans-serif;
     position: absolute;
     bottom: 10px;
     left: 10px;
     height: 50px;
     font-size: 15px;
-    border-radius: 5px;
     background-color: rgb(15, 15, 15);
     width: 88%;
     resize: none;
@@ -449,7 +962,7 @@ video {
     left: 50%;
     top: 10%;
     transform: translate(-50%, -10%);
-    border-radius: 5px;
+
     background-color: rgb(15, 15, 15);
     overflow-x: hidden;
 }
@@ -461,7 +974,7 @@ video {
 .msg_style_sent {
     position: relative;
     color: rgb(245, 245, 245);
-    font-family: helvetica;
+    font-family: "Gotham_Font", sans-serif;
     font-size: 15px;
     background-color: rgb(0, 89, 255);
     /*rgb(134, 42, 255)*/
@@ -480,7 +993,7 @@ video {
 .msg_style_rec {
     position: relative;
     color: rgb(245, 245, 245);
-    font-family: helvetica;
+    font-family: "Gotham_Font", sans-serif;
     font-size: 15px;
     background-color: rgb(60, 60, 60);
     padding-right: 20px;
@@ -513,7 +1026,7 @@ video {
 
 .sent_time {
     background-color: rgb(10, 10, 10, 0);
-    font-family: helvetica;
+    font-family: "Gotham_Font", sans-serif;
     font-size: 10px;
     font-weight: bold;
     color: rgb(90, 90, 90);
@@ -524,7 +1037,8 @@ video {
 
 .rec_time {
     background-color: rgb(10, 10, 10, 0);
-    font-family: helvetica;
+    font-family: "Gotham_Font", sans-serif;
+    ;
     font-size: 10px;
     font-weight: bold;
     color: rgb(90, 90, 90);
@@ -562,47 +1076,26 @@ video {
 /*Scroll Bar 1*/
 
 /*Loader 1*/
-.loader {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: inline-block;
-    border-top: 3px solid rgb(80, 80, 80);
-    border-right: 3px solid transparent;
-    box-sizing: border-box;
-    animation: rotation .6s linear infinite;
-    position: absolute;
-    left: -35px;
-    top: 7px;
-}
 
-@keyframes rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
 
 /*Loader 1*/
 
 /*Connection_Area 1*/
 #Disconnect {
     position: absolute;
-    left: 114%;
+    left: 50%;
+    transform: translate(-50%, 0%);
     top: 90%;
     z-index: 999;
 }
 
 #Disconnect_Button {
-    font-family: helvetica;
-    font-size: 15px;
-    background-color: rgb(255, 20, 20);
-    color: rgb(255, 255, 255);
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 14px;
+    background-color: rgb(210, 0, 0);
+    color: rgb(245, 245, 245);
     border: none;
-    border-radius: 15px;
+    border-radius: 5px;
     padding-left: 25px;
     padding-right: 25px;
     padding-top: 12px;
@@ -610,6 +1103,8 @@ video {
     font-weight: bold;
     cursor: pointer;
     transform: .2s;
+    transition: .2s;
+
 
 }
 
@@ -620,6 +1115,7 @@ video {
 #Disconnect_Button:active {
     transform: scale(.98);
 }
+
 
 /*msg area*/
 
@@ -643,14 +1139,14 @@ video {
     background-color: rgb(35, 35, 35);
     width: 100%;
     height: 60px;
-    border-radius: 5px;
+
 }
 
 #Connection_Title_text {
     position: absolute;
     font-size: 22px;
     letter-spacing: 1px;
-    font-family: monospace;
+    font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
     left: 30%;
     top: -7px;
@@ -683,9 +1179,9 @@ video {
 }
 
 #connect_IP {
-    font-family: monospace;
+    font-family: "Gotham_Font", sans-serif;
     position: absolute;
-    font-size: 15px;
+    font-size: 12px;
     border-radius: 5px;
     padding-left: 8%;
     padding-right: 2px;
@@ -704,7 +1200,7 @@ video {
     position: absolute;
     z-index: 999;
     transform: scale(.4);
-    top: 11px;
+    top: 8px;
     left: 2%;
 }
 
@@ -714,11 +1210,11 @@ video {
     left: 50%;
     font-size: 12px;
     transform: translate(-50%, 0%);
-    font-family: monospace;
-    background-color: rgb(6, 182, 0);
+    font-family: "Gotham_Font", sans-serif;
+    background-color: rgb(5, 156, 0);
     color: white;
     font-weight: bold;
-    border-radius: 10px;
+    border-radius: 5px;
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 5px;
@@ -730,7 +1226,7 @@ video {
 }
 
 #Connect_Button:hover {
-    background-color: rgb(7, 224, 0);
+    background-color: rgb(7, 196, 0);
 }
 
 #Connected_to {
@@ -739,7 +1235,7 @@ video {
     left: 50%;
     font-size: 20px;
     transform: translate(-50%, 0%);
-    font-family: monospace;
+    font-family: "Gotham_Font", sans-serif;
     white-space: nowrap;
 
     color: white;
@@ -752,7 +1248,7 @@ video {
     left: 50%;
     font-size: 15px;
     transform: translate(-50%, 0%);
-    font-family: monospace;
+    font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
 
 }
@@ -781,7 +1277,7 @@ video {
     left: 50%;
     font-size: 20px;
     transform: translate(-50%, 0%);
-    font-family: monospace;
+    font-family: "Gotham_Font", sans-serif;
     color: white;
     font-weight: bold;
 }
@@ -792,7 +1288,7 @@ video {
     left: 50%;
     font-size: 15px;
     transform: translate(-50%, 0%);
-    font-family: monospace;
+    font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
 }
 
@@ -802,7 +1298,7 @@ video {
     left: 50%;
     font-size: 20px;
     transform: translate(-50%, 0%);
-    font-family: monospace;
+    font-family: "Gotham_Font", sans-serif;
     color: white;
     font-weight: bold;
     white-space: nowrap;
@@ -814,7 +1310,7 @@ video {
     left: 50%;
     font-size: 15px;
     transform: translate(-50%, 0%);
-    font-family: monospace;
+    font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
 }
 

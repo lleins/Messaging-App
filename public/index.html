@@ -13,12 +13,82 @@
 
 <body>
 
-  <div id="Settings_Tab">
-    <img id="Exit_Settings" onclick="Close_Settings()" src="Images/Exit.png">
+  <div id="Loader_Area">
+    <div id="loader_login" class="loader_login"></div>
+  </div>
+
+  <div id="Login_Area">
+    <video id="Login_Video" autoplay muted loop>
+      <source src="Videos/blue.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <img id="Logo_Sign" src="Images/Logo_Large.png">
+    <p id="SignIn_Title">Sign in to Raven</p>
+    <p id="CreateAcc_Title">Create Account</p>
+    <div id="Login_Container">
+      <p id="email_Login_text" class="Sign_create_text">Username</p>
+      <input id="Login_Email_Input" class="sign_create_input" type="text">
+
+      <p id="Forgot_Pass">Forgot password?</p>
+      <p id="pass_Login_text" class="Sign_create_text">Password</p>
+      <input id="Login_pass_Input" class="sign_create_input" type="password">
+
+      <img id="Pass_Notice_Login_Img" class="Notice_Img" src="Images/notice.png">
+      <p id="Pass_Wrong_Login_Notice" class="Notice_text">Pasword or email is incorrect</p>
+      <button id="Sign_In_Button" onclick="Sign_In()">Sign in</button>
+    </div>
+    <div id="Create_Container">
+      <p id="email_Login_text" class="Sign_create_text">Username</p>
+      <input id="Create_Email_Input" class="sign_create_input" type="text">
+
+      <img id="Pass_Notice_Create_Img" class="Notice_Img" src="Images/notice.png">
+      <p id="Pass_Wrong_Create_Notice" class="Notice_text">Account with that email already exists</p>
+
+      <p id="pass_Login_text" class="Sign_create_text">Password</p>
+      <input id="Create_pass_Input" class="sign_create_input" type="password">
+      <p id="Repass_Login_text" class="Sign_create_text">Re-enter password</p>
+      <input id="Create_Repass_Input" class="sign_create_input" type="password">
+      <button id="Create_Acc_Button" onclick="Creating_Account()">Create account</button>
+    </div>
+    <div id="Switch_Tabs">
+      <p id="New_Raven_text">New to Raven? <span id="Switch_Create_Account" onclick="Switch_Create_Account()">Create an
+          account</span></p>
+      <p id="Login_Raven_text">Already have an account? <span id="Switch_Log_In" onclick="Switch_Log_In()">Sign
+          In</span></p>
+    </div>
+
+    <div id="Bottom_Links_Container">
+      <p class="Bottom_Links">Terms</p>
+      <p class="Bottom_Links">Privacy</p>
+      <p class="Bottom_Links">Docs</p>
+      <p class="Bottom_Links">Contact Support</p>
+    </div>
   </div>
 
 
+  <!--Settings Tab-->
+  <div id="Settings_Tab">
+    <img id="Exit_Settings" onclick="Close_Settings()" src="Images/Exit.png">
+  </div>
+  <!--Settings Tab-->
 
+
+
+  <!--Confirm Connect-->
+  <div id="Confirm_Connection">
+    <img id="Warning_Connect_Img" src="Images/warning.png">
+    <p id="Chat_Request_text"><span id="Chat_Request_actual">dasqe23e2d</span>has invited you to chat.</p>
+    <div id="Button_Connect_Container">
+      <button id="Join_Chat">Join</button>
+      <button id="Deny_Chat" onclick="deny_connection()">Deny</button>
+    </div>
+
+  </div>
+  <!--Confirm Connect-->
+
+
+
+  <!--Connection Notifs-->
   <div id="Connected_1" class="connect_notif">
     <p class="notif_text">Successfully connected!</p>
     <img class="notif_warn" src="Images/warning.png">
@@ -36,13 +106,14 @@
     <img class="notif_warn" src="Images/warning.png">
     <img id="remove_connect_3" onclick="connect_3_remove()" class="remove_notif" src="Images/remove.png">
   </div>
+  <!--Connection Notifs-->
 
 
-
-
+  <!--Left Nav Bar-->
   <div id="Left_NavBar">
     <div id="Top_Title">
       <p id="Main_Title">Raven</p>
+      <img id="Top_Logo_Main" src="Images/Logo_Small.png">
       <img id="Setting_Btn" onclick="Open_Settings()" src="Images/settings.png">
 
       <div id="Search_Bar_Add" class="added_ip">
@@ -111,13 +182,13 @@
 
     </div>
   </div>
+  <!--Left Nav Bar-->
 
-  <div>
 
-  </div>
 
+  <!--Middle Nav Bar-->
   <div id="Messaging_Area">
-    <video autoplay muted loop>
+    <video id="Msg_Video" autoplay muted loop>
       <source src="Videos/purple.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -128,6 +199,7 @@
           <img id="Send_Img" src="./Images/SendImg.png">
         </form>
         <p id="Connected_to_text">Connected to <span id="user_id_actual"></span></p>
+        <img id="leave_chat" src="Images/leave.png">
         <div id="Receive_Area">
           <ul id="Sent" class="rec_sent_style">
             <!--
@@ -143,13 +215,14 @@
           </ul>
         </div>
         <p id="Message">Connect to an IP to start chatting!</p>
-        <div id="Disconnect">
-          <button id="Disconnect_Button">DISCONNECT</button>
-        </div>
+
       </div>
     </div>
   </div>
+  <!--Middle Nav Bar-->
 
+
+  <!--Right Nav Bar-->
   <div id="Connection_Area">
     <div id="Connection_Title">
       <p id="Connection_Title_text">Connection</p>
@@ -176,8 +249,14 @@
       <p id="Internet_Speed_Actual">000 MBps</p>
     </div>
 
+    <div id="Disconnect">
+      <button id="Disconnect_Button">Leave</button>
+    </div>
 
   </div>
+  <!--Right Nav Bar-->
+
+
   <!--offline-indicator offline-->
   <!--online-indicator online-->
 
@@ -188,15 +267,14 @@
 
 
       var socket = io();
-
-
       var form = document.getElementById('form');
       var input = document.getElementById('Msg_Area');
       var connect_btn = document.getElementById("Connect_Button");
 
       const Ip = document.getElementById("Your_IP_Actual");
 
-      form.addEventListener('submit', function (e) {
+      //Send Message--------------------------------------------------------
+      form.addEventListener('submit', function (e) { //form eventlistener: Send Messages
         e.preventDefault();
         var recipientId = document.getElementById('connect_IP');
         var recipientId_value = recipientId.value;
@@ -212,7 +290,9 @@
         messages.scrollTop = messages.scrollHeight;
         input.value = '';
       });
+      //Send Message--------------------------------------------------------
 
+      //Check if User ID exists --------------------------------------------------------
       connect_btn.addEventListener('click', function (e) { //checks if recipient exists
         e.preventDefault();
         var recipientId = document.getElementById('connect_IP');
@@ -246,7 +326,7 @@
           console.log("did not connect or doesn't exist");
         }
       });
-
+      //Check if User ID exists --------------------------------------------------------
 
       socket.on("")
 
@@ -261,6 +341,7 @@
 
       });
 
+      //Received messages--------------------------------------------------------
       socket.on('chat message', function (data) {
         const item = document.createElement('li');
         const messages = document.getElementById('Sent');
@@ -269,6 +350,8 @@
         messages.appendChild(item);
         messages.scrollTop = messages.scrollHeight;
       });
+      //Received messages--------------------------------------------------------
+
     });
   </script>
 

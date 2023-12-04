@@ -9,15 +9,18 @@ const io = require('socket.io')(server);
 
 io.on('connection', (socket) => {
     const userId = socket.id;
-
     socket.emit('user connected', userId);
-
     console.log(`User connected with ID: ${userId}`);
+
+
+
 
     socket.on('disconnect', () => {
         console.log(`User disconnected with ID: ${userId}`);
     });
 
+
+    //Checks if recipient exists-----------------------------------------------------------------
     socket.on("recipient", (data) => {
         const { recipient_id } = data;
         console.log("Recipient ID:", recipient_id);
@@ -33,7 +36,10 @@ io.on('connection', (socket) => {
             socket.emit('recipient exist', { message: "0" });
         }
     });
+    //Checks if recipient exists-----------------------------------------------------------------
 
+
+    //Send message to User ID-----------------------------------------------------------------
     socket.on('chat message', (data) => {
         const { recipientId, content } = data;
 
@@ -48,6 +54,8 @@ io.on('connection', (socket) => {
             console.log(`Recipient with ID ${recipientId} not found.`);
         }
     });
+    //Send message to User ID-----------------------------------------------------------------
+
 });
 
 app.use(express.static(path.join(__dirname, 'public')));

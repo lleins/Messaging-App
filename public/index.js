@@ -1,20 +1,92 @@
-document.addEventListener('DOMContentLoaded', function () {
 
 
 
 
 
+/*denying connection*/
+
+
+function deny_connection() {
+    const connect_container = document.getElementById("Confirm_Connection");
+    connect_container.style.left = "100%";
+}
 
 
 
 
+/*denying connection*/
+
+
+
+/*Create Account Switch*/
+
+function Switch_Create_Account() {
+
+    const Loader = document.getElementById("Loader_Area");
+    const bottom_links = document.getElementById("Bottom_Links_Container");
+    const Top_Title_logIn = document.getElementById("SignIn_Title");
+    const Top_Title_createAcc = document.getElementById("CreateAcc_Title");
+    const bottom_tab = document.getElementById("Switch_Tabs");
+    const Login_Container = document.getElementById("Login_Container");
+    const Create_Acc_Container = document.getElementById("Create_Container");
+    const Create_Acc_Text = document.getElementById("New_Raven_text");
+    const Log_In_Text = document.getElementById("Login_Raven_text");
+
+    Loader.style.display = "block";
+    setTimeout(function () {
+        Loader.style.display = "none";
+        bottom_tab.style.top = "428px";
+        Login_Container.style.display = "none";
+        Create_Acc_Container.style.display = "block";
+        Create_Acc_Text.style.display = "none";
+        Log_In_Text.style.display = "block";
+        Top_Title_logIn.style.display = "none";
+        Top_Title_createAcc.style.display = "block";
+        bottom_links.style.top = "540px";
+    }, 3000);
+
+}
+
+
+
+function Switch_Log_In() {
+
+    const Loader = document.getElementById("Loader_Area");
+    const bottom_links = document.getElementById("Bottom_Links_Container");
+    const Top_Title_logIn = document.getElementById("SignIn_Title");
+    const Top_Title_createAcc = document.getElementById("CreateAcc_Title");
+    const bottom_tab = document.getElementById("Switch_Tabs");
+    const Create_Acc_Container = document.getElementById("Create_Container");
+    const Login_Container = document.getElementById("Login_Container");
+    const Create_Acc_Text = document.getElementById("New_Raven_text");
+    const Log_In_Text = document.getElementById("Login_Raven_text");
+
+    Loader.style.display = "block";
+    setTimeout(function () {
+        Loader.style.display = "none";
+        bottom_tab.style.top = "358px";
+        Login_Container.style.display = "block";
+        Create_Acc_Container.style.display = "none";
+        Create_Acc_Text.style.display = "block";
+        Log_In_Text.style.display = "none";
+        Top_Title_logIn.style.display = "block";
+        Top_Title_createAcc.style.display = "none";
+        bottom_links.style.top = "470px";
+    }, 3000);
+
+}
+
+/*Create Account Switch*/
 
 
 
 
+/*Messaging Textarea*/
 
-});
 
+
+
+/*Messaging Textarea*/
 
 /*Notifs*/
 function connect_1() {
@@ -22,7 +94,7 @@ function connect_1() {
     connect.style.display = "block";
     setTimeout(function () {
         connect.style.display = "none";
-    }, 3000);
+    }, 2000);
 }
 function connect_1_remove() {
     const connect = document.getElementById("Connected_1");
@@ -36,7 +108,7 @@ function connect_0() {
     connect.style.display = "block";
     setTimeout(function () {
         connect.style.display = "none";
-    }, 3000);
+    }, 2000);
 }
 
 function connect_0_remove() {
@@ -52,7 +124,7 @@ function connect_3() {
     connect.style.display = "block";
     setTimeout(function () {
         connect.style.display = "none";
-    }, 3000);
+    }, 2000);
 }
 
 function connect_3_remove() {
@@ -174,5 +246,130 @@ function MeasureConnectionSpeed() {
 
 
 
-/*Getting Ip address*/
+
+
+
+
+
+
+
+/*Loggin In*/
+
+function Sign_In() {
+    const pass_notice_img = document.getElementById("Pass_Notice_Login_Img");
+    const email_wrong = document.getElementById("Pass_Wrong_Login_Notice");
+
+    const email_input = document.getElementById("Login_Email_Input");
+    const email_input_value = email_input.value;
+
+    const pass_input = document.getElementById("Login_pass_Input");
+    const pass_input_value = pass_input.value;
+
+    if (email_input_value === "" && pass_input_value === "") { //both empty
+        email_input.style.border = "1px solid rgb(255, 16, 0)";
+        pass_input.style.border = "1px solid rgb(255, 16, 0)";
+        setTimeout(function () {
+            email_input.style.border = "1px solid rgb(70, 70, 70)";
+            pass_input.style.border = "1px solid rgb(70, 70, 70)";
+        }, 3000);
+    } else if (email_input_value !== "" && pass_input_value === "") { //Password empty
+        pass_input.style.border = "1px solid rgb(255, 16, 0)";
+        setTimeout(function () {
+            pass_input.style.border = "1px solid rgb(70, 70, 70)";
+        }, 3000);
+    } else if (email_input_value === "" && pass_input_value !== "") { //Email empty
+        email_input.style.border = "1px solid rgb(255, 16, 0)";
+        setTimeout(function () {
+            email_input.style.border = "1px solid rgb(70, 70, 70)";
+        }, 3000);
+    }
+}
+
+
+/*Loggin In*/
+
+
+
+
+
+/*Creating Account*/
+
+
+function Creating_Account() {
+    const email_notice_img = document.getElementById("Pass_Notice_Create_Img");
+    const email_exists = document.getElementById("Pass_Wrong_Create_Notice");
+
+    const email_input = document.getElementById("Create_Email_Input");
+    const email_input_value = email_input.value;
+
+    const pass_input = document.getElementById("Create_pass_Input");
+    const pass_input_value = pass_input.value;
+
+    const Re_pass_input = document.getElementById("Create_Repass_Input");
+    const Re_pass_input_value = Re_pass_input.value;
+
+    if (email_input_value === "" && pass_input_value === "" && Re_pass_input_value === "") { //all empty
+        email_input.style.border = "1px solid rgb(255, 16, 0)";
+        pass_input.style.border = "1px solid rgb(255, 16, 0)";
+        Re_pass_input.style.border = "1px solid rgb(255, 16, 0)";
+        setTimeout(function () {
+            email_input.style.border = "1px solid rgb(70, 70, 70)";
+            pass_input.style.border = "1px solid rgb(70, 70, 70)";
+            Re_pass_input.style.border = "1px solid rgb(70, 70, 70)";
+        }, 3000);
+    } else if (email_input_value !== "" && pass_input_value === "" && Re_pass_input_value === "") { //Pass and Re-Pass empty
+        pass_input.style.border = "1px solid rgb(255, 16, 0)";
+        Re_pass_input.style.border = "1px solid rgb(255, 16, 0)";
+        setTimeout(function () {
+            pass_input.style.border = "1px solid rgb(70, 70, 70)";
+            Re_pass_input.style.border = "1px solid rgb(70, 70, 70)";
+        }, 3000);
+    } else if (email_input_value === "" && pass_input_value !== "" && Re_pass_input_value === "") {//email and Re-Pass empty
+        email_input.style.border = "1px solid rgb(255, 16, 0)";
+        Re_pass_input.style.border = "1px solid rgb(255, 16, 0)";
+        setTimeout(function () {
+            email_input.style.border = "1px solid rgb(70, 70, 70)";
+            Re_pass_input.style.border = "1px solid rgb(70, 70, 70)";
+        }, 3000);
+    } else if (email_input_value === "" && pass_input_value === "" && Re_pass_input_value !== "") { //email and pass empty
+        email_input.style.border = "1px solid rgb(255, 16, 0)";
+        pass_input.style.border = "1px solid rgb(255, 16, 0)";
+        setTimeout(function () {
+            email_input.style.border = "1px solid rgb(70, 70, 70)";
+            pass_input.style.border = "1px solid rgb(70, 70, 70)";
+
+        }, 3000);
+    } else if (email_input_value === "" && pass_input_value !== "" && Re_pass_input_value !== "") { //email empty
+        email_input.style.border = "1px solid rgb(255, 16, 0)";
+        setTimeout(function () {
+            email_input.style.border = "1px solid rgb(70, 70, 70)";
+        }, 3000);
+    } else if (email_input_value !== "" && pass_input_value === "" && Re_pass_input_value !== "") { //Pass empty
+        pass_input.style.border = "1px solid rgb(255, 16, 0)";
+        setTimeout(function () {
+            pass_input.style.border = "1px solid rgb(70, 70, 70)";
+        }, 3000);
+    } else if (email_input_value !== "" && pass_input_value !== "" && Re_pass_input_value === "") { //Re Pass empty
+        Re_pass_input.style.border = "1px solid rgb(255, 16, 0)";
+        setTimeout(function () {
+            Re_pass_input.style.border = "1px solid rgb(70, 70, 70)";
+        }, 3000);
+    } else if (email_input_value !== "" && pass_input_value !== "" && Re_pass_input_value !== "") { //Re Pass empty
+
+    }
+}
+
+
+/*Creating Account*/
+
+
+
+
+
+
+
+
+
+
+
 
