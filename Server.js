@@ -1,3 +1,4 @@
+
 const express = require('express');
 const app = express();
 const http = require('http');
@@ -5,6 +6,10 @@ const server = http.createServer(app);
 const { Server } = require("socket.io");
 const path = require('path');
 
+
+
+
+/*Socket--------------------------------------------------------------------------------*/
 const io = require('socket.io')(server);
 
 io.on('connection', (socket) => {
@@ -26,7 +31,6 @@ io.on('connection', (socket) => {
         console.log("Recipient ID:", recipient_id);
 
         const recipient_id_convert = String(recipient_id);
-        console.log("Converted Recipient ID:", recipient_id_convert);
 
         const recipientSocket = io.to(recipient_id_convert);
 
@@ -67,3 +71,24 @@ app.get('/', (req, res) => {
 server.listen(3000, () => {
     console.log('listening on *:3000');
 });
+
+/*Socket--------------------------------------------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+
+/*Mongo--------------------------------------------------------------------------------*/
+
+
+
+
+
+/*Mongo--------------------------------------------------------------------------------*/

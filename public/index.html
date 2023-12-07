@@ -8,10 +8,21 @@
   <link rel="icon" href="favicon.ico">
   <link rel="stylesheet" href="index.css">
 
-  <title>Messaging App</title>
+  <title>Raven - Messaging App</title>
 </head>
 
 <body>
+
+  <div id="Account_Created">
+    <p class="notif_text">Account Created! Please sign in</p>
+    <img class="notif_warn" src="Images/warning.png">
+
+  </div>
+
+  <div id="Signed_In">
+    <p class="notif_text">Successfully signed in!</p>
+    <img class="notif_warn" src="Images/warning.png">
+  </div>
 
   <div id="Loader_Area">
     <div id="loader_login" class="loader_login"></div>
@@ -34,7 +45,8 @@
       <input id="Login_pass_Input" class="sign_create_input" type="password">
 
       <img id="Pass_Notice_Login_Img" class="Notice_Img" src="Images/notice.png">
-      <p id="Pass_Wrong_Login_Notice" class="Notice_text">Pasword or email is incorrect</p>
+      <p id="Pass_Wrong_Login_Notice" class="Notice_text">Pasword or username is incorrect</p>
+
       <button id="Sign_In_Button" onclick="Sign_In()">Sign in</button>
     </div>
     <div id="Create_Container">
@@ -42,8 +54,8 @@
       <input id="Create_Email_Input" class="sign_create_input" type="text">
 
       <img id="Pass_Notice_Create_Img" class="Notice_Img" src="Images/notice.png">
-      <p id="Pass_Wrong_Create_Notice" class="Notice_text">Account with that email already exists</p>
-
+      <p id="Pass_Wrong_Create_Notice" class="Notice_text">Account with that username already exists</p>
+      <p id="Pass_Fail_Create_Notice" class="Notice_text">Account creation failed</p>
       <p id="pass_Login_text" class="Sign_create_text">Password</p>
       <input id="Create_pass_Input" class="sign_create_input" type="password">
       <p id="Repass_Login_text" class="Sign_create_text">Re-enter password</p>
@@ -79,7 +91,7 @@
     <img id="Warning_Connect_Img" src="Images/warning.png">
     <p id="Chat_Request_text"><span id="Chat_Request_actual">dasqe23e2d</span>has invited you to chat.</p>
     <div id="Button_Connect_Container">
-      <button id="Join_Chat">Join</button>
+      <button id="Join_Chat">Accept</button>
       <button id="Deny_Chat" onclick="deny_connection()">Deny</button>
     </div>
 
@@ -116,64 +128,103 @@
       <img id="Top_Logo_Main" src="Images/Logo_Small.png">
       <img id="Setting_Btn" onclick="Open_Settings()" src="Images/settings.png">
 
-      <div id="Search_Bar_Add" class="added_ip">
-        <img id="search_icon_ip" src="Images/search.png">
-        <input id="Search_IP" type="text" placeholder="Enter IP">
-        <button id="Add_IP">ADD</button>
+
+      <div id="Add_New_Tab" class="added_ip">
+        <p id="Add_New_Text">Add a new user</p>
+        <img id="Add_New_Img" onclick="open_new_user()" src="Images/add.png">
+      </div>
+
+      <!--
+      <div id="Connect_Tab">
+        <img id="Search_Ip_connect" src="Images/search.png">
+        <input id="connect_IP" type="text" placeholder="Enter User ID" />
+        <button id="Connect_Button">CONNECT</button>
+      </div>
+      -->
+      <div id="Personal_Tab">
+        <img class="user_img" src="Images/user.png">
+        <p id="Username_Personal" class="user_ip">Username</p>
+        <p id="Your_Username">Id: <span id="Your_IP_Actual"></span></p>
+        <div id="Online_Indicator_Personal" class="online-indicator"></div>
       </div>
 
       <div class="added_ip">
         <img class="user_img" src="Images/user.png">
         <p class="user_ip">00.00.0.0</p>
         <img class="delete_saved" src="Images/remove.png">
+        <p class="Status_Text">Online</p>
+        <p class="online-indicator Status_Icon"></p>
+        <p class="Message_Count">1</p>
       </div>
 
       <div class="added_ip">
         <img class="user_img" src="Images/user.png">
         <p class="user_ip">00.00.0.0</p>
         <img class="delete_saved" src="Images/remove.png">
+        <p class="Status_Text">Offline</p>
+        <p class="offline-indicator Status_Icon"></p>
+        <p class="Message_Count">1</p>
       </div>
 
       <div class="added_ip">
         <img class="user_img" src="Images/user.png">
         <p class="user_ip">00.00.0.0</p>
         <img class="delete_saved" src="Images/remove.png">
+        <p class="Status_Text">Offline</p>
+        <p class="offline-indicator Status_Icon"></p>
+        <p class="Message_Count">1</p>
       </div>
 
       <div class="added_ip">
         <img class="user_img" src="Images/user.png">
         <p class="user_ip">00.00.0.0</p>
         <img class="delete_saved" src="Images/remove.png">
+        <p class="Status_Text">Offline</p>
+        <p class="offline-indicator Status_Icon"></p>
+        <p class="Message_Count">1</p>
       </div>
 
       <div class="added_ip">
         <img class="user_img" src="Images/user.png">
         <p class="user_ip">00.00.0.0</p>
         <img class="delete_saved" src="Images/remove.png">
+        <p class="Status_Text">Offline</p>
+        <p class="offline-indicator Status_Icon"></p>
+        <p class="Message_Count">1</p>
       </div>
 
       <div class="added_ip">
         <img class="user_img" src="Images/user.png">
         <p class="user_ip">00.00.0.0</p>
         <img class="delete_saved" src="Images/remove.png">
+        <p class="Status_Text">Offline</p>
+        <p class="offline-indicator Status_Icon"></p>
+        <p class="Message_Count">1</p>
       </div>
 
       <div class="added_ip">
         <img class="user_img" src="Images/user.png">
         <p class="user_ip">00.00.0.0</p>
         <img class="delete_saved" src="Images/remove.png">
+        <p class="Status_Text">Offline</p>
+        <p class="offline-indicator Status_Icon"></p>
+        <p class="Message_Count">1</p>
       </div>
 
       <div class="added_ip">
         <img class="user_img" src="Images/user.png">
         <p class="user_ip">00.00.0.0</p>
         <img class="delete_saved" src="Images/remove.png">
+        <p class="Status_Text">Offline</p>
+        <p class="offline-indicator Status_Icon"></p>
       </div>
 
       <div class="added_ip">
         <img class="user_img" src="Images/user.png">
         <p class="user_ip">00.00.0.0</p>
         <img class="delete_saved" src="Images/remove.png">
+        <p class="Status_Text">Offline</p>
+        <p class="offline-indicator Status_Icon"></p>
       </div>
 
     </div>
@@ -194,15 +245,23 @@
     </video>
     <div id="Search_Bar">
       <div>
-        <form id="form" action="">
-          <input id="Msg_Area" autocomplete="off" type="text" placeholder="Send a message" />
-          <img id="Send_Img" src="./Images/SendImg.png">
-        </form>
+
+        <textarea id="Msg_Area" autocomplete="off" type="text" placeholder="Send a message"></textarea>
+        <!--<img id="Send_Img" src="./Images/SendImg.png">-->
+
         <p id="Connected_to_text">Connected to <span id="user_id_actual"></span></p>
         <img id="leave_chat" src="Images/leave.png">
+        <div id="Currently_Chatting">
+          <img id="Current_User_Img" src="Images/user.png">
+          <p id="Current_User_Text"></p>
+        </div>
         <div id="Receive_Area">
           <ul id="Sent" class="rec_sent_style">
+
             <!--
+              <li class="msg_style_sent">good thanks- sent<span class="sent_time">Sent: 09:49pm - 00/00/0000</span>
+              <span class="loader"></span>
+            </li>
             <li class="msg_style_sent">good thanks- sent<span class="sent_time">Sent: 09:49pm</span> <span
                 class="loader"></span></li>
             <li class="msg_style_sent">good thanks- sent<span class="sent_time">Sent: 09:49pm</span></li>
@@ -214,7 +273,15 @@
             -->
           </ul>
         </div>
-        <p id="Message">Connect to an IP to start chatting!</p>
+        <p id="Message">Connect to user to start chatting!</p>
+
+        <div id="Search_Bar_Add">
+          <img id="Exit_Add_New" onclick="close_new_user()" src="Images/Exit.png">
+          <p id="Add_Connect_User">Add new users</p>
+          <img id="Search_Ip_connect" src="Images/search.png">
+          <input id="connect_IP" type="text" placeholder="Enter User ID" />
+          <button id="Connect_Button">ADD</button>
+        </div>
 
       </div>
     </div>
@@ -231,9 +298,6 @@
     </div>
 
     <div id="Connection_Information">
-      <img id="Search_Ip_connect" src="Images/search.png">
-      <input id="connect_IP" type="text" placeholder="Enter User ID" />
-      <button id="Connect_Button">CONNECT</button>
 
       <p id="Connected_to">Connected to: </p>
       <p id="Connected_to_IP">N/A</p>
@@ -241,7 +305,7 @@
       <div id="Marker"></div>
 
       <p id="Your_Ip">User ID: </p>
-      <p id="Your_IP_Actual">000.00.0.0</p>
+
 
       <div id="Marker_2"></div>
 
@@ -265,7 +329,31 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
 
+      function getCurrentTime12Hour() {
+        const now = new Date();
+        let hours = now.getHours();
+        const minutes = now.getMinutes();
+        const amPm = hours >= 12 ? 'PM' : 'AM';
 
+        // Convert to 12-hour format
+        hours = hours % 12 || 12;
+
+        // Format the time as hh:mm AM/PM
+        const formattedTime = `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes} ${amPm}`;
+
+        return formattedTime;
+      }
+
+
+      function formatDateAsZeroes() {
+        const today = new Date();
+        const day = today.getDate().toString().padStart(2, '0'); // Get day with leading zero
+        const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Get month with leading zero
+        const year = today.getFullYear().toString(); // Get full year
+
+        const formattedDate = `${month}/${day}/${year}`;
+        return formattedDate;
+      }
       var socket = io();
       var form = document.getElementById('form');
       var input = document.getElementById('Msg_Area');
@@ -274,22 +362,47 @@
       const Ip = document.getElementById("Your_IP_Actual");
 
       //Send Message--------------------------------------------------------
-      form.addEventListener('submit', function (e) { //form eventlistener: Send Messages
-        e.preventDefault();
+      var input = document.getElementById('Msg_Area');
+
+      input.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+      function sendMessage() {
         var recipientId = document.getElementById('connect_IP');
         var recipientId_value = recipientId.value;
+
         if (input.value) {
           console.log("ID: ", recipientId_value);
           socket.emit('chat message', { recipientId: recipientId_value, content: input.value });
         }
+
         var item = document.createElement('li');
         var messages = document.getElementById('Sent');
+        const spanElement = document.createElement('span');
+
+        const time = getCurrentTime12Hour();
+        const date = formatDateAsZeroes();
+
         item.classList.add('msg_style_sent');
         item.textContent = input.value;
+        spanElement.classList.add('sent_time');
+        spanElement.textContent = "Sent: " + time + " - " + date;
+        item.appendChild(spanElement);
         messages.appendChild(item);
         messages.scrollTop = messages.scrollHeight;
         input.value = '';
-      });
+      }
+
+
+
+
+
+
+
       //Send Message--------------------------------------------------------
 
       //Check if User ID exists --------------------------------------------------------
@@ -344,10 +457,22 @@
       //Received messages--------------------------------------------------------
       socket.on('chat message', function (data) {
         const item = document.createElement('li');
+        const spanElement = document.createElement('span');
         const messages = document.getElementById('Sent');
+
+        const time = getCurrentTime12Hour();
+        const date = formatDateAsZeroes();
+
         item.classList.add('msg_style_rec');
         item.textContent = data.content;
+
+        spanElement.classList.add('rec_time');
+        spanElement.textContent = "Received: " + time + " - " + date;
+
+        item.appendChild(spanElement);
         messages.appendChild(item);
+
+        // Scroll to the bottom of the container (assuming 'Sent' is the container element)
         messages.scrollTop = messages.scrollHeight;
       });
       //Received messages--------------------------------------------------------
