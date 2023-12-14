@@ -55,7 +55,7 @@ body {
     left: 0px;
     background-color: rgb(0, 0, 0, .5);
     display: none;
-    z-index: 9999999;
+    z-index: 99999999;
 }
 
 #loader_login {
@@ -135,7 +135,7 @@ body {
     height: 100%;
     display: block;
     background-color: rgb(7, 7, 7);
-    z-index: 999999;
+    z-index: 9999999;
     display: block;
 }
 
@@ -177,7 +177,7 @@ body {
     border-radius: 5px;
     border: 2px solid rgb(20, 20, 20);
     display: block;
-    font-weight: bold;
+
 }
 
 #Login_Container {
@@ -205,7 +205,7 @@ body {
     font-size: 12px;
     font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
-    font-weight: bold;
+
     letter-spacing: 1px;
 }
 
@@ -239,7 +239,7 @@ body {
     font-family: "Gotham_Font", sans-serif;
     color: rgb(213, 45, 255);
     cursor: pointer;
-    font-weight: bold;
+
 }
 
 #pass_Login_text {
@@ -268,7 +268,7 @@ body {
     border: none;
     background-color: rgb(213, 45, 255);
     cursor: pointer;
-    font-weight: bold;
+
 }
 
 #Switch_Tabs {
@@ -293,13 +293,13 @@ body {
     color: rgb(245, 245, 245);
     white-space: nowrap;
     display: block;
-    font-weight: bold;
+
 }
 
 #Switch_Create_Account {
     color: rgb(213, 45, 255);
     cursor: pointer;
-    font-weight: bold;
+
 }
 
 
@@ -351,7 +351,7 @@ body {
     border-radius: 5px;
     border: 2px solid rgb(20, 20, 20);
     display: none;
-    font-weight: bold;
+
 }
 
 #Create_Container {
@@ -414,7 +414,7 @@ body {
     border: none;
     background-color: rgb(213, 45, 255);
     cursor: pointer;
-    font-weight: bold;
+
 
 }
 
@@ -443,13 +443,13 @@ body {
     color: rgb(245, 245, 245);
     white-space: nowrap;
     display: none;
-    font-weight: bold;
+
 }
 
 #Switch_Log_In {
     color: rgb(213, 45, 255);
     cursor: pointer;
-    font-weight: bold;
+
 }
 
 
@@ -473,13 +473,18 @@ body {
 
 }
 
+#Friend_Request_1 {
+    display: none;
+
+}
+
 .connect_notif {
     position: fixed;
-    width: 75%;
+    width: 65%;
     background-color: rgb(80, 80, 80);
-    top: 0px;
-    left: 100%;
-    transform: translate(-100%, 0%);
+    top: 5px;
+    left: 95%;
+    transform: translate(-95%, 0%);
     height: 30px;
     z-index: 99999;
     border-radius: 5px;
@@ -492,6 +497,7 @@ body {
     font-family: "Gotham_Font", sans-serif;
     font-size: 14px;
     color: rgb(245, 245, 245);
+
 }
 
 .notif_warn {
@@ -520,19 +526,11 @@ body {
     font-family: "Gotham_Font", sans-serif;
     font-size: 14px;
     color: rgb(65, 65, 65);
-    font-weight: bold;
+
     display: none;
 }
 
-#leave_chat {
-    position: absolute;
-    right: 2%;
-    top: 13%;
-    z-index: 999;
-    display: block;
-    transform: scale(.8);
-    cursor: pointer;
-}
+
 
 /*Notifs*/
 
@@ -585,7 +583,7 @@ body {
     font-family: "Gotham_Font", sans-serif;
     background-color: rgb(5, 156, 0);
     color: white;
-    font-weight: bold;
+
     border-radius: 5px;
     padding-left: 20px;
     padding-right: 20px;
@@ -610,7 +608,7 @@ body {
     font-family: "Gotham_Font", sans-serif;
     background-color: rgb(210, 0, 0);
     color: white;
-    font-weight: bold;
+
     border-radius: 5px;
     padding-left: 20px;
     padding-right: 20px;
@@ -636,33 +634,696 @@ body {
 
 #Settings_Tab {
     position: fixed;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 900px;
-    height: 500px;
-    background-color: rgb(40, 40, 40);
-    box-shadow: 0 2px 4px rgba(255, 255, 255, .1), 0 4px 8px rgba(255, 255, 255, .1);
+    left: calc(25% + 60px);
+    top: 0px;
+    width: calc(75% - 60px);
+    height: calc(100%);
+    background-color: rgb(15, 15, 15);
     z-index: 999;
-    border-radius: 5px;
     transition: .2s;
     display: none;
     z-index: 9999;
 }
 
-#Exit_Settings {
+
+#Settings_Title {
     position: absolute;
-    right: 4px;
-    top: 2px;
-    transform: scale(.7);
-    cursor: pointer;
+    top: -10px;
+    font-family: "Gotham_Font", sans-serif;
+    color: white;
+    font-size: 20px;
+
+    left: 50%;
+    transform: translate(-50%, 0%);
 }
 
 
 /*Settings Tab*/
 
 
+/*Logout Tab*/
+#Logout_Tab {
+    position: fixed;
+    left: calc(25% + 60px);
+    top: 0px;
+    width: calc(75% - 60px);
+    height: calc(100%);
+    background-color: rgb(0, 89, 255);
+    z-index: 999;
+    transition: .2s;
+    display: none;
+    z-index: 9999;
 
+}
+
+#Logout_Video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: .6;
+    display: block;
+}
+
+#Logout_Container {
+    position: absolute;
+    width: 300px;
+    height: 150px;
+    background-color: rgb(10, 10, 10);
+    border: 2px solid rgb(70, 70, 70);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+}
+
+#Logout_Img {
+    position: absolute;
+    left: 50%;
+    top: 30px;
+    filter: brightness(30%);
+    transform: translate(-50%, -50%);
+}
+
+#Logout_Confirm_Text {
+    font-family: "Gotham_Font", sans-serif;
+    color: white;
+    font-size: 14px;
+
+    position: relative;
+    top: 45px;
+    text-align: center;
+    width: 100%;
+
+}
+
+#Logout_Button {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 100px;
+    border-radius: 5px;
+    height: 25px;
+    width: 150px;
+    font-size: 12px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+    border: none;
+    background-color: rgb(213, 45, 255);
+    cursor: pointer;
+
+
+}
+
+/*Logout Tab*/
+
+
+
+/*Add Friend Tab*/
+#Add_Friend_Tab {
+    position: fixed;
+    left: calc(25% + 60px);
+    top: 0px;
+    width: calc(75% - 60px);
+    height: calc(100%);
+    background-color: rgb(15, 15, 15);
+    z-index: 999;
+    transition: .2s;
+    display: none;
+    /*none*/
+    z-index: 9999;
+}
+
+#Loader_FR {
+    background-color: rgb(10, 10, 10, .5);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999999;
+    display: none;
+}
+
+
+#Loader_FR_A {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -40%);
+}
+
+.loader_Friend_FR_A {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid rgb(150, 150, 150);
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation .6s linear infinite;
+    position: absolute;
+    left: -35px;
+    top: 7px;
+}
+
+
+#loader_friend_tab {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 290px;
+    width: 90%;
+    height: 52%;
+    background-color: rgb(10, 10, 10, .5);
+    z-index: 99999999999;
+    display: none;
+}
+
+.loader_Friend_Add {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid rgb(150, 150, 150);
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation .6s linear infinite;
+    position: absolute;
+    left: -35px;
+    top: 7px;
+}
+
+#Title_Add_Friend {
+    position: absolute;
+    top: 10px;
+    left: 50px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+
+    font-size: 25px;
+}
+
+
+#Search_Bar_Add_FR {
+    position: absolute;
+    cursor: default;
+    display: block;
+    width: 90%;
+    height: 130px;
+    top: 120px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 999;
+
+}
+
+#connect_IP_FR {
+    font-family: "Gotham_Font", sans-serif;
+    position: absolute;
+    font-size: 12px;
+    border-radius: 5px;
+    padding-left: 50px;
+    padding-right: 2px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 0px;
+    width: 85%;
+    background-color: rgb(25, 25, 25);
+    border: 1px solid rgb(70, 70, 70);
+    color: rgb(245, 245, 245);
+    font-size: 15px;
+
+}
+
+#Search_Ip_connect_FR {
+    position: absolute;
+    z-index: 999;
+    transform: scale(.5);
+    top: 4px;
+    left: 5%;
+}
+
+#Friend_Request_FR {
+    position: absolute;
+    top: 7px;
+    left: 86%;
+    font-size: 12px;
+    transform: translate(-50%, 0%);
+    font-family: "Gotham_Font", sans-serif;
+    background-color: rgb(176, 39, 255);
+    color: white;
+
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: none;
+    cursor: pointer;
+    transform: .2s;
+    transition: .2s;
+    white-space: nowrap;
+}
+
+#Friend_Request_FR:hover {
+    background-color: rgb(162, 0, 255);
+}
+
+.Error_Friend_FR {
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(255, 19, 0);
+    top: 35px;
+    left: 10%;
+
+    position: absolute;
+    font-size: 10px;
+}
+
+#User_DNE_FR {
+    display: none;
+}
+
+#User_Error_FR {
+    display: none;
+}
+
+#User_Pending_FR {
+    display: none;
+}
+
+#Friend_Tabs {
+    position: absolute;
+    top: 240px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 250px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.Friends_Tab_Style {
+    background-color: rgb(0, 0, 0, 0);
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(215, 215, 215);
+
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    width: 100px;
+    height: 30px;
+    border-radius: 5px;
+    transition: .2s;
+
+}
+
+
+
+.Add_Friends_Tabs_Style {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 290px;
+    width: 90%;
+    height: 52%;
+    background-color: rgb(20, 20, 20);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#Added_Tab {
+    display: none;
+    /*block*/
+}
+
+#Pending_Tab {
+    display: block;
+
+}
+
+#Sent_Tab {
+    display: none;
+}
+
+
+
+#Pending_FR_Btn {
+    background-color: rgb(40, 40, 40, 1);
+    color: rgb(245, 245, 245);
+}
+
+.Pending_Notifs {
+    position: relative;
+    top: 307px;
+    left: 400px;
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 12px;
+}
+
+#Pending_add_1 {
+    display: none;
+    color: rgb(19, 219, 45);
+    z-index: 9999999;
+}
+
+#Pending_add_3 {
+    display: none;
+    color: rgb(231, 22, 40);
+    z-index: 9999999;
+}
+
+#Pending_deny_1 {
+    display: none;
+    color: rgb(19, 219, 45);
+    z-index: 9999999;
+}
+
+#Pending_deny_3 {
+    display: none;
+    color: rgb(231, 22, 40);
+    z-index: 9999999;
+}
+
+#Pending_Title {
+    position: absolute;
+    font-size: 18px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+    left: 30px;
+    top: 5px;
+}
+
+#Added_Title {
+    position: absolute;
+    font-size: 18px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+    left: 30px;
+    top: 5px;
+}
+
+#Sent_Title {
+    position: absolute;
+    font-size: 18px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+    left: 30px;
+    top: 5px;
+}
+
+.Pending_Sent_Style {
+    position: relative;
+    left: 20px;
+    width: 500px;
+    height: 80px;
+    background-color: rgb(40, 40, 40, 0);
+    margin-top: 20px;
+    top: 50px;
+    margin-bottom: 20px;
+    transition: .2s;
+}
+
+.Pending_Sent_Style:hover {
+    background-color: rgb(40, 40, 40);
+}
+
+.Account_Img_Sent {
+    position: absolute;
+    top: 25px;
+    left: 40px;
+}
+
+.Account_Username_Sent {
+    position: absolute;
+    top: 10px;
+    left: 85px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(215, 215, 215);
+
+}
+
+.Sent_Text_sec {
+    position: absolute;
+    top: 40px;
+    left: 105px;
+    font-size: 11px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+}
+
+.Sent_Text {
+    position: absolute;
+    top: 20px;
+    left: 300px;
+    font-size: 13px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+
+}
+
+.alert_Img_Sent {
+    position: absolute;
+    top: 45px;
+    left: 78px;
+    transform: scale(.7);
+}
+
+.Pending_FR_Style {
+    position: relative;
+    left: 20px;
+    width: 500px;
+    height: 80px;
+    background-color: rgb(40, 40, 40, 0);
+    margin-top: 20px;
+    top: 50px;
+    margin-bottom: 20px;
+    transition: .2s;
+}
+
+.Pending_FR_Style:hover {
+    background-color: rgb(40, 40, 40);
+}
+
+.alert_Img {
+    position: absolute;
+    top: 45px;
+    left: 78px;
+    transform: scale(.7);
+}
+
+.FR_Text {
+    position: absolute;
+    top: 40px;
+    left: 105px;
+    font-size: 11px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+
+}
+
+.Account_Img {
+    position: absolute;
+    top: 25px;
+    left: 40px;
+}
+
+.Account_Username {
+    position: absolute;
+    top: 10px;
+    left: 85px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(215, 215, 215);
+
+}
+
+.Deny_Friend {
+    position: absolute;
+    font-size: 12px;
+    top: 27px;
+    left: 300px;
+    font-family: "Gotham_Font", sans-serif;
+    background-color: rgb(231, 22, 40);
+    color: white;
+
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: none;
+    cursor: pointer;
+    transform: .2s;
+    transition: .2s;
+    white-space: nowrap;
+}
+
+.Accept_Friend {
+    position: absolute;
+    font-size: 12px;
+    top: 27px;
+    left: 390px;
+    font-family: "Gotham_Font", sans-serif;
+    background-color: rgb(19, 219, 45);
+    color: white;
+
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: none;
+    cursor: pointer;
+    transform: .2s;
+    transition: .2s;
+    white-space: nowrap;
+}
+
+#added_none_text {
+    font-family: "Gotham_Font", sans-serif;
+    position: relative;
+    text-align: center;
+    color: rgb(90, 90, 90);
+    font-size: 18px;
+    top: 40%;
+    display: block;
+}
+
+#pending_none_text {
+    font-family: "Gotham_Font", sans-serif;
+    position: relative;
+    text-align: center;
+    color: rgb(90, 90, 90);
+    font-size: 18px;
+    top: 40%;
+    display: block;
+}
+
+#sent_none_text {
+    font-family: "Gotham_Font", sans-serif;
+    position: relative;
+    text-align: center;
+    color: rgb(90, 90, 90);
+    font-size: 18px;
+    top: 40%;
+    display: block;
+}
+
+/*Add Friend Tab*/
+
+/*Left Menu*/
+#Left_Menu {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 60px;
+    background-color: rgb(10, 10, 10);
+    border-right: 2px solid rgb(30, 30, 30);
+    /*background-color: rgb(0, 89, 255);*/
+    z-index: 999999;
+
+
+}
+
+/*
+#Left_Menu_Video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: .6;
+    display: none;
+}
+*/
+/*Left Menu*/
+
+
+
+#Logo_Icon {
+    transform: scale(.6);
+    border-bottom: 5px solid rgb(50, 50, 50);
+    padding-bottom: 12px;
+}
+
+#Marker_Icon {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 17px;
+    left: 27px;
+}
+
+#Main_Icon {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+#Add_Friend {
+    transform: scale(.45);
+    cursor: pointer;
+
+}
+
+#Friend_Marker {
+    transform: scale(.3);
+    opacity: 0;
+}
+
+#Message_Icon {
+    transform: scale(.45);
+    cursor: pointer;
+}
+
+#Message_Marker {
+    transform: scale(.3);
+    opacity: 1;
+}
+
+#Logout_Icon {
+    cursor: pointer;
+    left: 50%;
+    transform: translate(-50%, 0%) scale(.8);
+    position: absolute;
+    bottom: 75px;
+}
+
+#Logout_Marker {
+    left: 13px;
+    transform: scale(.6);
+    position: absolute;
+    bottom: 92px;
+    opacity: 0;
+}
+
+#Setting {
+    cursor: pointer;
+    left: 50%;
+    transform: translate(-50%, 0%) scale(.8);
+    position: absolute;
+    bottom: 15px;
+}
+
+#Settings_Marker {
+    left: 13px;
+    transform: scale(.6);
+    position: absolute;
+    bottom: 32px;
+    opacity: 0;
+}
 
 /*Side Navigation Title*/
 
@@ -671,7 +1332,7 @@ body {
 #Left_NavBar {
     position: absolute;
     top: 0px;
-    left: 0px;
+    left: 60px;
     background-color: rgb(15, 15, 15);
     width: 25%;
     height: calc(100% - 70px);
@@ -699,7 +1360,7 @@ body {
     letter-spacing: 1px;
     font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
-    font-weight: bold;
+
 }
 
 #Top_Logo_Main {
@@ -784,7 +1445,7 @@ body {
     transform: translate(-50%, 0%);
     cursor: pointer;
     transition: .2s;
-    font-weight: bold;
+
 }
 
 .added_ip:hover {
@@ -808,7 +1469,7 @@ body {
     font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
     font-size: 15px;
-    font-weight: bold;
+
 }
 
 .delete_saved {
@@ -846,7 +1507,7 @@ body {
     font-family: "Gotham_Font", sans-serif;
     background-color: rgba(51, 123, 255, 0.5);
     color: white;
-    font-weight: bold;
+
     border-radius: 5px;
     padding-left: 20px;
     padding-right: 20px;
@@ -871,6 +1532,48 @@ body {
     background-color: rgb(15, 15, 15);
 }
 
+#Loader_Area_Friend_Req {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: rgb(0, 0, 0, .5);
+    z-index: 9999;
+    display: none;
+}
+
+#Loader_Friend_Request {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -40%);
+}
+
+.loader_Friend {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid rgb(150, 150, 150);
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation .6s linear infinite;
+    position: absolute;
+    left: -35px;
+    top: 7px;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 #Search_Bar_Add {
     position: absolute;
     background-color: rgb(35, 35, 35);
@@ -881,23 +1584,26 @@ body {
     top: 130px;
     left: -60px;
     z-index: 999;
+
 }
 
 
 #Add_New_Img {
     position: absolute;
     right: 30px;
-    /*30px*/
+
     top: 10px;
     transform: scale(.6);
     cursor: pointer;
 }
 
+
+
 #Add_New_Text {
     position: absolute;
     left: 20px;
     font-family: "Gotham_Font", sans-serif;
-    font-weight: bold;
+
     color: rgb(245, 245, 245);
 }
 
@@ -915,7 +1621,7 @@ body {
     font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
     text-align: center;
-    font-weight: bold;
+
     left: 35px;
     top: -5px;
 
@@ -968,7 +1674,17 @@ body {
 }
 
 
-
+#friends_none_text {
+    font-family: "Gotham_Font", sans-serif;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    color: rgb(90, 90, 90);
+    font-size: 18px;
+    top: 300px;
+    white-space: nowrap;
+    z-index: 9;
+}
 
 /*Side Nav Scroll*/
 
@@ -982,10 +1698,10 @@ body {
 
 #Messaging_Area {
     position: absolute;
-    left: 25%;
+    left: calc(25% + 60px);
     top: 0px;
     height: 100%;
-    width: 75%;
+    width: calc(75% - 60px);
     transition: .2s;
     background-size: cover;
     background-position: center;
@@ -1100,7 +1816,7 @@ body {
     top: 5%;
     color: rgb(245, 245, 245);
     font-family: "Gotham_Font", sans-serif;
-    font-weight: bold;
+
     font-size: 18px;
 }
 
@@ -1222,7 +1938,7 @@ body {
     background-color: rgb(10, 10, 10, 0);
     font-family: "Gotham_Font", sans-serif;
     font-size: 10px;
-    font-weight: bold;
+
     color: rgb(90, 90, 90);
     top: 40px;
     position: absolute;
@@ -1234,7 +1950,7 @@ body {
     background-color: rgb(10, 10, 10, 0);
     font-family: "Gotham_Font", sans-serif;
     font-size: 10px;
-    font-weight: bold;
+
     color: rgb(90, 90, 90);
     top: 40px;
     position: absolute;
@@ -1295,7 +2011,7 @@ body {
     padding-right: 25px;
     padding-top: 12px;
     padding-bottom: 12px;
-    font-weight: bold;
+
     cursor: pointer;
     transform: .2s;
     transition: .2s;
@@ -1377,7 +2093,7 @@ body {
     top: -5px;
     left: 10px;
     font-size: 18px;
-    font-weight: bold;
+
     color: rgb(245, 245, 245);
     font-family: "Gotham_Font", sans-serif;
     position: absolute;
@@ -1426,7 +2142,7 @@ body {
     font-family: "Gotham_Font", sans-serif;
     background-color: rgb(0, 70, 201);
     color: white;
-    font-weight: bold;
+
     border-radius: 5px;
     padding-left: 20px;
     padding-right: 20px;
@@ -1442,6 +2158,54 @@ body {
     background-color: rgb(0, 89, 255);
 }
 
+
+#Friend_Request {
+    position: absolute;
+    top: 90px;
+    left: 20%;
+    font-size: 12px;
+    transform: translate(-50%, 0%);
+    font-family: "Gotham_Font", sans-serif;
+    background-color: rgb(176, 39, 255);
+    color: white;
+
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: none;
+    cursor: pointer;
+    transform: .2s;
+    transition: .2s;
+}
+
+#Friend_Request:hover {
+    background-color: rgb(162, 0, 255);
+}
+
+.Error_Friend {
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(255, 19, 0);
+    top: 25px;
+    left: 20px;
+
+    position: absolute;
+    font-size: 10px;
+}
+
+#User_DNE {
+    display: none;
+}
+
+#User_Error {
+    display: none;
+}
+
+#User_Pending {
+    display: none;
+}
+
 #Connected_to {
     position: absolute;
     top: 130px;
@@ -1450,9 +2214,8 @@ body {
     transform: translate(-50%, 0%);
     font-family: "Gotham_Font", sans-serif;
     white-space: nowrap;
-
     color: white;
-    font-weight: bold;
+
 }
 
 #Connected_to_IP {
@@ -1492,7 +2255,7 @@ body {
     transform: translate(-50%, 0%);
     font-family: "Gotham_Font", sans-serif;
     color: white;
-    font-weight: bold;
+
 }
 
 
@@ -1504,7 +2267,6 @@ body {
     transform: translate(-50%, 0%);
     font-family: "Gotham_Font", sans-serif;
     color: white;
-    font-weight: bold;
     white-space: nowrap;
 }
 

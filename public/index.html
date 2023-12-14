@@ -80,9 +80,96 @@
 
   <!--Settings Tab-->
   <div id="Settings_Tab">
-    <img id="Exit_Settings" onclick="Close_Settings()" src="Images/Exit.png">
+    <p id="Settings_Title">Settings</p>
   </div>
   <!--Settings Tab-->
+
+  <!--Logout Tab-->
+  <div id="Logout_Tab">
+    <video id="Logout_Video" autoplay muted loop>
+      <source src="Videos/purple.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div id="Logout_Container">
+      <img id="Logout_Img" src="Images/Logout.png">
+      <p id="Logout_Confirm_Text">Are you sure you want to logout?</p>
+      <button id="Logout_Button" onclick="Log_Out()">LOGOUT</button>
+    </div>
+  </div>
+  <!--Logout Tab-->
+
+
+
+  <!--Add Friend Tab-->
+  <div id="Add_Friend_Tab">
+    <div id="Loader_FR">
+      <div id="Loader_FR_A" class="loader_Friend_FR_A"></div>
+    </div>
+    <p id="Title_Add_Friend">Add new users</p>
+    <div id="Search_Bar_Add_FR">
+      <img id="Search_Ip_connect_FR" src="Images/search.png">
+      <input id="connect_IP_FR" type="text" placeholder="Enter User ID" />
+      <button id="Friend_Request_FR" onclick="Friend_Request()">SEND REQUEST</button>
+      <p id="User_DNE_FR" class="Error_Friend_FR">User does not exist.</p>
+      <p id="User_Error_FR" class="Error_Friend_FR">An error has occured. Cannot be sent at this time.</p>
+      <p id="User_Pending_FR" class="Error_Friend_FR">Friend request already pending or your already friends</p>
+    </div>
+
+    <div id="Friend_Tabs">
+      <button id="Pending_FR_Btn" onclick="Pending_Tab()" class="Friends_Tab_Style">Pending</button>
+      <button id="Sent_FR_Btn" onclick="Sent_Tab()" class="Friends_Tab_Style">Sent</button>
+    </div>
+
+
+    <div id="loader_friend_tab">
+      <div id="Loader_FR_A" class="loader_Friend_Add"></div>
+    </div>
+
+
+    <div id="Added_Tab" class="Add_Friends_Tabs_Style">
+      <p id="Added_Title">Added users</p>
+      <p id="added_none_text">You have no users added</p>
+
+    </div>
+
+    <p id="Pending_add_1" class="Pending_Notifs">User successfully added!</p>
+    <p id="Pending_add_3" class="Pending_Notifs">Something went wrong. Cannot add user at this time.</p>
+    <p id="Pending_deny_1" class="Pending_Notifs">Friend request denied!</p>
+    <p id="Pending_deny_3" class="Pending_Notifs">Something went wrong. Cannot deny friend request at this time.</p>
+
+    <div id="Pending_Tab" class="Add_Friends_Tabs_Style">
+      <p id="Pending_Title">Pending friend requests</p>
+      <p id="pending_none_text">You have no pending friend requests</p>
+      <!--
+      <p id="Pending_Title">Pending friend requests</p>
+      <div class="Pending_FR_Style">
+        <img src="Images/user.png" class="Account_Img">
+        <p class="Account_Username">Username</p>
+        <img class="alert_Img" src="Images/warning.png">
+        <p class="FR_Text">Friend request pending</p>
+        <button class="Deny_Friend">DENY</button>
+        <button class="Accept_Friend">ACCEPT</button>
+      </div>
+      -->
+    </div>
+
+    <div id="Sent_Tab" class="Add_Friends_Tabs_Style">
+      <p id="Sent_Title">Sent friend requests</p>
+      <p id="sent_none_text">You have sent no friend requests</p>
+      <!--
+      <div class="Pending_Sent_Style">
+        <img src="Images/user.png" class="Account_Img_Sent">
+        <p class="Account_Username_Sent">Username</p>
+        <img class="alert_Img_Sent" src="Images/warning.png">
+        <p class="Sent_Text_sec">Sent</p>
+        <p class="Sent_Text">Friend request pending...</p>
+      </div>
+      -->
+    </div>
+
+  </div>
+  <!--Add Friend Tab-->
+
 
 
 
@@ -118,20 +205,51 @@
     <img class="notif_warn" src="Images/warning.png">
     <img id="remove_connect_3" onclick="connect_3_remove()" class="remove_notif" src="Images/remove.png">
   </div>
+
+  <div id="Friend_Request_1" class="connect_notif">
+    <p class="notif_text">Friend request sent!</p>
+    <img class="notif_warn" src="Images/warning.png">
+    <img id="remove_connect_1" onclick="Friend_Request_1_Remove()" class="remove_notif" src="Images/remove.png">
+  </div>
   <!--Connection Notifs-->
 
+
+  <div id="Left_Menu">
+    <!--
+    <video id="Left_Menu_Video" autoplay muted loop>
+      <source src="Videos/purple.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    -->
+    <div id="Marker_Icon">
+      <img style="opacity: 0;" src="Images/marker.png">
+      <img id="Friend_Marker" src="Images/marker.png">
+      <img id="Message_Marker" src="Images/marker.png">
+      <img id="Logout_Marker" src="Images/marker.png">
+      <img id="Settings_Marker" src="Images/marker.png">
+    </div>
+    <div id="Main_Icon">
+
+      <img id="Logo_Icon" src="Images/Logo_large.png">
+
+      <img id="Add_Friend" onclick="add_friend_tab(),check_pending(),check_sent()" src="Images/add_friend.png">
+      <img id="Message_Icon" onclick="message_tab()" src="Images/message.png">
+      <img id="Logout_Icon" onclick="Logout_Open_Tab()" src="Images/Logout.png">
+      <img id="Setting" onclick="Open_Settings()" src="Images/setting_icon.png">
+    </div>
+
+  </div>
 
   <!--Left Nav Bar-->
   <div id="Left_NavBar">
     <div id="Top_Title">
       <p id="Main_Title">Raven</p>
-      <img id="Top_Logo_Main" src="Images/Logo_Small.png">
+
       <img id="Setting_Btn" onclick="Open_Settings()" src="Images/settings.png">
-
-
       <div id="Add_New_Tab" class="added_ip">
         <p id="Add_New_Text">Add a new user</p>
         <img id="Add_New_Img" onclick="open_new_user()" src="Images/add.png">
+
       </div>
 
       <!--
@@ -143,37 +261,23 @@
       -->
       <div id="Personal_Tab">
         <img class="user_img" src="Images/user.png">
-        <p id="Username_Personal" class="user_ip">Username</p>
+        <p id="Username_Personal" class="user_ip"></p>
         <p id="Your_Username">Id: <span id="Your_IP_Actual"></span></p>
         <div id="Online_Indicator_Personal" class="online-indicator"></div>
       </div>
+      <div id="Friends_Container">
+        <p id="friends_none_text">You have no users added</p>
 
-      <div class="added_ip">
-        <img class="user_img" src="Images/user.png">
-        <p class="user_ip">00.00.0.0</p>
-        <img class="delete_saved" src="Images/remove.png">
-        <p class="Status_Text">Online</p>
-        <p class="online-indicator Status_Icon"></p>
-        <p class="Message_Count">1</p>
-      </div>
+        <!--
 
-      <div class="added_ip">
-        <img class="user_img" src="Images/user.png">
-        <p class="user_ip">00.00.0.0</p>
-        <img class="delete_saved" src="Images/remove.png">
-        <p class="Status_Text">Offline</p>
-        <p class="offline-indicator Status_Icon"></p>
-        <p class="Message_Count">1</p>
-      </div>
+        <div class="added_ip">
+          <img class="user_img" src="Images/user.png">
+          <p class="user_ip"></p>
+          <img class="delete_saved" src="Images/remove.png">
+          <p class="Status_Text">Online</p>
+          <p class="online-indicator Status_Icon"></p>
+        </div>
 
-      <div class="added_ip">
-        <img class="user_img" src="Images/user.png">
-        <p class="user_ip">00.00.0.0</p>
-        <img class="delete_saved" src="Images/remove.png">
-        <p class="Status_Text">Offline</p>
-        <p class="offline-indicator Status_Icon"></p>
-        <p class="Message_Count">1</p>
-      </div>
 
       <div class="added_ip">
         <img class="user_img" src="Images/user.png">
@@ -183,50 +287,8 @@
         <p class="offline-indicator Status_Icon"></p>
         <p class="Message_Count">1</p>
       </div>
-
-      <div class="added_ip">
-        <img class="user_img" src="Images/user.png">
-        <p class="user_ip">00.00.0.0</p>
-        <img class="delete_saved" src="Images/remove.png">
-        <p class="Status_Text">Offline</p>
-        <p class="offline-indicator Status_Icon"></p>
-        <p class="Message_Count">1</p>
+    -->
       </div>
-
-      <div class="added_ip">
-        <img class="user_img" src="Images/user.png">
-        <p class="user_ip">00.00.0.0</p>
-        <img class="delete_saved" src="Images/remove.png">
-        <p class="Status_Text">Offline</p>
-        <p class="offline-indicator Status_Icon"></p>
-        <p class="Message_Count">1</p>
-      </div>
-
-      <div class="added_ip">
-        <img class="user_img" src="Images/user.png">
-        <p class="user_ip">00.00.0.0</p>
-        <img class="delete_saved" src="Images/remove.png">
-        <p class="Status_Text">Offline</p>
-        <p class="offline-indicator Status_Icon"></p>
-        <p class="Message_Count">1</p>
-      </div>
-
-      <div class="added_ip">
-        <img class="user_img" src="Images/user.png">
-        <p class="user_ip">00.00.0.0</p>
-        <img class="delete_saved" src="Images/remove.png">
-        <p class="Status_Text">Offline</p>
-        <p class="offline-indicator Status_Icon"></p>
-      </div>
-
-      <div class="added_ip">
-        <img class="user_img" src="Images/user.png">
-        <p class="user_ip">00.00.0.0</p>
-        <img class="delete_saved" src="Images/remove.png">
-        <p class="Status_Text">Offline</p>
-        <p class="offline-indicator Status_Icon"></p>
-      </div>
-
     </div>
 
     <div id="Scrollable_Nav">
@@ -250,7 +312,6 @@
         <!--<img id="Send_Img" src="./Images/SendImg.png">-->
 
         <p id="Connected_to_text">Connected to <span id="user_id_actual"></span></p>
-        <img id="leave_chat" src="Images/leave.png">
         <div id="Currently_Chatting">
           <img id="Current_User_Img" src="Images/user.png">
           <p id="Current_User_Text"></p>
@@ -276,11 +337,18 @@
         <p id="Message">Connect to user to start chatting!</p>
 
         <div id="Search_Bar_Add">
+          <div id="Loader_Area_Friend_Req">
+            <div id="Loader_Friend_Request" class="loader_Friend"></div>
+          </div>
           <img id="Exit_Add_New" onclick="close_new_user()" src="Images/Exit.png">
           <p id="Add_Connect_User">Add new users</p>
           <img id="Search_Ip_connect" src="Images/search.png">
           <input id="connect_IP" type="text" placeholder="Enter User ID" />
           <button id="Connect_Button">ADD</button>
+          <button id="Friend_Request" onclick="Friend_Request()">SEND</button>
+          <p id="User_DNE" class="Error_Friend">User does not exist.</p>
+          <p id="User_Error" class="Error_Friend">An error has occured. Cannot be sent at this time.</p>
+          <p id="User_Pending" class="Error_Friend">Friend request already pending.</p>
         </div>
 
       </div>
@@ -326,159 +394,7 @@
 
 
   <script src="/socket.io/socket.io.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
 
-      function getCurrentTime12Hour() {
-        const now = new Date();
-        let hours = now.getHours();
-        const minutes = now.getMinutes();
-        const amPm = hours >= 12 ? 'PM' : 'AM';
-
-        // Convert to 12-hour format
-        hours = hours % 12 || 12;
-
-        // Format the time as hh:mm AM/PM
-        const formattedTime = `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes} ${amPm}`;
-
-        return formattedTime;
-      }
-
-
-      function formatDateAsZeroes() {
-        const today = new Date();
-        const day = today.getDate().toString().padStart(2, '0'); // Get day with leading zero
-        const month = (today.getMonth() + 1).toString().padStart(2, '0'); // Get month with leading zero
-        const year = today.getFullYear().toString(); // Get full year
-
-        const formattedDate = `${month}/${day}/${year}`;
-        return formattedDate;
-      }
-      var socket = io();
-      var form = document.getElementById('form');
-      var input = document.getElementById('Msg_Area');
-      var connect_btn = document.getElementById("Connect_Button");
-
-      const Ip = document.getElementById("Your_IP_Actual");
-
-      //Send Message--------------------------------------------------------
-      var input = document.getElementById('Msg_Area');
-
-      input.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          sendMessage();
-        }
-      });
-
-      function sendMessage() {
-        var recipientId = document.getElementById('connect_IP');
-        var recipientId_value = recipientId.value;
-
-        if (input.value) {
-          console.log("ID: ", recipientId_value);
-          socket.emit('chat message', { recipientId: recipientId_value, content: input.value });
-        }
-
-        var item = document.createElement('li');
-        var messages = document.getElementById('Sent');
-        const spanElement = document.createElement('span');
-
-        const time = getCurrentTime12Hour();
-        const date = formatDateAsZeroes();
-
-        item.classList.add('msg_style_sent');
-        item.textContent = input.value;
-        spanElement.classList.add('sent_time');
-        spanElement.textContent = "Sent: " + time + " - " + date;
-        item.appendChild(spanElement);
-        messages.appendChild(item);
-        messages.scrollTop = messages.scrollHeight;
-        input.value = '';
-      }
-
-
-
-
-
-
-
-      //Send Message--------------------------------------------------------
-
-      //Check if User ID exists --------------------------------------------------------
-      connect_btn.addEventListener('click', function (e) { //checks if recipient exists
-        e.preventDefault();
-        var recipientId = document.getElementById('connect_IP');
-        var recipientId_value = recipientId.value;
-        if (recipientId_value) {
-          socket.emit('recipient', { recipient_id: recipientId_value });
-        }
-      });
-
-      socket.on('recipient exist', function (data) {
-        const recipientId = document.getElementById('connect_IP');
-        const recipientId_value = recipientId.value;
-        const connected_to = document.getElementById("Connected_to_text");
-        const connected_to_text = document.getElementById("user_id_actual");
-        const off = document.getElementById("Offline_Status");
-        const on = document.getElementById("Online_Status");
-
-        console.log(`Received message from user ${data.message}`);
-
-        if (data.message === "1") {
-          connect_1();
-          connected_to_text.textContent = recipientId_value;
-          connected_to.style.display = "block";
-          off.style.display = "none";
-          on.style.display = "block";
-          console.log("we are connected");
-        } else if (data.message === "0") {
-          connect_3();
-          off.style.display = "block";
-          on.style.display = "none";
-          console.log("did not connect or doesn't exist");
-        }
-      });
-      //Check if User ID exists --------------------------------------------------------
-
-      socket.on("")
-
-      socket.on('chat message', function (data) {
-        console.log(`Received message from user ${data.senderId}: ${data.content}`);
-      });
-
-      socket.on('user connected', function (userId) {
-
-        console.log('Received user ID:', userId);
-        Ip.textContent = userId;
-
-      });
-
-      //Received messages--------------------------------------------------------
-      socket.on('chat message', function (data) {
-        const item = document.createElement('li');
-        const spanElement = document.createElement('span');
-        const messages = document.getElementById('Sent');
-
-        const time = getCurrentTime12Hour();
-        const date = formatDateAsZeroes();
-
-        item.classList.add('msg_style_rec');
-        item.textContent = data.content;
-
-        spanElement.classList.add('rec_time');
-        spanElement.textContent = "Received: " + time + " - " + date;
-
-        item.appendChild(spanElement);
-        messages.appendChild(item);
-
-        // Scroll to the bottom of the container (assuming 'Sent' is the container element)
-        messages.scrollTop = messages.scrollHeight;
-      });
-      //Received messages--------------------------------------------------------
-
-    });
-  </script>
 
 </body>
 
