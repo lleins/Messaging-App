@@ -1,4 +1,81 @@
 
+/*inactivity counter*/
+const inactivityTimeout = 10 * 60 * 1000 // 10 minutes 10 * 60 * 1000
+let inactivityTimer;
+
+function resetInactivityTimer() {
+    // Check if the specific cookie is not null before proceeding
+    const Login_Cookie = getJwtCookie('Login_Token'); // replace 'yourCookieName' with the actual name of your cookie
+    if (Login_Cookie !== null) {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(logoutUser, inactivityTimeout);
+    }
+}
+
+function logoutUser() {
+    const Inactive_Container = document.getElementById("Inactive_Container");
+    Inactive_Container.style.display = "block";
+    Log_Out();
+    location.reload();
+    clearTimeout(inactivityTimer);
+}
+
+resetInactivityTimer();
+
+document.addEventListener("mousemove", resetInactivityTimer);
+document.addEventListener("keydown", resetInactivityTimer);
+document.addEventListener("click", resetInactivityTimer);
+
+
+/*inactivity counter*/
+
+
+/*Log out*/
+
+function Log_Out() {
+    const Loader = document.getElementById("Loader_Area_Main");
+    const username = document.getElementById("Username_Personal");
+
+    fetch('http://localhost:4000/api/log_out', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: username.textContent }),
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.message === 1) {
+                deleteCookie("Login_Token");
+                Loader.style.display = "none";
+                location.reload();
+
+            } else if (data.message === 0) {
+                console.log("Logout failed");
+            }
+        })
+        .catch(error => {
+            console.error('Error during logout:', error);
+            location.reload();
+            Loader.style.display = "none";
+        });
+
+}
+
+
+/*Log out*/
+
+
+function close_timeout() {
+    const Inactive_Container = document.getElementById("Inactive_Container");
+    Inactive_Container.style.display = "none";
+}
+
 
 /*Control Reload*/
 window.onbeforeunload = function () {
@@ -99,14 +176,14 @@ function open_new_user() {
 
 
 function deny_connection() {
-    const connect_container = document.getElementById("Confirm_Connection");
-    connect_container.style.left = "100%";
+    const connect_container = document.getElementById("Confirm_Remove_Friend");
+    connect_container.style.display = "none";
 }
 
 
 
 function Request_Connection() {
-    const connect_container = document.getElementById("Confirm_Connection");
+    const connect_container = document.getElementById("Confirm_Remove_Friend");
     connect_container.style.left = "50%";
 }
 
@@ -387,14 +464,17 @@ function Sign_In() {
             .then(data => {
                 if (data.success === 1) { //Login successful
                     console.log("Login success 1");
+                    Loader.style.display = "none";
                     const login_token = data.token;
                     setJwtCookie("Login_Token", login_token, 1);
                     console.log("Retrieved Login_Token Login:", getJwtCookie("Login_Token"));
                     Account_Information();
+                    Friends_Left_Bar();
+                    resetInactivityTimer();
                     email_input.value = "";
                     pass_input.value = "";
                     console.log("User ID from text: ", Ip.textContent);
-                    Loader.style.display = "none";
+
                     SignIn_Notif.style.display = "block";
                     Login_Container.style.display = "none";
                     setTimeout(function () {
@@ -412,7 +492,7 @@ function Sign_In() {
                 }
             })
             .catch(error => { //catch error with response
-                console.log("Login failed catch error");
+                console.log("Login failed catch error", error);
                 Loader.style.display = "none";
                 pass_notice_img.style.display = "block";
                 email_wrong.style.display = "block";
@@ -427,8 +507,15 @@ function Sign_In() {
 
 /*Loggin In*/
 
+const login_cookie = getJwtCookie("Login_Token");
 
-Account_Information();
+if (login_cookie === null) {
+
+} else if (login_cookie !== null) {
+    Account_Information();
+}
+
+
 
 
 /*Creating Account*/
@@ -583,18 +670,6 @@ function Creating_Account() {
 
 
 
-/*Log out*/
-
-function Log_Out() {
-
-    deleteCookie("Login_Token");
-    location.reload();
-}
-
-
-/*Log out*/
-
-
 
 
 /*Getting Email from cookie jwt*/
@@ -734,24 +809,81 @@ function Logout_Open_Tab() {
 /*Logout*/
 
 
-Friends_Left_Bar();
+/*Get Status of friends*/
+
+async function friend_status(id) {
+    try {
+        const response = await fetch('http://localhost:4000/api/get_status', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user_id: id }),
+        });
+
+        const data = await response.json();
+
+        if (data.success === 1) {
+            console.log("Here is user status:", data.status);
+            return data.status;
+        } else if (data.success === 0) {
+            console.error('User not found or internal server error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+/*
+
+//how to call the function
+
+async function getStatusAndLog() {
+    const status = await friend_status("luke12");
+
+}
+*/
+
+/*Get Status of friends*/
+
+
+if (login_cookie === null) {
+
+} else if (login_cookie !== null) {
+    Friends_Left_Bar();
+}
+
+
+
+if (login_cookie === null) {
+
+} else if (login_cookie !== null) {
+    setInterval(Friends_Left_Bar, 30000);//gets called every 30s to update
+}
+
+
 /*Friends Left Bar*/
 
 function Friends_Left_Bar() {
 
+    const loader = document.getElementById('loader_friends_M');
+
     const friends_tab = document.getElementById('Friends_Container');
-    const none = document.getElementById('friends_none_text');
+    const none_text = document.getElementById('friends_none_text_F');
 
     friends_tab.innerHTML = '';
 
-    friends_tab.appendChild(none.cloneNode(true));
-    none.textContent = "You have no users added";
+
+    console.log("none element:", none_text);
+    console.log("none text content:", none_text.textContent);
 
     const Login_Cookie = getJwtCookie("Login_Token"); //Getting Login Token
     const userData = Login_Cookie;
 
     console.log("Cookie from Account_Format.tsx : ", userData);
 
+
+    loader.style.display = "block";
 
     fetch('http://localhost:4000/api/account_information', {
         method: 'POST',
@@ -785,19 +917,21 @@ function Friends_Left_Bar() {
                             return response.json();
                         } else {
                             console.log("From Account React: Request failed"); // Failed to send to the server
-                            none.style.display = "block";
+                            none_text.style.display = "block";
+                            loader.style.display = "none";
                             return response.json();
 
                         }
                     })
                     .then((data) => {
                         if (data.success === 1) { //some pending
-
-                            none.style.display = "none";
+                            none_text.style.display = "none";
+                            loader.style.display = "none";
                             console.log("here is pending list: ", data.sent[0].friend);
                             data.sent.forEach(friendItem => {
                                 // Create the div element
                                 const friendDiv = document.createElement("div");
+                                friendDiv.addEventListener('click', () => Connect_to_Chat(friendItem.friend, ""));
                                 friendDiv.classList.add("added_ip");
 
                                 // Create and set the image element
@@ -816,32 +950,57 @@ function Friends_Left_Bar() {
                                 const deleteSavedImg = document.createElement("img");
                                 deleteSavedImg.src = "Images/remove.png";
                                 deleteSavedImg.classList.add("delete_saved");
+                                deleteSavedImg.addEventListener('click', () => Remove_Friend(userIpP.textContent));
                                 friendDiv.appendChild(deleteSavedImg);
 
                                 // Create and set the p element for Status_Text
-                                const statusTextP = document.createElement("p");
-                                statusTextP.classList.add("Status_Text");
-                                statusTextP.textContent = "Online";
-                                friendDiv.appendChild(statusTextP);
 
-                                // Create and set the p element for online-indicator Status_Icon
-                                const onlineIndicatorP = document.createElement("p");
-                                onlineIndicatorP.classList.add("online-indicator", "Status_Icon");
-                                friendDiv.appendChild(onlineIndicatorP);
+                                async function getStatusAndLog(id) { //Checks for online status
+                                    const status = await friend_status(id);
+
+                                    if (status === 1) { //online
+                                        //text online
+                                        const statusTextP = document.createElement("p");
+                                        statusTextP.classList.add("Status_Text");
+                                        statusTextP.textContent = "Online";
+                                        friendDiv.appendChild(statusTextP);
+
+                                        //icon online
+                                        const onlineIndicatorP = document.createElement("p");
+                                        onlineIndicatorP.classList.add("online-indicator", "Status_Icon");
+                                        friendDiv.appendChild(onlineIndicatorP);
+                                    } else if (status === 0) {//offline
+                                        //text offline
+                                        const statusTextP = document.createElement("p");
+                                        statusTextP.classList.add("Status_Text");
+                                        statusTextP.textContent = "Offline";
+                                        friendDiv.appendChild(statusTextP);
+
+                                        //icon offline
+                                        const onlineIndicatorP = document.createElement("p");
+                                        onlineIndicatorP.classList.add("offline-indicator", "Status_Icon");
+                                        friendDiv.appendChild(onlineIndicatorP);
+                                    }
+
+                                }
+                                getStatusAndLog(friendItem.friend);
 
                                 // Append the created div to the friendsContainer
                                 const friendsContainer = document.getElementById("Friends_Container");
                                 friendsContainer.appendChild(friendDiv);
                             });
                         } else if (data.success === 0) { //None pending
-                            none.style.display = "block";
-                            console.log("0 in pending");
+                            none_text.style.display = "block";
+                            loader.style.display = "none";
+                            console.log("0 in friend");
                         } else if (data.success === 3) { //server error
-                            none.style.display = "block";
-                            console.log("3 in pending");
+                            none_text.style.display = "block";
+                            loader.style.display = "none";
+                            console.log("3 in friend");
                         } else if (data.success === 4) { //server error
-                            none.style.display = "block";
-                            console.log("4 in pending");
+                            none_text.style.display = "block";
+                            loader.style.display = "none";
+                            console.log("4 in friend");
                         }
                     });
             } else if (data.success === 0) {
@@ -857,6 +1016,91 @@ function Friends_Left_Bar() {
 /*Friends Left Bar*/
 
 
+
+
+/*Remove Friend*/
+
+function Remove_Friend(username) {
+    const personal_username = document.getElementById("Username_Personal");
+    const confirm_Remove_container = document.getElementById("Confirm_Remove_Friend");
+    const confirm_Remove_username = document.getElementById("Chat_Request_actual");
+    const Remove_Friend_Button = document.getElementById("Join_Chat");
+    const loader = document.getElementById("Confirm_Remove_Friend_Loader");
+    const error_notif = document.getElementById("Error_Remove");
+
+    confirm_Remove_username.textContent = username;
+    confirm_Remove_container.style.display = "block";
+
+    Remove_Friend_Button.addEventListener('click', () => {
+        fetch('http://localhost:4000/api/Remove_Friend', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: personal_username.textContent, friend: username }),
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log("From decline FR: Request sent"); //Sent to express server
+                    return response.json();
+                } else {
+                    loader.style.display = "none";
+                    error_notif.style.display = "block";
+                    setTimeout(function () {
+                        error_notif.style.display = "none";
+                    }, 4000);
+                    throw new Error('Network response was not ok');
+                }
+            })
+            .then(data => {
+                if (data.message === 1) {
+                    loader.style.display = "none";
+                    Friends_Left_Bar();
+                    confirm_Remove_container.style.display = "none";
+                } else if (data.message === 0) {
+                    loader.style.display = "none";
+                    error_notif.style.display = "block";
+                    setTimeout(function () {
+                        error_notif.style.display = "none";
+                    }, 4000);
+                } else if (data.message === 3) {
+                    error_notif.style.display = "block";
+                    setTimeout(function () {
+                        error_notif.style.display = "none";
+                    }, 4000);
+                }
+            })
+            .catch(error => { //catch error with response
+                loader.style.display = "none";
+                error_notif.style.display = "block";
+                setTimeout(function () {
+                    error_notif.style.display = "none";
+                }, 4000);
+            });
+    });
+}
+
+/*Remove Friend*/
+
+
+
+
+/*Disable Button*/
+
+function Disable_Button(id) {
+    var myButton = document.getElementById(id);
+    myButton.disabled = true;
+
+    myButton.style.filter = "brightness(50%)";
+    myButton.style.cursor = "not-allowed";
+    setTimeout(function () {
+        myButton.disabled = false;
+        myButton.style.filter = "brightness(100%)";
+        myButton.style.cursor = "pointer";
+    }, 4000);
+}
+
+/*Disable Button*/
 
 
 /*Sending a Friend Request*/
@@ -1000,7 +1244,28 @@ function Sent_Tab() {
 
 /*Added tab communication*/
 
+function rotateImage(id) {
+    var reloadImage = document.getElementById(id);
+    reloadImage.style.transform = 'rotate(-360deg)';
 
+    // You might want to reset the rotation after a delay
+    setTimeout(function () {
+        reloadImage.style.transform = 'rotate(0deg)';
+    }, 10); // Adjust the delay to match the transition duration
+}
+
+
+function rotateImage_main(id) {
+    var reloadImage = document.getElementById(id);
+    reloadImage.style.transition = '.5s';
+    reloadImage.style.transform = 'rotate(-360deg)';
+
+    // You might want to reset the rotation after a delay
+    setTimeout(function () {
+        reloadImage.style.transition = '0s';
+        reloadImage.style.transform = 'rotate(0deg)';
+    }, 500); // Adjust the delay to match the transition duration
+}
 
 
 
@@ -1009,12 +1274,14 @@ function check_pending() {
 
     var pending_tab = document.getElementById('Pending_Tab');
 
+    var reload_pending = document.getElementById("Reload_Pending");
+
     var none_text = document.getElementById('pending_none_text');
 
     var title_text = document.getElementById('Pending_Title');
 
     pending_tab.innerHTML = '';
-
+    pending_tab.appendChild(reload_pending.cloneNode(true));
     pending_tab.appendChild(none_text.cloneNode(true));
     none_text.textContent = "You have no pending friend requests";
 
@@ -1151,11 +1418,15 @@ check_pending();
 function check_sent() {
     var sent_tab = document.getElementById('Sent_Tab');
 
+    var reload_sent = document.getElementById('Reload_Sent');
+
     var none_text = document.getElementById('sent_none_text');
 
     var title_text = document.getElementById('Sent_Title');
 
     sent_tab.innerHTML = '';
+
+    sent_tab.appendChild(reload_sent.cloneNode(true));
 
     sent_tab.appendChild(none_text.cloneNode(true));
     none_text.textContent = "You have sent no friend requests";
@@ -1342,11 +1613,11 @@ function add_user(friend) {
                     })
                     .then(data => {
                         if (data.message === 1) { //Friends were added
-                            loader.style.display = "none";
                             Pending_add_1.style.display = "block";
-                            Added_Tab();
                             Pending_Tab();
+                            Friends_Left_Bar();
                             setTimeout(function () {
+                                loader.style.display = "none";
                                 Pending_add_1.style.display = "none";
                             }, 4000);
                         } else if (data.message === 0) { //Friends were not added
@@ -1369,7 +1640,7 @@ function add_user(friend) {
                         setTimeout(function () {
                             Pending_add_3.style.display = "none";
                         }, 4000);
-                        console.log("account created -failed catch error- from Index.js");
+                        console.log("added -failed catch error- from index.js", error);
                     });
             } else if (data.success === 0) {
                 loader.style.display = "none";
@@ -1482,12 +1753,83 @@ function decline_friend_request(username) {
 /*Add User*/
 
 
+function Connect_to_Chat(friend, id) {
+
+    const friend_id_field = document.getElementById("User_Chat");
+
+    const personal_id = document.getElementById("Your_IP_Actual");
+
+    const loader = document.getElementById("loader_friends_M");
+
+    const current_text = document.getElementById("Current_User_Text");
+    const current_img = document.getElementById("Current_User_Img");
+
+    const not_online_notif = document.getElementById("Not_Online_Container");
+    loader.style.display = "block";
+    friend_id_field.value = "";
+    getStatusAndLog_ForChat();
+    async function getStatusAndLog_ForChat() {
+        const status = await friend_status(friend);
+
+        if (status === 0) {
+            loader.style.display = "none";
+            not_online_notif.style.display = "block";
+            current_img.style.display = "block";
+            current_text.textContent = friend;
+
+        } else if (status === 1) {
+            loader.style.display = "none";
+            not_online_notif.style.display = "none";
+            current_img.style.display = "block";
+            current_text.textContent = friend;
+            get_id_chat(friend);
+            async function get_id_chat(friend) {
+                const id = await get_friend_id(friend);
+
+                friend_id_field.value = id;
+
+
+            }
+
+        }
+
+    }
 
 
 
 
 
+}
 
+
+
+
+async function get_friend_id(user) {
+    try {
+        const response = await fetch('http://localhost:4000/api/get_friend_id', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user: user }),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.success === 1) {
+            console.log("Here is user id:", data.id);
+            return data.id;
+        } else if (data.success === 0) {
+            console.error('User not found or internal server error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
 
 
@@ -1538,9 +1880,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function sendMessage() {
-        var recipientId = document.getElementById('connect_IP');
-        var recipientId_value = recipientId.value;
+        var recipientId = document.getElementById('User_Chat'); //connect_IP
 
+        var recipientId_value = recipientId.value;
+        console.log("id here eweq: ", recipientId_value);
         if (input.value) {
             console.log("ID: ", recipientId_value);
             socket.emit('chat message', { recipientId: recipientId_value, content: input.value });

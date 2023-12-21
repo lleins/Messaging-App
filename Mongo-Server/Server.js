@@ -51,7 +51,7 @@ app.post('/api/create_account', async (req, res) => {  //Creating Account
         const newUser = new Login({ username: email_create, password: hashedPassword, date: date_create }); // Create and save the new user
         await newUser.save();
 
-        const newUser_User = new User({ username: email_create, userid: "" }); // Create and save the new user
+        const newUser_User = new User({ username: email_create, userid: "", status: 1 }); // Create and save the new user
         await newUser_User.save();
 
         return res.status(201).json({ message: 1 }); // User created successfully
@@ -96,7 +96,7 @@ app.post('/api/login', (req, res) => { //Logging in
                             }
                         );
 
-                        User.findOneAndUpdate({ username: username }, { $set: { userid: user_id } }, { new: true })
+                        User.findOneAndUpdate({ username: username }, { $set: { userid: user_id, status: 1 } }, { new: true })
                             .then(updatedUser => {
 
                             })
@@ -122,6 +122,36 @@ app.post('/api/login', (req, res) => { //Logging in
 
 
 //Sign in------------------------------------------------------------------------------------------------
+
+
+
+
+//Log out------------------------------------------------------------------------------------------------
+
+app.post('/api/log_out', (req, res) => {
+    const { username } = req.body;
+
+    User.findOneAndUpdate({ username: username }, { $set: { status: 0 } }, { new: true })
+        .then(updatedUser => {
+            if (username) {
+                res.status(200).json({ message: 1 });
+                console.log("Password comparing success");
+            } else {
+                // Password comparison failed
+                res.status(401).json({ message: 0 });
+                console.log("Password Comparing Failed");
+            }
+        })
+        .catch(err => {
+            console.error('Error updating user:', err);
+            res.status(500).json({ message: 3 });
+        });
+});
+
+
+
+//Log out------------------------------------------------------------------------------------------------
+
 
 
 
@@ -188,42 +218,86 @@ app.post('/api/account_information', (req, res) => { //Grabbing Account Informat
 
 
 
+//Get friend Status---------------------------------------------------------------------------------------------------------
+
+app.post('/api/get_status', (req, res) => {
+    const { user_id } = req.body;
+
+    User.findOne({ username: user_id })
+        .then(user => {
+            if (user) {
+                const userStatus = user.status;
+                console.log("Status: ", userStatus);
+                res.status(200).json({ success: 1, status: userStatus });
+            } else {
+
+                res.status(404).json({ success: 0 });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ success: 0 });
+        });
+});
+
+//Get friend Status---------------------------------------------------------------------------------------------------------
+
+
+//Get friend id---------------------------------------------------------------------------------------------------------
+
+app.post('/api/get_friend_id', (req, res) => {
+    const { user } = req.body;
+
+    User.findOne({ username: user })
+        .then(user => {
+            if (user) {
+                const userid = user.userid;
+                console.log("user id fofr 312312321: ", userid);
+                res.status(200).json({ success: 1, id: userid });
+            } else {
+
+                res.status(404).json({ success: 0 });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ success: 0 });
+        });
+});
+
+//Get friend id---------------------------------------------------------------------------------------------------------
+
 
 
 //Friend Requests---------------------------------------------------------------------------------------------------------
 
 
-app.post('/api/Send_Friend_Request', (req, res) => {
+app.post('/api/Send_Friend_Request', async (req, res) => {
     const { recipient, sender } = req.body;
 
     try {
+        // Check if the recipient user exists in the login collection
+        const recipientUser = await User.findOne({ username: recipient });
+
+        if (!recipientUser) {
+            res.status(200).json({ success: 0 }); // Recipient user does not exist
+            return;
+        }
         // Check if a friend request already exists in the Friend collection
-        Friend.findOne({ sender: sender, recipient: recipient })
-            .then((existingRequest) => {
-                if (!existingRequest) {
-                    // Check if a friend request already exists in the Add_Friend collection
-                    Add_Friend.findOne({ sender: sender, recipient: recipient })
-                        .then((existingAddFriendRequest) => {
-                            if (!existingAddFriendRequest) {
-                                const newFriendRequest = new Friend({ recipient: recipient, sender: sender });
-                                newFriendRequest.save();
-                                res.status(200).json({ success: 1 }); // Friend request created
-                            } else {
-                                res.status(200).json({ success: 4 }); // Friend request already exists in Add_Friend
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            res.status(500).json({ success: 3 }); // Server error
-                        });
-                } else {
-                    res.status(200).json({ success: 4 }); // Friend request already exists in Friend
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                res.status(500).json({ success: 3 }); // Server error
-            });
+        const existingFriendRequest = await Friend.findOne({ sender: sender, recipient: recipient });
+
+        if (!existingFriendRequest) {
+            // Check if a friend request already exists in the Add_Friend collection
+            const existingAddFriendRequest = await Add_Friend.findOne({ sender: sender, recipient: recipient });
+
+            if (!existingAddFriendRequest) {
+                const newFriendRequest = new Friend({ recipient: recipient, sender: sender });
+                await newFriendRequest.save();
+                res.status(200).json({ success: 1 }); // Friend request created
+            } else {
+                res.status(200).json({ success: 4 }); // Friend request already exists in Add_Friend
+            }
+        } else {
+            res.status(200).json({ success: 4 }); // Friend request already exists in Friend
+        }
     } catch (error) {
         console.error('Error:', error);
         res.status(500).json({ success: 3 }); // Server error
@@ -412,6 +486,36 @@ app.post('/api/Get_Friends', (req, res) => {
 //Get Friends ---------------------------------------------------------------------------------------------------------
 
 
+
+
+//Remove Friend ---------------------------------------------------------------------------------------------------------
+
+
+function Remove_Friend(username, friend) {
+    return Add_Friend.findOneAndRemove({ user: username, friend: friend }).exec();
+}
+
+app.post('/api/Remove_Friend', (req, res) => {
+    const { username, friend } = req.body
+
+    Remove_Friend(username, friend)
+        .then(user => {
+            if (user) {
+                // User with the specified email and link removed
+                Add_Friend.findOneAndRemove({ user: friend, friend: username }).exec();
+                res.status(200).json({ message: 1 });
+            } else {
+                // User not found
+                return res.status(404).json({ message: 0 });
+            }
+        })
+        .catch(err => {
+            // Handle any errors that occurred during the removal
+            res.status(500).json({ message: 3 });
+        });
+});
+
+//Remove Friend ---------------------------------------------------------------------------------------------------------
 
 
 

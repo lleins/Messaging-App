@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const Userschema = new mongoose.Schema({
     username: String,
     userid: String,
+    status: Number,
 
 }, {
     collection: 'User-Information' // Specify the collection name

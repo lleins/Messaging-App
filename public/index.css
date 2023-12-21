@@ -11,10 +11,94 @@ body {
 
 
 
+
+/*Personal and user id chat*/
+
+#Currently_Chatting_User {
+    position: absolute;
+    left: 69px;
+    top: 69px;
+    z-index: 0;
+}
+
+
+
+
+
+
+/*Personal and user id chat*/
+
+
+
+
+
+/*Inactivity Container*/
+
+#Inactive_Container {
+    position: absolute;
+    width: 350px;
+    height: 200px;
+    z-index: 21;
+    left: 45%;
+    top: 30%;
+    background-color: rgb(40, 40, 40);
+    box-shadow: 0 0 100vw 100vh rgba(0, 0, 0, 0.8);
+    border-radius: 5px;
+    display: none;
+}
+
+
+#timeout_Img {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 10px;
+    filter: brightness(50%);
+}
+
+#Inactive_Text {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 50px;
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 15px;
+    color: rgb(245, 245, 245);
+    width: 90%;
+}
+
+#Inactive_Button {
+    position: absolute;
+    left: 90%;
+    transform: translate(-90%, 0%);
+    top: 158px;
+    border-radius: 5px;
+    height: 25px;
+    width: 60px;
+    font-size: 12px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+    border: none;
+    background-color: rgb(213, 45, 255);
+    cursor: pointer;
+    transition: .2s;
+
+}
+
+#Inactive_Button:hover {
+    background-color: rgb(209, 25, 255);
+}
+
+/*Inactivity Container*/
+
+
+
+
+
 /*Sign In Loaders*/
 
 #Account_Created {
-    z-index: 10000000;
+    z-index: 20;
     width: 50%;
     left: 25%;
     position: fixed;
@@ -26,13 +110,14 @@ body {
 }
 
 #Signed_In {
-    z-index: 10000000;
-    width: 50%;
-    left: 25%;
     position: fixed;
+    width: 65%;
     background-color: rgb(80, 80, 80);
-    top: 0px;
+    top: 5px;
+    left: 95%;
+    transform: translate(-95%, 0%);
     height: 30px;
+    z-index: 20;
     border-radius: 5px;
     display: none;
 }
@@ -46,6 +131,37 @@ body {
 
 /*Loader Area*/
 
+#Loader_Area_Main {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: rgb(0, 0, 0, .5);
+    display: none;
+    z-index: 19;
+}
+
+
+#loader_main {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+}
+
+.loader_main {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid rgb(150, 150, 150);
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation .6s linear infinite;
+    position: absolute;
+}
+
 
 #Loader_Area {
     position: fixed;
@@ -55,7 +171,7 @@ body {
     left: 0px;
     background-color: rgb(0, 0, 0, .5);
     display: none;
-    z-index: 99999999;
+    z-index: 19;
 }
 
 #loader_login {
@@ -135,7 +251,7 @@ body {
     height: 100%;
     display: block;
     background-color: rgb(7, 7, 7);
-    z-index: 9999999;
+    z-index: 16;
     display: block;
 }
 
@@ -486,7 +602,7 @@ body {
     left: 95%;
     transform: translate(-95%, 0%);
     height: 30px;
-    z-index: 99999;
+    z-index: 20;
     border-radius: 5px;
 }
 
@@ -522,87 +638,126 @@ body {
     top: 12%;
     width: 90%;
     height: 20px;
-    z-index: 999;
+    z-index: 10;
     font-family: "Gotham_Font", sans-serif;
     font-size: 14px;
     color: rgb(65, 65, 65);
-
     display: none;
 }
 
 
+#Not_Online_Container {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -40%);
+    top: 40%;
+    z-index: 16;
+    display: none;
+}
+
+
+#Disconnect_Img {
+    position: relative;
+    left: 35px;
+    filter: brightness(60%);
+}
+
+#User_not_text {
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 18px;
+    color: rgb(50, 50, 50);
+    text-align: center;
+    position: relative;
+    white-space: nowrap;
+
+}
 
 /*Notifs*/
 
 
 
-
 /*Confirm Connection Tab*/
-#Confirm_Connection {
+#Confirm_Remove_Friend {
     position: fixed;
     width: 25%;
-    left: 100%;
-    /*Show 50%*/
+    left: 50%;
     top: 40%;
+    box-shadow: 0 0 100vw 100vh rgba(0, 0, 0, 0.8);
     transform: translate(0%, -50%);
     height: 200px;
     background-color: rgb(40, 40, 40);
-    z-index: 999999;
+    z-index: 16;
     display: block;
     transition: .5s;
+    border-radius: 5px;
+    display: none;
 }
+
+#Confirm_Remove_Friend_Loader {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: rgb(10, 10, 10, .5);
+    z-index: 19;
+    display: none;
+}
+
+#Error_Remove {
+    position: absolute;
+    left: 20px;
+    top: 110px;
+    color: rgb(255, 19, 0);
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 10px;
+    display: none;
+}
+
+#Loader_confirm_Remove {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -40%);
+}
+
+
 
 #Warning_Connect_Img {
     position: absolute;
     left: 50%;
-    transform: translate(-50%, 0%);
-    top: 10px;
+    transform: translate(0%, -50%);
+    top: 20px;
 }
 
 #Chat_Request_text {
-    position: relative;
+    position: absolute;
     font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
-    font-size: 14px;
-    text-align: center;
+    font-size: 18px;
+    left: 20px;
     top: 30px;
+}
+
+#Remove_Text_Warning {
+    position: absolute;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(195, 195, 195);
+    font-size: 12px;
+    left: 20px;
+    top: 70px;
+
 }
 
 #Button_Connect_Container {
     position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    top: 100px;
+    right: 110px;
+    top: 155px;
 }
 
 #Join_Chat {
     position: absolute;
     left: 40px;
-    font-size: 12px;
-    transform: translate(-50%, 0%);
-    font-family: "Gotham_Font", sans-serif;
-    background-color: rgb(5, 156, 0);
-    color: white;
-
-    border-radius: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border: none;
-    cursor: pointer;
-    transform: .2s;
-    transition: .2s
-}
-
-#Join_Chat:hover {
-    background-color: rgb(7, 196, 0);
-}
-
-
-#Deny_Chat {
-    position: absolute;
-    right: -27px;
     font-size: 12px;
     transform: translate(-50%, 0%);
     font-family: "Gotham_Font", sans-serif;
@@ -620,8 +775,32 @@ body {
     transition: .2s
 }
 
-#Deny_Chat:hover {
+#Join_Chat:hover {
     background-color: rgb(255, 0, 0);
+}
+
+
+#Deny_Chat {
+    position: absolute;
+    right: -27px;
+    font-size: 12px;
+    transform: translate(-50%, 0%);
+    font-family: "Gotham_Font", sans-serif;
+    background-color: rgb(0, 0, 0, 0);
+    color: white;
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: none;
+    cursor: pointer;
+    transform: .2s;
+    transition: .2s
+}
+
+#Deny_Chat:hover {
+    text-decoration: underline;
 }
 
 /*Confirm Connection Tab*/
@@ -639,10 +818,9 @@ body {
     width: calc(75% - 60px);
     height: calc(100%);
     background-color: rgb(15, 15, 15);
-    z-index: 999;
     transition: .2s;
     display: none;
-    z-index: 9999;
+    z-index: 15;
 }
 
 
@@ -669,10 +847,9 @@ body {
     width: calc(75% - 60px);
     height: calc(100%);
     background-color: rgb(0, 89, 255);
-    z-index: 999;
     transition: .2s;
     display: none;
-    z-index: 9999;
+    z-index: 15;
 
 }
 
@@ -749,11 +926,10 @@ body {
     width: calc(75% - 60px);
     height: calc(100%);
     background-color: rgb(15, 15, 15);
-    z-index: 999;
     transition: .2s;
     display: none;
     /*none*/
-    z-index: 9999;
+    z-index: 15;
 }
 
 #Loader_FR {
@@ -763,7 +939,7 @@ body {
     left: 0px;
     width: 100%;
     height: 100%;
-    z-index: 9999999;
+    z-index: 19;
     display: none;
 }
 
@@ -798,7 +974,7 @@ body {
     width: 90%;
     height: 52%;
     background-color: rgb(10, 10, 10, .5);
-    z-index: 99999999999;
+    z-index: 19;
     display: none;
 }
 
@@ -836,7 +1012,7 @@ body {
     top: 120px;
     left: 50%;
     transform: translate(-50%, 0%);
-    z-index: 999;
+    z-index: 14;
 
 }
 
@@ -862,7 +1038,7 @@ body {
 
 #Search_Ip_connect_FR {
     position: absolute;
-    z-index: 999;
+    z-index: 14;
     transform: scale(.5);
     top: 4px;
     left: 5%;
@@ -914,6 +1090,26 @@ body {
 
 #User_Pending_FR {
     display: none;
+}
+
+
+
+#Reload_Pending {
+    position: absolute;
+    right: 8px;
+    top: 5px;
+    cursor: pointer;
+    padding: 4px;
+    transition: transform 0.5s ease;
+}
+
+#Reload_Sent {
+    position: absolute;
+    right: 8px;
+    top: 5px;
+    cursor: pointer;
+    padding: 4px;
+    transition: transform 0.5s ease;
 }
 
 #Friend_Tabs {
@@ -988,25 +1184,25 @@ body {
 #Pending_add_1 {
     display: none;
     color: rgb(19, 219, 45);
-    z-index: 9999999;
+    z-index: 20;
 }
 
 #Pending_add_3 {
     display: none;
     color: rgb(231, 22, 40);
-    z-index: 9999999;
+    z-index: 20;
 }
 
 #Pending_deny_1 {
     display: none;
     color: rgb(19, 219, 45);
-    z-index: 9999999;
+    z-index: 20;
 }
 
 #Pending_deny_3 {
     display: none;
     color: rgb(231, 22, 40);
-    z-index: 9999999;
+    z-index: 20;
 }
 
 #Pending_Title {
@@ -1191,6 +1387,7 @@ body {
     font-size: 18px;
     top: 40%;
     display: block;
+
 }
 
 #pending_none_text {
@@ -1225,7 +1422,7 @@ body {
     background-color: rgb(10, 10, 10);
     border-right: 2px solid rgb(30, 30, 30);
     /*background-color: rgb(0, 89, 255);*/
-    z-index: 999999;
+    z-index: 15;
 
 
 }
@@ -1337,7 +1534,59 @@ body {
     width: 25%;
     height: calc(100% - 70px);
     transition: .2s;
+
+}
+
+
+#reload_friends_M {
+    position: absolute;
+    top: 15px;
+    right: 50px;
+    z-index: 15;
+    cursor: pointer;
+    transition: 0.5s ease;
+    filter: brightness(200%);
+}
+
+#loader_friends_M {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    background-color: rgb(10, 10, 10, .5);
+    display: none;
+    z-index: 19;
+}
+
+.loader_Friend_main {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid rgb(150, 150, 150);
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation .6s linear infinite;
+    position: absolute;
+    left: -35px;
+    top: 7px;
+}
+
+#Loader_Friends_main {
+    position: absolute;
+    left: 45%;
+    top: 50%;
+    transform: translate(-45%, -50%);
+}
+
+#Friends_Container {
+    position: absolute;
+    height: calc(100vh - 60px - 160px);
+    width: 100%;
+    top: 150px;
     overflow-y: auto;
+    z-index: 16;
 }
 
 #Top_Title {
@@ -1348,8 +1597,6 @@ body {
     width: 100%;
     height: 60px;
     box-shadow: 0px 5px 10px rgb(10, 10, 10, .1);
-
-
 }
 
 #Main_Title {
@@ -1379,18 +1626,19 @@ body {
 
 #search_icon_ip {
     position: absolute;
-    z-index: 999;
+    z-index: 14;
     transform: scale(.4);
     top: 8px;
     left: 2%;
 }
+
 
 #Personal_Tab {
     position: fixed;
     background-color: rgb(30, 30, 30);
     width: 25%;
     height: 70px;
-    z-index: 99999;
+    z-index: 15;
     bottom: 0px;
 }
 
@@ -1438,9 +1686,9 @@ body {
     background-color: rgb(35, 35, 35, 0);
     width: 100%;
     height: 60px;
-    top: 100px;
+    top: 20px;
     margin-bottom: 10px;
-    z-index: 999;
+    z-index: 14;
     left: 50%;
     transform: translate(-50%, 0%);
     cursor: pointer;
@@ -1525,7 +1773,7 @@ body {
 
 #Add_New_Tab {
     cursor: default;
-    top: 90px;
+    top: 80px;
 }
 
 #Add_New_Tab:hover {
@@ -1539,7 +1787,7 @@ body {
     top: 0px;
     left: 0px;
     background-color: rgb(0, 0, 0, .5);
-    z-index: 9999;
+    z-index: 19;
     display: none;
 }
 
@@ -1583,7 +1831,7 @@ body {
     height: 130px;
     top: 130px;
     left: -60px;
-    z-index: 999;
+    z-index: 16;
 
 }
 
@@ -1674,7 +1922,7 @@ body {
 }
 
 
-#friends_none_text {
+#friends_none_text_F {
     font-family: "Gotham_Font", sans-serif;
     position: absolute;
     left: 50%;
@@ -1683,7 +1931,7 @@ body {
     font-size: 18px;
     top: 300px;
     white-space: nowrap;
-    z-index: 9;
+    z-index: 14;
 }
 
 /*Side Nav Scroll*/
@@ -1798,7 +2046,7 @@ body {
     left: 50%;
     transform: translate(-50%, 0%);
     background-color: red;
-    z-index: 99;
+    z-index: 14;
     background-color: rgb(15, 15, 15);
     border: 1px solid rgb(70, 70, 70);
 }
@@ -1894,7 +2142,7 @@ body {
     border-radius: 15px;
     cursor: pointer;
     margin-bottom: 60px;
-    left: 68%;
+    left: 66%;
     width: 240px;
 
 }
@@ -1929,7 +2177,7 @@ body {
     overflow-x: hidden;
     left: 0px;
     top: 10px;
-    z-index: 999;
+    z-index: 15;
     background-color: rgb(15, 15, 15);
     display: block;
 }
@@ -2127,7 +2375,7 @@ body {
 
 #Search_Ip_connect {
     position: absolute;
-    z-index: 999;
+    z-index: 14;
     transform: scale(.4);
     top: 48px;
     left: 2%;
