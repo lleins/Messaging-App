@@ -1,11 +1,27 @@
+//Loading Page Animation---------------------------------------------------------
+
+document.addEventListener("DOMContentLoaded", () => {
+    const loadingContainer = document.querySelector(".loading-container");
+    loadingContainer.style.display = "flex"; // Show the loading page
+});
+
+window.onload = () => {
+    const loadingContainer = document.querySelector(".loading-container");
+    loadingContainer.style.display = "none"; // Hide the loading page
+};
+
+
+
+//Loading Page Animation---------------------------------------------------------
+
 
 /*inactivity counter*/
 const inactivityTimeout = 10 * 60 * 1000 // 10 minutes 10 * 60 * 1000
 let inactivityTimer;
 
 function resetInactivityTimer() {
-    // Check if the specific cookie is not null before proceeding
-    const Login_Cookie = getJwtCookie('Login_Token'); // replace 'yourCookieName' with the actual name of your cookie
+
+    const Login_Cookie = getJwtCookie('Login_Token');
     if (Login_Cookie !== null) {
         clearTimeout(inactivityTimer);
         inactivityTimer = setTimeout(logoutUser, inactivityTimeout);
@@ -138,6 +154,66 @@ function Re_Write_UserID() {
 
 
 
+
+/*Cookies Container*/
+
+function reload_window() {
+    window.location.reload(true);
+}
+
+
+function Cookies_Show() {
+
+    const cookie_show = document.getElementById("Cookies_Content");
+    const cookie_error = document.getElementById("Cookie_Error_Container");
+
+    cookie_show.style.display = "block";
+    cookie_error.style.display = "none";
+
+    const Cookie_Container = document.getElementById("Accept_Cookies_Container");
+    const cookie = getJwtCookie("accept");
+
+    if (cookie === null) {
+        Cookie_Container.style.opacity = "1";
+        Cookie_Container.style.bottom = "20px";
+    } else if (cookie !== null) {
+
+    }
+}
+
+function Cookies_Accept() {
+    const cookie_show = document.getElementById("Cookies_Content");
+    const cookie_error = document.getElementById("Cookie_Error_Container");
+
+    const cookie_loader = document.getElementById("Cookie_Loader");
+
+    cookie_loader.style.display = "block";
+
+    const Cookie_Container = document.getElementById("Accept_Cookies_Container");
+    setJwtCookie("accept", 1, 7);
+    const cookie = getJwtCookie("accept");
+    if (cookie === null) {
+        cookie_loader.style.display = "none";
+        cookie_show.style.display = "none";
+        cookie_error.style.display = "block";
+    } else if (cookie !== null) {
+        cookie_loader.style.display = "none";
+        Cookie_Container.style.transition = "1s";
+        Cookie_Container.style.opacity = "0";
+        Cookie_Container.style.bottom = "-500px";
+    }
+}
+
+setTimeout(function () {
+    Cookies_Show();
+}, 5000);
+/*Cookies Container*/
+
+
+
+
+
+
 /*Control Login*/
 
 function Control_Login() {
@@ -188,6 +264,78 @@ function Request_Connection() {
 }
 
 /*denying connection*/
+
+
+
+
+/*My Account*/
+const Profile_Img = document.getElementById('My_Account_Img');
+
+const Change = document.getElementById('Change_Profile_Img');
+
+Profile_Img.addEventListener('mouseover', function () {
+    Profile_Img.style.filter = "brightness(40%)";
+    Change.style.opacity = "1";
+});
+
+
+Profile_Img.addEventListener('mouseout', function () {
+    Profile_Img.style.filter = "brightness(100%)";
+    Change.style.opacity = "0";
+});
+
+
+
+Change.addEventListener('mouseover', function () {
+    Profile_Img.style.filter = "brightness(40%)";
+    Change.style.opacity = "1";
+});
+
+
+Change.addEventListener('mouseout', function () {
+    Profile_Img.style.filter = "brightness(100%)";
+    Change.style.opacity = "0";
+});
+
+function My_Account() {
+
+    const username_my_account = document.getElementById('My_Account_Name');
+    const Login_Cookie = getJwtCookie("Login_Token"); //Getting Login Token
+    const userData = Login_Cookie;
+
+    console.log("Cookie from Account_Format.tsx : ", userData);
+
+
+    fetch('http://localhost:4000/api/account_information', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: userData }), //sends login token to server.js
+    })
+        .then((response) => {
+            if (response.ok) {
+                console.log("From Account React: Request sent"); // Sent to the server
+                return response.json();
+            } else {
+                console.log("From Account React: Request failed"); // Failed to send to the server
+                return response.json();
+            }
+        })
+        .then((data) => {
+            if (data.success === 1) {
+                console.log("From Account, Success token: ", data.username);
+                username_my_account.textContent = data.username;
+            } else if (data.success === 0) {
+                // Login failed
+            }
+        });
+
+}
+My_Account();
+/*My Account*/
+
+
 
 
 
@@ -413,6 +561,11 @@ function Sign_In() {
     const pass_notice_img = document.getElementById("Pass_Notice_Login_Img");
     const email_wrong = document.getElementById("Pass_Wrong_Login_Notice");
 
+    const cookie_error = document.getElementById("Cookie_Error");
+    setJwtCookie("test", "1", 1);
+    const test_cookie = getJwtCookie("test");
+    console.log("Test cookie 23123112313: ", test_cookie);
+
     const email_input = document.getElementById("Login_Email_Input");
     const email_input_value = email_input.value;
 
@@ -440,8 +593,15 @@ function Sign_In() {
         setTimeout(function () {
             email_input.style.border = "1px solid rgb(70, 70, 70)";
         }, 3000);
-    } else if (email_input_value !== "" && pass_input_value !== "") {
 
+    } else if (email_input_value !== "" && pass_input_value !== "" && test_cookie === null) { //cookie error
+
+        cookie_error.style.display = "block";
+        setTimeout(function () {
+            cookie_error.style.display = "none";
+        }, 6000);
+    } else if (email_input_value !== "" && pass_input_value !== "" && test_cookie !== null) {
+        deleteCookie("test");
         Loader.style.display = "block";
 
         fetch('http://localhost:4000/api/login', {
@@ -710,11 +870,41 @@ function Account_Information() {
 /*Getting Email from cookie jwt*/
 
 
+/*Raven Cover Tab*/
+
+function Raven_Tab() {
+    const friend_container = document.getElementById("Add_Friend_Tab");
+    const Setting_container = document.getElementById("Settings_Tab");
+    const Logout_container = document.getElementById("Logout_Tab");
+    const Raven_Container = document.getElementById("Not_Chatting_Cover");
+
+    const friend_marker = document.getElementById("Friend_Marker");
+    const msg_marker = document.getElementById("Message_Marker");
+    const settings_marker = document.getElementById("Settings_Marker");
+    const logout_marker = document.getElementById("Logout_Marker");
+
+    logout_marker.style.opacity = 0;
+    msg_marker.style.opacity = 0;
+    settings_marker.style.opacity = 0;
+    friend_marker.style.opacity = 0;
+
+    Setting_container.style.display = "none";
+    friend_container.style.display = "none";
+    Logout_container.style.display = "none";
+    Raven_Container.style.display = "block";
+}
+
+/*Raven Cover Tab*/
+
+
 /*Open Messages*/
 function message_tab() {
     const friend_container = document.getElementById("Add_Friend_Tab");
     const Setting_container = document.getElementById("Settings_Tab");
     const Logout_container = document.getElementById("Logout_Tab");
+    const Raven_Container = document.getElementById("Not_Chatting_Cover");
+
+
 
     const friend_marker = document.getElementById("Friend_Marker");
     const msg_marker = document.getElementById("Message_Marker");
@@ -729,6 +919,7 @@ function message_tab() {
     Setting_container.style.display = "none";
     friend_container.style.display = "none";
     Logout_container.style.display = "none";
+    Raven_Container.style.display = "none";
 }
 /*Open Messages*/
 
@@ -739,6 +930,7 @@ function Open_Settings() {
     const friend_container = document.getElementById("Add_Friend_Tab");
     const Setting_container = document.getElementById("Settings_Tab");
     const Logout_container = document.getElementById("Logout_Tab");
+    const Raven_Container = document.getElementById("Not_Chatting_Cover");
 
     const friend_marker = document.getElementById("Friend_Marker");
     const msg_marker = document.getElementById("Message_Marker");
@@ -753,6 +945,7 @@ function Open_Settings() {
     Setting_container.style.display = "block";
     friend_container.style.display = "none";
     Logout_container.style.display = "none";
+    Raven_Container.style.display = "none";
 }
 
 
@@ -766,6 +959,7 @@ function add_friend_tab() {
     const friend_container = document.getElementById("Add_Friend_Tab");
     const Setting_container = document.getElementById("Settings_Tab");
     const Logout_container = document.getElementById("Logout_Tab");
+    const Raven_Container = document.getElementById("Not_Chatting_Cover");
 
     const friend_marker = document.getElementById("Friend_Marker");
     const msg_marker = document.getElementById("Message_Marker");
@@ -780,6 +974,7 @@ function add_friend_tab() {
     Setting_container.style.display = "none";
     friend_container.style.display = "block";
     Logout_container.style.display = "none";
+    Raven_Container.style.display = "none";
 }
 
 /*Add Friend*/
@@ -790,6 +985,7 @@ function Logout_Open_Tab() {
     const friend_container = document.getElementById("Add_Friend_Tab");
     const Setting_container = document.getElementById("Settings_Tab");
     const Logout_container = document.getElementById("Logout_Tab");
+    const Raven_Container = document.getElementById("Not_Chatting_Cover");
 
     const friend_marker = document.getElementById("Friend_Marker");
     const msg_marker = document.getElementById("Message_Marker");
@@ -804,6 +1000,7 @@ function Logout_Open_Tab() {
     Setting_container.style.display = "none";
     friend_container.style.display = "none";
     Logout_container.style.display = "block";
+    Raven_Container.style.display = "none";
 }
 
 /*Logout*/
@@ -1056,6 +1253,7 @@ function Remove_Friend(username) {
                 if (data.message === 1) {
                     loader.style.display = "none";
                     Friends_Left_Bar();
+                    location.reload(true);
                     confirm_Remove_container.style.display = "none";
                 } else if (data.message === 0) {
                     loader.style.display = "none";
@@ -1372,19 +1570,33 @@ function check_pending() {
                                 frTextP.textContent = "Friend request pending";
                                 pendingDiv.appendChild(frTextP);
 
+                                /*
                                 const denyButton = document.createElement("button");
                                 denyButton.classList.add("Deny_Friend");
                                 denyButton.textContent = "DENY";
                                 denyButton.addEventListener('click', () => decline_friend_request(usernameP.textContent));
                                 pendingDiv.appendChild(denyButton);
+                                */
+                                const denyButton = document.createElement("img");
+                                denyButton.classList.add("Deny_Friend");
+                                denyButton.src = "Images/deny.png";
+                                denyButton.addEventListener('click', () => decline_friend_request(usernameP.textContent));
+                                pendingDiv.appendChild(denyButton);
 
-                                // Create the accept button
+
+                                /*
                                 const acceptButton = document.createElement("button");
                                 acceptButton.classList.add("Accept_Friend");
                                 acceptButton.textContent = "ACCEPT";
                                 acceptButton.addEventListener('click', () => add_user(usernameP.textContent));
                                 pendingDiv.appendChild(acceptButton);
+                                */
 
+                                const acceptButton = document.createElement("img");
+                                acceptButton.classList.add("Accept_Friend");
+                                acceptButton.src = "Images/accept.png";
+                                acceptButton.addEventListener('click', () => add_user(usernameP.textContent));
+                                pendingDiv.appendChild(acceptButton);
                                 // Append the created div to the container
                                 container.appendChild(pendingDiv);
                             });
@@ -1755,7 +1967,24 @@ function decline_friend_request(username) {
 
 function Connect_to_Chat(friend, id) {
 
+    const idle_chat = document.getElementById("Idle_Chat");
+    const idle_tab = document.getElementById("Idle_tab");
+
+
+    const friend_container = document.getElementById("Add_Friend_Tab");
+    const Setting_container = document.getElementById("Settings_Tab");
+    const Logout_container = document.getElementById("Logout_Tab");
+    const Raven_Container = document.getElementById("Not_Chatting_Cover");
+
+    const friend_marker = document.getElementById("Friend_Marker");
+    const msg_marker = document.getElementById("Message_Marker");
+    const settings_marker = document.getElementById("Settings_Marker");
+    const logout_marker = document.getElementById("Logout_Marker");
+
+
     const friend_id_field = document.getElementById("User_Chat");
+
+    const notice = document.getElementById("Notice_Text");
 
     const personal_id = document.getElementById("Your_IP_Actual");
 
@@ -1772,13 +2001,39 @@ function Connect_to_Chat(friend, id) {
         const status = await friend_status(friend);
 
         if (status === 0) {
+
+            logout_marker.style.opacity = 0;
+            msg_marker.style.opacity = 1;
+            settings_marker.style.opacity = 0;
+            friend_marker.style.opacity = 0;
+
+            Setting_container.style.display = "none";
+            friend_container.style.display = "none";
+            Logout_container.style.display = "none";
+            Raven_Container.style.display = "none";
+            idle_chat.style.display = "block";
+
             loader.style.display = "none";
+            notice.style.display = "none";
+            idle_tab.style.display = "none";
             not_online_notif.style.display = "block";
             current_img.style.display = "block";
             current_text.textContent = friend;
 
         } else if (status === 1) {
+            logout_marker.style.opacity = 0;
+            msg_marker.style.opacity = 1;
+            settings_marker.style.opacity = 0;
+            friend_marker.style.opacity = 0;
+
+            Setting_container.style.display = "none";
+            friend_container.style.display = "none";
+            Logout_container.style.display = "none";
+            Raven_Container.style.display = "none";
+            idle_chat.style.display = "none";
+
             loader.style.display = "none";
+            notice.style.display = "block";
             not_online_notif.style.display = "none";
             current_img.style.display = "block";
             current_text.textContent = friend;
@@ -1794,10 +2049,6 @@ function Connect_to_Chat(friend, id) {
         }
 
     }
-
-
-
-
 
 }
 

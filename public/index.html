@@ -13,12 +13,47 @@
 
 <body>
 
+
+  <div class="loading-container">
+    <img id="LoadingText" src="Images/Logo_XLarge.png">
+  </div>
+
+
+  <div id="Accept_Cookies_Container">
+    <video id="Cookies_Video" autoplay muted loop>
+      <source src="Videos/purple.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div id="Cookie_Loader">
+      <div id="loader_cookie" class="loader_cookie"></div>
+    </div>
+    <div id="Cookies_Content">
+      <p id="Cookies_Title">Cookies</p>
+      <p id="Cookie_Writeup">This site uses cookies to function properly and to offer the best experience possible.
+        Please accept the use of
+        cookies on this site. Please read our policy on cookie use below.</p>
+      <div id="Cookie_Button_Container">
+        <p id="Cookie_Policy">Cookie Policy</p>
+        <button id="Cookie_Accept" onclick="Cookies_Accept()">ACCEPT</button>
+      </div>
+    </div>
+    <div id="Cookie_Error_Container">
+      <p id="Cookies_Title">Cookies</p>
+      <img id="warning_cookie_img" src="Images/warning.png">
+      <p id="Cookie_Writeup" style="top: 60px;">An error occured. Your browser may not be supported. Check that you have
+        all cookies allowed in your browser settings to continue.</p>
+      <button id="Reload_window_cookie" onclick="reload_window()">RELOAD</button>
+    </div>
+  </div>
+
+
   <!--Area to store currently chatting user-->
   <div id="Currently_Chatting_User">
     <input type="text" id="User_Chat">
   </div>
 
 
+  <img src="Images/Squid glasses.jpg" id="test_img" class="Profile_Img">
 
   <!--Area to store currently chatting user-->
 
@@ -45,6 +80,14 @@
 
   <div id="Loader_Area">
     <div id="loader_login" class="loader_login"></div>
+  </div>
+
+
+  <div id="Cookie_Error">
+    <p class="notif_text">Please enable cookies. This site uses cookies to function and to offer you a better
+      experience.
+    </p>
+    <img class="notif_warn" src="Images/warning.png">
   </div>
 
   <div id="Login_Area">
@@ -100,6 +143,21 @@
   <!--Settings Tab-->
   <div id="Settings_Tab">
     <p id="Settings_Title">Settings</p>
+    <div id="Left_menu">
+      <button id="My_Account" class="setting_nav">My Account</button>
+      <button class="setting_nav">Privacy</button>
+      <button class="setting_nav">Information</button>
+      <button class="setting_nav">Cookie Policy</button>
+    </div>
+    <div id="My_Account_Container">
+      <p id="My_Account_Title">My Account</p>
+      <div id="My_Account_Container_2">
+        <img id="My_Account_Img" src="Images/user_big.png">
+        <p id="My_Account_Name"></p>
+        <button id="Change_Profile_Img">CHANGE</button>
+      </div>
+
+    </div>
   </div>
   <!--Settings Tab-->
 
@@ -162,7 +220,6 @@
       <p id="Pending_Title">Pending friend requests</p>
       <p id="pending_none_text">You have no pending friend requests</p>
       <!--
-      <p id="Pending_Title">Pending friend requests</p>
       <div class="Pending_FR_Style">
         <img src="Images/user.png" class="Account_Img">
         <p class="Account_Username">Username</p>
@@ -232,15 +289,17 @@
 
   <div id="Connected_3" class="connect_notif">
     <p class="notif_text">Could not connect or user doesnt exist.</p>
-    <img class="notif_warn" src="Images/warning.png">
+    <img class="notif_warn" src="Images/x_notif.png">
     <img id="remove_connect_3" onclick="connect_3_remove()" class="remove_notif" src="Images/remove.png">
   </div>
 
   <div id="Friend_Request_1" class="connect_notif">
     <p class="notif_text">Friend request sent!</p>
-    <img class="notif_warn" src="Images/warning.png">
+    <img class="notif_warn" src="Images/check_notif.png">
     <img id="remove_connect_1" onclick="Friend_Request_1_Remove()" class="remove_notif" src="Images/remove.png">
   </div>
+
+
   <!--Connection Notifs-->
 
 
@@ -260,7 +319,7 @@
     </div>
     <div id="Main_Icon">
 
-      <img id="Logo_Icon" src="Images/Logo_large.png">
+      <img id="Logo_Icon" onclick="Raven_Tab()" src="Images/Logo_large.png">
 
       <img id="Add_Friend" onclick="add_friend_tab(),check_pending(),check_sent()" src="Images/add_friend.png">
       <img id="Message_Icon" onclick="message_tab()" src="Images/message.png">
@@ -338,6 +397,27 @@
 
   <!--Middle Nav Bar-->
   <div id="Messaging_Area">
+    <div id="Not_Chatting_Cover">
+      <img id="Not_Chatting_Img" src="Images/Logo_XLarge.png">
+      <p id="text_not_Chatting">Raven</p>
+      <p id="text_not_Chatting_2">Send private messages and photos to friends</p>
+      <button id="not_chatting_button" onclick="message_tab()">START MESSAGING</button>
+    </div>
+
+    <div id="Idle_Chat">
+      <div id="Idle_tab">
+        <img id="Idle_Msg" src="Images/message_big.png">
+        <p id="idle_text">Add and select a friend to start messaging</p>
+        <button id="idle_button" onclick="add_friend_tab()">ADD FRIEND</button>
+      </div>
+      <div id="Not_Online_Container">
+        <img id="Disconnect_Img" src="Images/disconnect_big.png">
+        <p id="User_not_text">User not online</p>
+      </div>
+      <div>
+
+      </div>
+    </div>
     <video id="Msg_Video" autoplay muted loop>
       <source src="Videos/purple.mp4" type="video/mp4">
       Your browser does not support the video tag.
@@ -348,13 +428,11 @@
         <textarea id="Msg_Area" autocomplete="off" type="text" placeholder="Send a message"></textarea>
         <!--<img id="Send_Img" src="./Images/SendImg.png">-->
 
-        <div id="Not_Online_Container">
-          <img id="Disconnect_Img" src="Images/disconnect_big.png">
-          <p id="User_not_text">User not online</p>
-        </div>
+
 
         <p id="Connected_to_text">Connected to <span id="user_id_actual"></span></p>
         <div id="Currently_Chatting">
+          <p id="Notice_Text">All messages sent and received are deleted when chat is left.</p>
           <img id="Current_User_Img" src="Images/user.png">
           <p id="Current_User_Text"></p>
         </div>
