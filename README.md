@@ -1,1 +1,1 @@
-This is a messaging app made with socket.io# Messaging-App
+This is a messaging app made with the socket.io library.# Messaging-App
