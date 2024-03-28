@@ -1,3 +1,4 @@
+
 //Loading Page Animation---------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,6 +12,7 @@ window.onload = () => {
 };
 
 
+const Login_Cookie = getJwtCookie('Login_Token');
 
 //Loading Page Animation---------------------------------------------------------
 
@@ -32,7 +34,6 @@ function logoutUser() {
     const Inactive_Container = document.getElementById("Inactive_Container");
     Inactive_Container.style.display = "block";
     Log_Out();
-    location.reload();
     clearTimeout(inactivityTimer);
 }
 
@@ -46,13 +47,14 @@ document.addEventListener("click", resetInactivityTimer);
 /*inactivity counter*/
 
 
+
 /*Log out*/
 
 function Log_Out() {
     const Loader = document.getElementById("Loader_Area_Main");
     const username = document.getElementById("Username_Personal");
 
-    fetch('http://localhost:4000/api/log_out', {
+    fetch('http://50.18.247.63:4000/api/log_out', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -72,7 +74,7 @@ function Log_Out() {
                 location.reload();
 
             } else if (data.message === 0) {
-                console.log("Logout failed");
+
             }
         })
         .catch(error => {
@@ -96,54 +98,74 @@ function close_timeout() {
 /*Control Reload*/
 window.onbeforeunload = function () {
     setJwtCookie("Reload", "1", 1);
-    console.log("set cookie");
+
 };
 
-function Re_Write_UserID() {
-
-
+function Re_Write_UserID(id) {
     const Username = document.getElementById("Username_Personal");
     const Ip = document.getElementById("Your_IP_Actual");
-
     const reload_cookie = getJwtCookie("Reload");
-    console.log("username from reload: ", Username.textContent);
-    console.log("userid from reload: ", Ip.textContent);
-    if (reload_cookie === null) {
-        console.log("Cookie is null");
-    } else if (reload_cookie !== null) {
-        console.log("Cookie isnt null");
-        fetch('http://localhost:4000/api/user_id', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username: Username.textContent, user_id: Ip.textContent }),
+    const loadingContainer = document.getElementById("main_loader");
+
+    const username_my_account = document.getElementById('My_Account_Name');
+    const Login_Cookie = getJwtCookie("Login_Token"); //Getting Login Token
+    const userData = Login_Cookie;
+    loadingContainer.style.display = "block";
+    fetch('http://50.18.247.63:4000/api/account_information', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: userData }), //sends login token to server.js
+    })
+        .then((response) => {
+            if (response.ok) {
+
+                return response.json();
+            } else {
+
+                return response.json();
+            }
         })
-            .then(response => {
-                if (response.ok) {
-                    console.log("From Re-Write: Request sent"); //Sent to server
-                    return response.json();
-                } else {
-                    console.log("From Re-Write: Request failed"); //Failed to send server
-                    return response.json();
-                }
-            })
-            .then(data => {
-                if (data.success === 1) { //Login successful
-                    console.log("Re-Write success 1");
+        .then((data) => {
+            if (data.success === 1) {
+                username_my_account.textContent = data.username;
 
-                    deleteCookie("Reload");
-                } else if (data.success === 0) { //Login failed
-                    console.log("Re-Write failed 0");
+                fetch('http://50.18.247.63:4000/api/user_id', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username: data.username, user_id: id }),
+                })
+                    .then(response => {
+                        if (response.ok) {
 
-                }
-            })
-            .catch(error => { //catch error with response
-                console.log("Re-Write failed catch error");
+                            return response.json();
+                        } else {
+                            loadingContainer.style.display = "none";
+                            return response.json();
+                        }
+                    })
+                    .then(data => {
+                        if (data.success === 1) { //Login successful
 
-            });
+                            deleteCookie("Reload");
+                            loadingContainer.style.display = "none";
+                        } else if (data.success === 0) { //Login failed
 
-    }
+                            loadingContainer.style.display = "none";
+                        }
+                    })
+                    .catch(error => { //catch error with response
+
+                        loadingContainer.style.display = "none";
+                    });
+
+            } else if (data.success === 0) {
+                // Login failed
+            }
+        });
 
 
 }
@@ -152,6 +174,19 @@ function Re_Write_UserID() {
 
 /*Control Reload*/
 
+
+
+const changed = getJwtCookie("reset_pass");
+const pass_notice_top = document.getElementById("password_reset");
+if (changed === null) {
+
+} else if (changed !== null) {
+    deleteCookie("reset_pass");
+    pass_notice_top.style.display = "block";
+    setTimeout(function () {
+        pass_notice_top.style.display = "none";
+    }, 3000);
+}
 
 
 
@@ -220,7 +255,7 @@ function Control_Login() {
 
     const Login_Container = document.getElementById("Login_Area");
     const check_login = getJwtCookie("Login_Token");
-    console.log("cookie in control: ", check_login);
+
     if (check_login === null) {
         Login_Container.style.display = "block";
     } else if (check_login !== null) {
@@ -252,7 +287,7 @@ function open_new_user() {
 
 
 function deny_connection() {
-    const connect_container = document.getElementById("Confirm_Remove_Friend");
+    const connect_container = document.getElementById("Confirm_Remove_Friend_tab");
     connect_container.style.display = "none";
 }
 
@@ -267,8 +302,75 @@ function Request_Connection() {
 
 
 
+function open_privacy() {
+    const privacy_tab = document.getElementById("Privacy_Info_Tab");
+    privacy_tab.style.display = "block";
+}
+
+function close_privacy() {
+    const privacy_tab = document.getElementById("Privacy_Info_Tab");
+    privacy_tab.style.display = "none";
+}
+
+
+function open_policy() {
+    const privacy_tab = document.getElementById("Policies_Info_Tab");
+    privacy_tab.style.display = "block";
+}
+
+function close_policy() {
+    const privacy_tab = document.getElementById("Policies_Info_Tab");
+    privacy_tab.style.display = "none";
+}
+
+
+function open_git() {
+    var url = "https://github.com/lleins/Messaging-App";
+    window.open(url, "_blank");
+}
+
+/*Change profile image prompt*/
+
+function change_profile_prompt() {
+    const change_container = document.getElementById("Change_Profile_Img_Container");
+    change_container.style.display = "block";
+}
+
+function close_profile_prompt() {
+    const change_container = document.getElementById("Change_Profile_Img_Container");
+    change_container.style.display = "none";
+}
+
+
+function displayImage(input) {
+    const fileInput = input;
+    const selectedImage = document.getElementById('New_User_Img');
+
+    if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            selectedImage.src = e.target.result;
+        };
+
+        reader.readAsDataURL(fileInput.files[0]);
+    } else {
+        selectedImage.src = 'Images/user_big.png'; // Clear the image if no file is selected
+    }
+}
+
+/*Change profile image prompt*/
+
+
+
+
+
+
+
+
 
 /*My Account*/
+/*
 const Profile_Img = document.getElementById('My_Account_Img');
 
 const Change = document.getElementById('Change_Profile_Img');
@@ -296,40 +398,41 @@ Change.addEventListener('mouseout', function () {
     Profile_Img.style.filter = "brightness(100%)";
     Change.style.opacity = "0";
 });
-
+*/
 function My_Account() {
-
     const username_my_account = document.getElementById('My_Account_Name');
     const Login_Cookie = getJwtCookie("Login_Token"); //Getting Login Token
     const userData = Login_Cookie;
+    if (Login_Cookie === null) {
 
-    console.log("Cookie from Account_Format.tsx : ", userData);
+    } else if (Login_Cookie !== null) {
 
-
-    fetch('http://localhost:4000/api/account_information', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username: userData }), //sends login token to server.js
-    })
-        .then((response) => {
-            if (response.ok) {
-                console.log("From Account React: Request sent"); // Sent to the server
-                return response.json();
-            } else {
-                console.log("From Account React: Request failed"); // Failed to send to the server
-                return response.json();
-            }
+        fetch('http://50.18.247.63:4000/api/account_information', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: userData }), //sends login token to server.js
         })
-        .then((data) => {
-            if (data.success === 1) {
-                console.log("From Account, Success token: ", data.username);
-                username_my_account.textContent = data.username;
-            } else if (data.success === 0) {
-                // Login failed
-            }
-        });
+            .then((response) => {
+                if (response.ok) {
+
+                    return response.json();
+                } else {
+
+                    return response.json();
+                }
+            })
+            .then((data) => {
+                if (data.success === 1) {
+                    username_my_account.textContent = data.username;
+
+                } else if (data.success === 0) {
+                    // Login failed
+                }
+            });
+
+    }
 
 }
 My_Account();
@@ -337,6 +440,53 @@ My_Account();
 
 
 
+
+/*open menu mobile*/
+
+function open_side_nav() {
+    const left_nav_main_1 = document.getElementById("Left_NavBar");
+    const left_nav_main_2 = document.getElementById("Scrollable_Nav");
+    const left_nav_secondary = document.getElementById("Left_Menu");
+    const nav_button = document.getElementById("tab_mobile");
+    const nav_button_style = getComputedStyle(nav_button);
+
+
+
+    if (nav_button_style.left === "25px") {
+        left_nav_main_1.style.left = "60px";
+        left_nav_main_2.style.left = "60px";
+        left_nav_secondary.style.left = "0px";
+        nav_button.style.left = "325px";
+
+    } else if (nav_button_style.left === "325px") {
+        left_nav_main_1.style.left = "-250px";
+        left_nav_main_2.style.left = "-250px";
+        left_nav_secondary.style.left = "-250px";
+        nav_button.style.left = "25px";
+
+    }
+}
+
+function close_side_nav() {
+    const left_nav_main_1 = document.getElementById("Left_NavBar");
+    const left_nav_main_2 = document.getElementById("Scrollable_Nav");
+    const left_nav_secondary = document.getElementById("Left_Menu");
+    const nav_button = document.getElementById("tab_mobile");
+    const nav_button_style = getComputedStyle(nav_button);
+
+    if (nav_button_style.display === "block") {
+        left_nav_main_1.style.left = "-250px";
+        left_nav_main_2.style.left = "-250px";
+        left_nav_secondary.style.left = "-250px";
+        nav_button.style.left = "25px";
+    } else {
+
+    }
+
+}
+
+
+/*open menu mobile*/
 
 
 /*Create Account Switch*/
@@ -398,6 +548,40 @@ function Switch_Log_In() {
 }
 
 /*Create Account Switch*/
+
+function end_call() {
+    const call_container = document.getElementById("call_user_container");
+    const Receive_Area = document.getElementById("Receive_Area");
+    Receive_Area.style.top = "19%";
+    Receive_Area.style.height = "73%";
+    call_container.style.display = "none";
+}
+
+function start_call() {
+    const call_container = document.getElementById("call_user_container");
+    const Receive_Area = document.getElementById("Receive_Area");
+    const message_area = document.getElementById("Msg_Area");
+
+    call_container.style.display = "block";
+    Receive_Area.style.top = "calc(19% + 150px)";
+    Receive_Area.style.height = "calc(73% - 170px)";
+    message_area.focus();
+    message_area.value = "";
+    message_area.value = "📞 Started a call ----------";
+
+    // Create a new "Enter" key press event
+    const enterEvent = new KeyboardEvent("keydown", {
+        key: "Enter",
+        keyCode: 13,
+        code: "Enter",
+        which: 13
+    });
+
+    // Dispatch the event to the textarea
+    message_area.dispatchEvent(enterEvent);
+}
+/*Call User*/
+
 
 
 
@@ -465,6 +649,21 @@ function Friend_Request_1_Remove() {
     const connect = document.getElementById("Friend_Request_1");
     connect.style.display = "none";
 }
+
+function Sign_In_Remove() {
+    const sign = document.getElementById("Signed_In");
+    sign.style.display = "none";
+}
+
+function Created_Account_Remove() {
+    const account = document.getElementById("Account_Created");
+    account.style.display = "none";
+}
+
+function password_reset_Remove() {
+    const account = document.getElementById("password_reset");
+    account.style.display = "none";
+}
 /*Notifs*/
 
 
@@ -501,28 +700,20 @@ function close_sidebar() {
 
 /*Cookies*/
 
+function deleteCookie(name) {
+    localStorage.removeItem(name);
+}
+
 function setJwtCookie(name, jwt, daysToExpire) {
     const date = new Date();
     date.setTime(date.getTime() + (daysToExpire * 24 * 60 * 60 * 1000));
-    const expires = "expires=" + date.toUTCString();
-    console.log("Setting cookie:", name, jwt, expires);
-    document.cookie = `${name}=${jwt}; ${expires}; path=/; SameSite=None; Secure`;
+    const expires = date.toUTCString();
+
+    localStorage.setItem(name, jwt);
 }
 
-// Get a cookie value by name
 function getJwtCookie(name) {
-    const cookies = document.cookie.split(';');
-    for (const cookie of cookies) {
-        const [cookieName, cookieValue] = cookie.split('=').map(c => c.trim());
-        if (cookieName === name) {
-            return cookieValue;
-        }
-    }
-    return null;
-}
-
-function deleteCookie(name) {
-    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    return localStorage.getItem(name);
 }
 
 function formatDateAsZeroes() {
@@ -554,6 +745,43 @@ const currentTime12Hour = getCurrentTime12Hour();
 
 /*Loggin In*/
 
+
+
+const sign_in = document.getElementById("Login_pass_Input");
+
+
+sign_in.addEventListener("keypress", function (event) {
+
+    if (event.key === "Enter") {
+
+        Sign_In();
+    }
+});
+
+const create_acc = document.getElementById("Create_Repass_Input");
+
+
+create_acc.addEventListener("keypress", function (event) {
+
+    if (event.key === "Enter") {
+
+        Creating_Account();
+    }
+});
+
+
+
+
+const friend_request = document.getElementById("connect_IP_FR");
+
+friend_request.addEventListener("keypress", function (event) {
+
+    if (event.key === "Enter") {
+
+        Friend_Request();
+    }
+});
+
 function Sign_In() {
 
     const Login_Container = document.getElementById("Login_Area");
@@ -564,7 +792,7 @@ function Sign_In() {
     const cookie_error = document.getElementById("Cookie_Error");
     setJwtCookie("test", "1", 1);
     const test_cookie = getJwtCookie("test");
-    console.log("Test cookie 23123112313: ", test_cookie);
+
 
     const email_input = document.getElementById("Login_Email_Input");
     const email_input_value = email_input.value;
@@ -604,7 +832,7 @@ function Sign_In() {
         deleteCookie("test");
         Loader.style.display = "block";
 
-        fetch('http://localhost:4000/api/login', {
+        fetch('http://50.18.247.63:4000/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -613,27 +841,26 @@ function Sign_In() {
         })
             .then(response => {
                 if (response.ok) {
-                    console.log("From Sign: Request sent"); //Sent to server
+
                     return response.json();
                 } else {
-                    console.log("From Sign: Request failed"); //Failed to send server
+
                     Loader.style.display = "none";
                     return response.json();
                 }
             })
             .then(data => {
                 if (data.success === 1) { //Login successful
-                    console.log("Login success 1");
+
                     Loader.style.display = "none";
                     const login_token = data.token;
                     setJwtCookie("Login_Token", login_token, 1);
-                    console.log("Retrieved Login_Token Login:", getJwtCookie("Login_Token"));
                     Account_Information();
                     Friends_Left_Bar();
                     resetInactivityTimer();
+                    get_profile_img();
                     email_input.value = "";
                     pass_input.value = "";
-                    console.log("User ID from text: ", Ip.textContent);
 
                     SignIn_Notif.style.display = "block";
                     Login_Container.style.display = "none";
@@ -641,7 +868,7 @@ function Sign_In() {
                         SignIn_Notif.style.display = "none";
                     }, 4000);
                 } else if (data.success === 0) { //Login failed
-                    console.log("Login failed 0");
+
                     Loader.style.display = "none";
                     pass_notice_img.style.display = "block";
                     email_wrong.style.display = "block";
@@ -652,7 +879,7 @@ function Sign_In() {
                 }
             })
             .catch(error => { //catch error with response
-                console.log("Login failed catch error", error);
+
                 Loader.style.display = "none";
                 pass_notice_img.style.display = "block";
                 email_wrong.style.display = "block";
@@ -675,13 +902,39 @@ if (login_cookie === null) {
     Account_Information();
 }
 
+/*Uploading image in Settings*/
+function uploadFile_input(inputElement) {
+    var file = inputElement.files[0];
+    var reader = new FileReader();
+    reader.onloadend = function () {
 
 
+    }
+    reader.readAsDataURL(file);
+}
+/*Uploading image in Settings*/
+
+
+/*Profile image default*/
 
 /*Creating Account*/
-
+function getRandomNumber() {
+    const randomDecimal = Math.random();
+    const randomNumber = Math.floor(randomDecimal * 5);
+    return randomNumber;
+}
 
 function Creating_Account() {
+
+    const list_profile_imgs = [];
+
+    list_profile_imgs.push("Profile/blue.png");
+    list_profile_imgs.push("Profile/green.png");
+    list_profile_imgs.push("Profile/orange.png");
+    list_profile_imgs.push("Profile/purple.png");
+    list_profile_imgs.push("Profile/red.png");
+
+    const profile_pic = list_profile_imgs[getRandomNumber()];
 
 
 
@@ -755,19 +1008,19 @@ function Creating_Account() {
 
         const formattedDate = formatDateAsZeroes();
         Loader.style.display = "block";
-        fetch('http://localhost:4000/api/create_account', {
+        fetch('http://50.18.247.63:4000/api/create_account', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email_create: email_input_value, password_create: pass_input_value, date_create: formattedDate }),
+            body: JSON.stringify({ email_create: email_input_value, password_create: pass_input_value, date_create: formattedDate, profile_pic: profile_pic }),
         })
             .then(response => {
                 if (response.ok) {
-                    console.log("From Sign React: Request sent"); //Sent to express server
+
                     return response.json();
                 } else {
-                    console.log("From Sign React: Request failed"); //Failed to send
+
                     Loader.style.display = "none";
                     failed.style.display = "block";
                     error_3_Img.style.display = "block";
@@ -780,7 +1033,7 @@ function Creating_Account() {
             })
             .then(data => {
                 if (data.message === 1) { //Created account successful
-                    console.log("account created from Index.js");
+
                     Loader.style.display = "none";
                     Switch_Log_In();
                     setTimeout(function () {
@@ -794,7 +1047,7 @@ function Creating_Account() {
                     }, 3000);
                 } else if (data.message === 0) { //Create account failed
                     Loader.style.display = "none";
-                    console.log("account created -failed 0- from Index.js");
+
                     failed.style.display = "block";
                     error_3_Img.style.display = "block";
                     setTimeout(function () {
@@ -803,7 +1056,7 @@ function Creating_Account() {
                     }, 4000);
                 } else if (data.message === 3) { //Create account failed - Email already associated with another account
                     Loader.style.display = "none";
-                    console.log("account created -failed 3- from Index.js");
+
                     error_3.style.display = "block";
                     error_3_Img.style.display = "block";
                     setTimeout(function () {
@@ -820,7 +1073,7 @@ function Creating_Account() {
                     failed.style.display = "none";
                     error_3_Img.style.display = "none";
                 }, 4000);
-                console.log("account created -failed catch error- from Index.js");
+
             });
     }
 }
@@ -837,46 +1090,125 @@ function Account_Information() {
     const Username = document.getElementById("Username_Personal");
     const Login_Cookie = getJwtCookie("Login_Token"); //Getting Login Token
     const userData = Login_Cookie;
+    const user_date = document.getElementById("My_Account_Password");
 
-    console.log("Cookie from Account_Format.tsx : ", userData);
+    if (Login_Cookie === null) {
 
-
-    fetch('http://localhost:4000/api/account_information', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username: userData }), //sends login token to server.js
-    })
-        .then((response) => {
-            if (response.ok) {
-                console.log("From Account React: Request sent"); // Sent to the server
-                return response.json();
-            } else {
-                console.log("From Account React: Request failed"); // Failed to send to the server
-                return response.json();
-            }
+    } else if (Login_Cookie !== null) {
+        fetch('http://50.18.247.63:4000/api/account_information', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: userData }), //sends login token to server.js
         })
-        .then((data) => {
-            if (data.success === 1) {
-                console.log("From Account, Success token: ", data.username);
-                Username.textContent = data.username;
-            } else if (data.success === 0) {
-                // Login failed
-            }
-        });
+            .then((response) => {
+                if (response.ok) {
+
+                    return response.json();
+                } else {
+
+                    return response.json();
+                }
+            })
+            .then((data) => {
+                if (data.success === 1) {
+                    user_date.textContent = "";
+                    user_date.textContent = data.date;
+                    Username.textContent = data.username;
+                } else if (data.success === 0) {
+                    // Login failed
+                }
+            });
+    }
+
+
 }
 
 /*Getting Email from cookie jwt*/
 
 
+
+
+/*Switch Settings tabs*/
+
+function My_Account() {
+
+    const My_Account_Container = document.getElementById("My_Account_Container");
+    const Privacy_Container = document.getElementById("Privacy_Container");
+    const Cookie_Policy_Container = document.getElementById("Cookie_Container");
+
+    const My_Account_btn = document.getElementById("My_Account_btn");
+    const Privacy_btn = document.getElementById("Privacy_btn");
+    const Cookie_Policy_btn = document.getElementById("Cookie_btn");
+
+    My_Account_btn.style.backgroundColor = "rgba(40, 40, 40, 1)";
+    Privacy_btn.style.backgroundColor = "rgba(40, 40, 40, 0)";
+    Cookie_Policy_btn.style.backgroundColor = "rgba(40, 40, 40, 0)";
+
+    My_Account_Container.style.display = "block";
+    Privacy_Container.style.display = "none";
+    Cookie_Policy_Container.style.display = "none";
+}
+
+function Privacy() {
+
+    const My_Account_Container = document.getElementById("My_Account_Container");
+    const Privacy_Container = document.getElementById("Privacy_Container");
+    const Cookie_Policy_Container = document.getElementById("Cookie_Container");
+
+    const My_Account_btn = document.getElementById("My_Account_btn");
+    const Privacy_btn = document.getElementById("Privacy_btn");
+    const Cookie_Policy_btn = document.getElementById("Cookie_btn");
+
+    My_Account_btn.style.backgroundColor = "rgba(40, 40, 40, 0)";
+    Privacy_btn.style.backgroundColor = "rgba(40, 40, 40, 1)";
+    Cookie_Policy_btn.style.backgroundColor = "rgba(40, 40, 40, 0)";
+
+
+    My_Account_Container.style.display = "none";
+    Privacy_Container.style.display = "block";
+    Cookie_Policy_Container.style.display = "none";
+}
+
+
+function Cookie_Policy() {
+
+    const My_Account_Container = document.getElementById("My_Account_Container");
+    const Privacy_Container = document.getElementById("Privacy_Container");
+    const Cookie_Policy_Container = document.getElementById("Cookie_Container");
+
+    const My_Account_btn = document.getElementById("My_Account_btn");
+    const Privacy_btn = document.getElementById("Privacy_btn");
+    const Cookie_Policy_btn = document.getElementById("Cookie_btn");
+
+    My_Account_btn.style.backgroundColor = "rgba(40, 40, 40, 0)";
+    Privacy_btn.style.backgroundColor = "rgba(40, 40, 40, 0)";
+    Cookie_Policy_btn.style.backgroundColor = "rgba(40, 40, 40, 1)";
+
+
+    My_Account_Container.style.display = "none";
+    Privacy_Container.style.display = "none";
+    Cookie_Policy_Container.style.display = "block";
+}
+
+
+
+
+/*Switch Settings tabs*/
+
+
+
 /*Raven Cover Tab*/
 
 function Raven_Tab() {
+    close_side_nav();
     const friend_container = document.getElementById("Add_Friend_Tab");
     const Setting_container = document.getElementById("Settings_Tab");
     const Logout_container = document.getElementById("Logout_Tab");
     const Raven_Container = document.getElementById("Not_Chatting_Cover");
+    const Remove_Container = document.getElementById("Confirm_Remove_Friend_tab");
+
 
     const friend_marker = document.getElementById("Friend_Marker");
     const msg_marker = document.getElementById("Message_Marker");
@@ -888,6 +1220,7 @@ function Raven_Tab() {
     settings_marker.style.opacity = 0;
     friend_marker.style.opacity = 0;
 
+    Remove_Container.style.display = "none";
     Setting_container.style.display = "none";
     friend_container.style.display = "none";
     Logout_container.style.display = "none";
@@ -899,11 +1232,12 @@ function Raven_Tab() {
 
 /*Open Messages*/
 function message_tab() {
+    close_side_nav();
     const friend_container = document.getElementById("Add_Friend_Tab");
     const Setting_container = document.getElementById("Settings_Tab");
     const Logout_container = document.getElementById("Logout_Tab");
     const Raven_Container = document.getElementById("Not_Chatting_Cover");
-
+    const Remove_Container = document.getElementById("Confirm_Remove_Friend_tab");
 
 
     const friend_marker = document.getElementById("Friend_Marker");
@@ -916,6 +1250,7 @@ function message_tab() {
     settings_marker.style.opacity = 0;
     friend_marker.style.opacity = 0;
 
+    Remove_Container.style.display = "none";
     Setting_container.style.display = "none";
     friend_container.style.display = "none";
     Logout_container.style.display = "none";
@@ -927,10 +1262,12 @@ function message_tab() {
 /*Settings function - open_close*/
 
 function Open_Settings() {
+    close_side_nav();
     const friend_container = document.getElementById("Add_Friend_Tab");
     const Setting_container = document.getElementById("Settings_Tab");
     const Logout_container = document.getElementById("Logout_Tab");
     const Raven_Container = document.getElementById("Not_Chatting_Cover");
+    const Remove_Container = document.getElementById("Confirm_Remove_Friend_tab");
 
     const friend_marker = document.getElementById("Friend_Marker");
     const msg_marker = document.getElementById("Message_Marker");
@@ -942,6 +1279,7 @@ function Open_Settings() {
     settings_marker.style.opacity = 1;
     friend_marker.style.opacity = 0;
 
+    Remove_Container.style.display = "none";
     Setting_container.style.display = "block";
     friend_container.style.display = "none";
     Logout_container.style.display = "none";
@@ -956,10 +1294,12 @@ function Open_Settings() {
 /*Add Friend*/
 
 function add_friend_tab() {
+    close_side_nav();
     const friend_container = document.getElementById("Add_Friend_Tab");
     const Setting_container = document.getElementById("Settings_Tab");
     const Logout_container = document.getElementById("Logout_Tab");
     const Raven_Container = document.getElementById("Not_Chatting_Cover");
+    const Remove_Container = document.getElementById("Confirm_Remove_Friend_tab");
 
     const friend_marker = document.getElementById("Friend_Marker");
     const msg_marker = document.getElementById("Message_Marker");
@@ -971,6 +1311,8 @@ function add_friend_tab() {
     settings_marker.style.opacity = 0;
     friend_marker.style.opacity = 1;
 
+
+    Remove_Container.style.display = "none";
     Setting_container.style.display = "none";
     friend_container.style.display = "block";
     Logout_container.style.display = "none";
@@ -982,10 +1324,13 @@ function add_friend_tab() {
 /*Logout*/
 
 function Logout_Open_Tab() {
+    close_side_nav();
     const friend_container = document.getElementById("Add_Friend_Tab");
     const Setting_container = document.getElementById("Settings_Tab");
     const Logout_container = document.getElementById("Logout_Tab");
     const Raven_Container = document.getElementById("Not_Chatting_Cover");
+    const Remove_Container = document.getElementById("Confirm_Remove_Friend_tab");
+
 
     const friend_marker = document.getElementById("Friend_Marker");
     const msg_marker = document.getElementById("Message_Marker");
@@ -997,6 +1342,7 @@ function Logout_Open_Tab() {
     settings_marker.style.opacity = 0;
     friend_marker.style.opacity = 0;
 
+    Remove_Container.style.display = "none";
     Setting_container.style.display = "none";
     friend_container.style.display = "none";
     Logout_container.style.display = "block";
@@ -1010,7 +1356,7 @@ function Logout_Open_Tab() {
 
 async function friend_status(id) {
     try {
-        const response = await fetch('http://localhost:4000/api/get_status', {
+        const response = await fetch('http://50.18.247.63:4000/api/get_status', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1021,7 +1367,7 @@ async function friend_status(id) {
         const data = await response.json();
 
         if (data.success === 1) {
-            console.log("Here is user status:", data.status);
+
             return data.status;
         } else if (data.success === 0) {
             console.error('User not found or internal server error');
@@ -1053,7 +1399,6 @@ if (login_cookie === null) {
 
 
 if (login_cookie === null) {
-
 } else if (login_cookie !== null) {
     setInterval(Friends_Left_Bar, 30000);//gets called every 30s to update
 }
@@ -1071,18 +1416,16 @@ function Friends_Left_Bar() {
     friends_tab.innerHTML = '';
 
 
-    console.log("none element:", none_text);
-    console.log("none text content:", none_text.textContent);
 
     const Login_Cookie = getJwtCookie("Login_Token"); //Getting Login Token
     const userData = Login_Cookie;
 
-    console.log("Cookie from Account_Format.tsx : ", userData);
 
 
-    loader.style.display = "block";
 
-    fetch('http://localhost:4000/api/account_information', {
+    loader.style.display = "none";
+
+    fetch('http://50.18.247.63:4000/api/account_information', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -1091,17 +1434,17 @@ function Friends_Left_Bar() {
     })
         .then((response) => {
             if (response.ok) {
-                console.log("From Account React: Request sent"); // Sent to the server
+
                 return response.json();
             } else {
-                console.log("From Account React: Request failed"); // Failed to send to the server
+
                 return response.json();
             }
         })
         .then((data) => {
             if (data.success === 1) {
 
-                fetch('http://localhost:4000/api/Get_Friends', {  //uses username from the cookie to check
+                fetch('http://50.18.247.63:4000/api/Get_Friends', {  //uses username from the cookie to check
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1110,10 +1453,10 @@ function Friends_Left_Bar() {
                 })
                     .then((response) => {
                         if (response.ok) {
-                            console.log("From Account React: Request sent"); // Sent to the server
+
                             return response.json();
                         } else {
-                            console.log("From Account React: Request failed"); // Failed to send to the server
+
                             none_text.style.display = "block";
                             loader.style.display = "none";
                             return response.json();
@@ -1124,24 +1467,55 @@ function Friends_Left_Bar() {
                         if (data.success === 1) { //some pending
                             none_text.style.display = "none";
                             loader.style.display = "none";
-                            console.log("here is pending list: ", data.sent[0].friend);
+                            ;
                             data.sent.forEach(friendItem => {
                                 // Create the div element
-                                const friendDiv = document.createElement("div");
-                                friendDiv.addEventListener('click', () => Connect_to_Chat(friendItem.friend, ""));
-                                friendDiv.classList.add("added_ip");
 
-                                // Create and set the image element
+                                const Chat_Container = document.getElementById("Receive_Area");
+
+                                const friendDiv = document.createElement("div");
+                                friendDiv.addEventListener('click', () => Connect_to_Chat(friendItem.friend, imgElement.src));
+                                friendDiv.classList.add("added_ip");
                                 const imgElement = document.createElement("img");
-                                imgElement.src = "Images/user.png";
-                                imgElement.classList.add("user_img");
-                                friendDiv.appendChild(imgElement);
+
+                                fetch('http://50.18.247.63:4000/api/profile_image', { //getting user acc name
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({ username: friendItem.friend }), //sends login token to server.js
+                                })
+                                    .then((response) => {
+                                        if (response.ok) {
+
+                                            return response.json();
+                                        } else {
+
+                                            return response.json();
+                                        }
+                                    })
+                                    .then((data) => {
+                                        if (data.success === 1) {
+
+                                            imgElement.src = data.pic;
+                                            imgElement.classList.add("user_img");
+                                            friendDiv.appendChild(imgElement);
+                                        } else if (data.success === 0) {
+                                            // Login failed
+                                        }
+                                    });
 
                                 // Create and set the p element for the user_ip
                                 const userIpP = document.createElement("p");
                                 userIpP.classList.add("user_ip");
                                 userIpP.textContent = friendItem.friend;
                                 friendDiv.appendChild(userIpP);
+
+                                const text_notif = document.createElement("p");
+                                text_notif.classList.add("user_notif");
+                                text_notif.id = friendItem.friend + "_notif";
+                                text_notif.textContent = "!";
+                                friendDiv.appendChild(text_notif);
 
                                 // Create and set the image element for delete_saved
                                 const deleteSavedImg = document.createElement("img");
@@ -1166,6 +1540,16 @@ function Friends_Left_Bar() {
                                         const onlineIndicatorP = document.createElement("p");
                                         onlineIndicatorP.classList.add("online-indicator", "Status_Icon");
                                         friendDiv.appendChild(onlineIndicatorP);
+
+
+                                        //Create chat area Receive_Area
+                                        const chat_friend_tab = document.createElement("ul");
+                                        chat_friend_tab.classList.add("rec_sent_style");
+                                        chat_friend_tab.id = friendItem.friend + "_sent";
+                                        Chat_Container.appendChild(chat_friend_tab);
+                                        chat_friend_tab.style.display = "none";
+
+
                                     } else if (status === 0) {//offline
                                         //text offline
                                         const statusTextP = document.createElement("p");
@@ -1177,6 +1561,16 @@ function Friends_Left_Bar() {
                                         const onlineIndicatorP = document.createElement("p");
                                         onlineIndicatorP.classList.add("offline-indicator", "Status_Icon");
                                         friendDiv.appendChild(onlineIndicatorP);
+
+                                        //If chat tab exists, remove it
+                                        const delete_friend_chat = document.getElementById(friendItem.friend + "_sent");
+
+                                        if (delete_friend_chat) {
+                                            Chat_Container.removeChild(delete_friend_chat);
+                                        } else {
+
+                                        }
+
                                     }
 
                                 }
@@ -1185,19 +1579,21 @@ function Friends_Left_Bar() {
                                 // Append the created div to the friendsContainer
                                 const friendsContainer = document.getElementById("Friends_Container");
                                 friendsContainer.appendChild(friendDiv);
+
+
                             });
                         } else if (data.success === 0) { //None pending
                             none_text.style.display = "block";
                             loader.style.display = "none";
-                            console.log("0 in friend");
+
                         } else if (data.success === 3) { //server error
                             none_text.style.display = "block";
                             loader.style.display = "none";
-                            console.log("3 in friend");
+
                         } else if (data.success === 4) { //server error
                             none_text.style.display = "block";
                             loader.style.display = "none";
-                            console.log("4 in friend");
+
                         }
                     });
             } else if (data.success === 0) {
@@ -1219,7 +1615,7 @@ function Friends_Left_Bar() {
 
 function Remove_Friend(username) {
     const personal_username = document.getElementById("Username_Personal");
-    const confirm_Remove_container = document.getElementById("Confirm_Remove_Friend");
+    const confirm_Remove_container = document.getElementById("Confirm_Remove_Friend_tab");
     const confirm_Remove_username = document.getElementById("Chat_Request_actual");
     const Remove_Friend_Button = document.getElementById("Join_Chat");
     const loader = document.getElementById("Confirm_Remove_Friend_Loader");
@@ -1229,7 +1625,7 @@ function Remove_Friend(username) {
     confirm_Remove_container.style.display = "block";
 
     Remove_Friend_Button.addEventListener('click', () => {
-        fetch('http://localhost:4000/api/Remove_Friend', {
+        fetch('http://50.18.247.63:4000/api/Remove_Friend', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1238,7 +1634,7 @@ function Remove_Friend(username) {
         })
             .then(response => {
                 if (response.ok) {
-                    console.log("From decline FR: Request sent"); //Sent to express server
+
                     return response.json();
                 } else {
                     loader.style.display = "none";
@@ -1329,7 +1725,7 @@ function Friend_Request() {
         }, 4000);
     } else if (recipient_value !== "") {
         Loader_Friend.style.display = "block";
-        fetch('http://localhost:4000/api/Send_Friend_Request', {
+        fetch('http://50.18.247.63:4000/api/Send_Friend_Request', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1338,10 +1734,10 @@ function Friend_Request() {
         })
             .then((response) => {
                 if (response.ok) {
-                    console.log("From Account React: Request sent"); // Sent to the server
+
                     return response.json();
                 } else {
-                    console.log("From Account React: Request failed"); // Failed to send to the server
+
                     Loader_Friend.style.display = "none";
                     return response.json();
 
@@ -1469,7 +1865,6 @@ function rotateImage_main(id) {
 
 function check_pending() {
 
-
     var pending_tab = document.getElementById('Pending_Tab');
 
     var reload_pending = document.getElementById("Reload_Pending");
@@ -1489,134 +1884,163 @@ function check_pending() {
     const Login_Cookie = getJwtCookie("Login_Token"); //Getting Login Token
     const userData = Login_Cookie;
 
-    console.log("Cookie from Account_Format.tsx : ", userData);
+    if (Login_Cookie === null) {
 
-
-    fetch('http://localhost:4000/api/account_information', { //gets username from the cookie
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username: userData }), //sends login token to server.js
-    })
-        .then((response) => {
-            if (response.ok) {
-                console.log("From Account React: Request sent"); // Sent to the server
-                return response.json();
-            } else {
-                console.log("From Account React: Request failed"); // Failed to send to the server
-                return response.json();
-            }
+    } else if (Login_Cookie !== null) {
+        fetch('http://50.18.247.63:4000/api/account_information', { //gets username from the cookie
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: userData }), //sends login token to server.js
         })
-        .then((data) => {
-            if (data.success === 1) {
-                console.log("From Account, Success token: ", data.username);
-                const none = document.getElementById("pending_none_text");
+            .then((response) => {
+                if (response.ok) {
 
-                const username = document.getElementById("Username_Personal");
-                console.log("user in pending", username.textContent);
-                fetch('http://localhost:4000/api/Check_Pending', {          //uses username from the cookie to check
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ recipient: data.username }),
-                })
-                    .then((response) => {
-                        if (response.ok) {
-                            console.log("From Account React: Request sent"); // Sent to the server
-                            return response.json();
-                        } else {
-                            console.log("From Account React: Request failed"); // Failed to send to the server
-                            none.style.display = "block";
-                            return response.json();
+                    return response.json();
+                } else {
 
-                        }
+                    return response.json();
+                }
+            })
+            .then((data) => {
+                if (data.success === 1) {
+
+                    const none = document.getElementById("pending_none_text");
+
+                    const username = document.getElementById("Username_Personal");
+
+                    fetch('http://50.18.247.63:4000/api/Check_Pending', {          //uses username from the cookie to check
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ recipient: data.username }),
                     })
-                    .then((data) => {
-                        if (data.success === 1) { //some pending
+                        .then((response) => {
+                            if (response.ok) {
 
-                            none.style.display = "none";
-                            console.log("here is pending list: ", data.pending[0].sender);
-                            const container = document.getElementById("Pending_Tab");
+                                return response.json();
+                            } else {
 
-                            // Iterate through the data.pending array and create the HTML for each item
-                            data.pending.forEach(pendingItem => {
-                                // Create the div element
-                                const pendingDiv = document.createElement("div");
-                                pendingDiv.classList.add("Pending_FR_Style");
+                                none.style.display = "block";
+                                return response.json();
 
-                                // Create and set the image element
-                                const imgElement = document.createElement("img");
-                                imgElement.src = "Images/user.png";
-                                imgElement.classList.add("Account_Img");
-                                pendingDiv.appendChild(imgElement);
+                            }
+                        })
+                        .then((data) => {
+                            if (data.success === 1) { //some pending
 
-                                // Create and set the p element for the username
-                                const usernameP = document.createElement("p");
-                                usernameP.classList.add("Account_Username");
-                                usernameP.textContent = pendingItem.sender; // Set the sender text
-                                pendingDiv.appendChild(usernameP);
+                                none.style.display = "none";
 
-                                // Create and set the alert image element
-                                const alertImg = document.createElement("img");
-                                alertImg.src = "Images/warning.png";
-                                alertImg.classList.add("alert_Img");
-                                pendingDiv.appendChild(alertImg);
+                                const container = document.getElementById("Pending_Tab");
 
-                                // Create and set the p element for the friend request text
-                                const frTextP = document.createElement("p");
-                                frTextP.classList.add("FR_Text");
-                                frTextP.textContent = "Friend request pending";
-                                pendingDiv.appendChild(frTextP);
-
-                                /*
-                                const denyButton = document.createElement("button");
-                                denyButton.classList.add("Deny_Friend");
-                                denyButton.textContent = "DENY";
-                                denyButton.addEventListener('click', () => decline_friend_request(usernameP.textContent));
-                                pendingDiv.appendChild(denyButton);
-                                */
-                                const denyButton = document.createElement("img");
-                                denyButton.classList.add("Deny_Friend");
-                                denyButton.src = "Images/deny.png";
-                                denyButton.addEventListener('click', () => decline_friend_request(usernameP.textContent));
-                                pendingDiv.appendChild(denyButton);
+                                // Iterate through the data.pending array and create the HTML for each item
+                                data.pending.forEach(pendingItem => {
+                                    // Create the div element
+                                    const pendingDiv = document.createElement("div");
+                                    pendingDiv.classList.add("Pending_FR_Style");
 
 
-                                /*
-                                const acceptButton = document.createElement("button");
-                                acceptButton.classList.add("Accept_Friend");
-                                acceptButton.textContent = "ACCEPT";
-                                acceptButton.addEventListener('click', () => add_user(usernameP.textContent));
-                                pendingDiv.appendChild(acceptButton);
-                                */
 
-                                const acceptButton = document.createElement("img");
-                                acceptButton.classList.add("Accept_Friend");
-                                acceptButton.src = "Images/accept.png";
-                                acceptButton.addEventListener('click', () => add_user(usernameP.textContent));
-                                pendingDiv.appendChild(acceptButton);
-                                // Append the created div to the container
-                                container.appendChild(pendingDiv);
-                            });
+                                    // Create and set the p element for the username
+                                    const usernameP = document.createElement("p");
+                                    usernameP.classList.add("Account_Username");
+                                    usernameP.textContent = pendingItem.sender; // Set the sender text
+                                    pendingDiv.appendChild(usernameP);
+
+                                    fetch('http://50.18.247.63:4000/api/profile_image', { //getting user acc name
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({ username: pendingItem.sender }), //sends login token to server.js
+                                    })
+                                        .then((response) => {
+                                            if (response.ok) {
+
+                                                return response.json();
+                                            } else {
+
+                                                return response.json();
+                                            }
+                                        })
+                                        .then((data) => {
+                                            if (data.success === 1) {
 
 
-                        } else if (data.success === 0) { //None pending
-                            none.style.display = "block";
-                            console.log("0 in pending");
-                        } else if (data.success === 3) { //server error
-                            none.style.display = "block";
-                            console.log("3 in pending");
-                        } else if (data.success === 4) { //server error
-                            none.style.display = "block";
-                            console.log("4 in pending");
-                        }
-                    });
-            } else if (data.success === 0) {
-                // Login failed
-            }
-        });
+                                                const imgElement = document.createElement("img");
+                                                imgElement.src = data.pic;
+                                                imgElement.classList.add("Account_Img");
+                                                pendingDiv.appendChild(imgElement);
+
+                                            } else if (data.success === 0) {
+                                                // Login failed
+                                            }
+                                        });
+
+                                    const alertImg = document.createElement("img");
+                                    alertImg.src = "Images/warning.png";
+                                    alertImg.classList.add("alert_Img");
+                                    pendingDiv.appendChild(alertImg);
+
+                                    // Create and set the p element for the friend request text
+                                    const frTextP = document.createElement("p");
+                                    frTextP.classList.add("FR_Text");
+                                    frTextP.textContent = "Pending";
+                                    pendingDiv.appendChild(frTextP);
+
+                                    /*
+                                    const denyButton = document.createElement("button");
+                                    denyButton.classList.add("Deny_Friend");
+                                    denyButton.textContent = "DENY";
+                                    denyButton.addEventListener('click', () => decline_friend_request(usernameP.textContent));
+                                    pendingDiv.appendChild(denyButton);
+                                    */
+                                    const denyButton = document.createElement("img");
+                                    denyButton.classList.add("Deny_Friend");
+                                    denyButton.src = "Images/deny.png";
+                                    denyButton.addEventListener('click', () => decline_friend_request(usernameP.textContent));
+                                    pendingDiv.appendChild(denyButton);
+
+
+                                    /*
+                                    const acceptButton = document.createElement("button");
+                                    acceptButton.classList.add("Accept_Friend");
+                                    acceptButton.textContent = "ACCEPT";
+                                    acceptButton.addEventListener('click', () => add_user(usernameP.textContent));
+                                    pendingDiv.appendChild(acceptButton);
+                                    */
+
+                                    const acceptButton = document.createElement("img");
+                                    acceptButton.classList.add("Accept_Friend");
+                                    acceptButton.src = "Images/accept.png";
+                                    acceptButton.addEventListener('click', () => add_user(usernameP.textContent));
+                                    pendingDiv.appendChild(acceptButton);
+                                    // Append the created div to the container
+                                    container.appendChild(pendingDiv);
+                                });
+
+
+                            } else if (data.success === 0) { //None pending
+                                none.style.display = "block";
+
+                            } else if (data.success === 3) { //server error
+                                none.style.display = "block";
+
+                            } else if (data.success === 4) { //server error
+                                none.style.display = "block";
+
+                            }
+                        });
+                } else if (data.success === 0) {
+                    // Login failed
+                }
+            });
+    }
+
+
+
 
 }
 check_pending();
@@ -1650,7 +2074,7 @@ function check_sent() {
     const Login_Cookie = getJwtCookie("Login_Token"); //Getting Login Token
     const userData = Login_Cookie;
 
-    fetch('http://localhost:4000/api/account_information', { //gets username from the cookie
+    fetch('http://50.18.247.63:4000/api/account_information', { //gets username from the cookie
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -1659,21 +2083,21 @@ function check_sent() {
     })
         .then((response) => {
             if (response.ok) {
-                console.log("From Account React: Request sent"); // Sent to the server
+
                 return response.json();
             } else {
-                console.log("From Account React: Request failed"); // Failed to send to the server
+
                 return response.json();
             }
         })
         .then((data) => {
             if (data.success === 1) {
-                console.log("From Account, Success token: ", data.username);
+
                 const none = document.getElementById("sent_none_text");
 
                 const username = document.getElementById("Username_Personal");
-                console.log("user in pending", username.textContent);
-                fetch('http://localhost:4000/api/Check_Sent', {          //uses username from the cookie to check
+
+                fetch('http://50.18.247.63:4000/api/Check_Sent', {          //uses username from the cookie to check
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1682,10 +2106,10 @@ function check_sent() {
                 })
                     .then((response) => {
                         if (response.ok) {
-                            console.log("From Account React: Request sent"); // Sent to the server
+
                             return response.json();
                         } else {
-                            console.log("From Account React: Request failed"); // Failed to send to the server
+
                             none.style.display = "block";
                             return response.json();
 
@@ -1695,17 +2119,14 @@ function check_sent() {
                         if (data.success === 1) { //some pending
 
                             none.style.display = "none";
-                            console.log("here is pending list: ", data.sent[0].recipient);
+
                             const dynamicContent = document.getElementById("Sent_Tab");
                             data.sent.forEach(recipient => {
                                 const div = document.createElement('div');
                                 div.className = 'Pending_Sent_Style';
 
                                 // Create and append the user image
-                                const userImg = document.createElement('img');
-                                userImg.src = 'Images/user.png';
-                                userImg.className = 'Account_Img_Sent';
-                                div.appendChild(userImg);
+
 
                                 // Create and append the username paragraph
                                 const usernameP = document.createElement('p');
@@ -1713,9 +2134,36 @@ function check_sent() {
                                 usernameP.textContent = recipient.recipient; // Use the actual property from your data
                                 div.appendChild(usernameP);
 
-                                // Create and append the alert image
+
+                                fetch('http://50.18.247.63:4000/api/profile_image', { //getting user acc name
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({ username: recipient.recipient }), //sends login token to server.js
+                                })
+                                    .then((response) => {
+                                        if (response.ok) {
+
+                                            return response.json();
+                                        } else {
+
+                                            return response.json();
+                                        }
+                                    })
+                                    .then((data) => {
+                                        if (data.success === 1) {
+                                            const userImg = document.createElement('img');
+                                            userImg.src = data.pic;
+                                            userImg.className = 'Account_Img_Sent';
+                                            div.appendChild(userImg);
+                                        } else if (data.success === 0) {
+                                            // Login failed
+                                        }
+                                    });
+
                                 const alertImg = document.createElement('img');
-                                alertImg.src = 'Images/warning.png';
+                                alertImg.src = "Images/warning.png";
                                 alertImg.className = 'alert_Img_Sent';
                                 div.appendChild(alertImg);
 
@@ -1728,7 +2176,7 @@ function check_sent() {
                                 // Create and append the "Friend request pending..." text paragraph
                                 const sentText = document.createElement('p');
                                 sentText.className = 'Sent_Text';
-                                sentText.textContent = 'Friend request pending...';
+                                sentText.textContent = 'Pending...';
                                 div.appendChild(sentText);
 
                                 // Append the dynamically created elements to the container div
@@ -1737,13 +2185,13 @@ function check_sent() {
                             });
                         } else if (data.success === 0) { //None pending
                             none.style.display = "block";
-                            console.log("0 in pending");
+
                         } else if (data.success === 3) { //server error
                             none.style.display = "block";
-                            console.log("3 in pending");
+
                         } else if (data.success === 4) { //server error
                             none.style.display = "block";
-                            console.log("4 in pending");
+
                         }
                     });
             } else if (data.success === 0) {
@@ -1759,6 +2207,190 @@ check_sent();
 
 
 
+/*Display profile img*/
+function get_profile_img() {
+    const settings_myacc_img = document.getElementById("My_Account_Img");
+    const Change_myacc_img = document.getElementById("New_User_Img");
+
+    const Login_Cookie = getJwtCookie("Login_Token"); //Getting Login Token
+    const userData = Login_Cookie;
+
+    fetch('http://50.18.247.63:4000/api/account_information', { //getting user acc name
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: userData }), //sends login token to server.js
+    })
+        .then((response) => {
+            if (response.ok) {
+
+                return response.json();
+            } else {
+
+                return response.json();
+            }
+        })
+        .then((data) => {
+            if (data.success === 1) {
+
+                fetch('http://50.18.247.63:4000/api/profile_image', { //getting user acc name
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username: data.username }), //sends login token to server.js
+                })
+                    .then((response) => {
+                        if (response.ok) {
+
+                            return response.json();
+                        } else {
+
+                            return response.json();
+                        }
+                    })
+                    .then((data) => {
+                        if (data.success === 1) {
+
+                            settings_myacc_img.src = "";
+                            settings_myacc_img.src = data.pic;
+                            Change_myacc_img.src = "";
+                            Change_myacc_img.src = data.pic;
+                        } else if (data.success === 0) {
+                            // Login failed
+                        }
+                    });
+            } else if (data.success === 0) {
+                // Login failed
+            }
+        });
+}
+get_profile_img();
+/*Display profile img*/
+
+
+/*open emoji*/
+function open_emoji_container() {
+    const emoji_container = document.getElementById("emoji_container");
+
+    if (emoji_container.style.display === "none" || emoji_container.style.display === "") {
+        emoji_container.style.display = "block";
+
+    } else if (emoji_container.style.display === "block") {
+        emoji_container.style.display = "none";
+
+    }
+
+}
+
+
+function add_emoji_msg(id) {
+    const emoji = document.getElementById(id);
+    var textarea = document.getElementById('Msg_Area');
+
+    textarea.value += emoji.textContent;
+}
+
+/*open emoji*/
+
+
+
+/*open file*/
+function open_upload_file() {
+    const upload_file_container = document.getElementById("Upload_File_Send_Container");
+
+    if (upload_file_container.style.display === "none" || upload_file_container.style.display === "") {
+        upload_file_container.style.display = "block";
+
+    } else if (upload_file_container.style.display === "block") {
+        upload_file_container.style.display = "none";
+
+    }
+}
+
+
+function openFileExplorer() {
+
+    document.getElementById('fileInput').click();
+}
+
+document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+
+function handleFileSelect(event) {
+    const selectedFiles = event.target.files;
+    const attachment_container = document.getElementById("Attachments_Container");
+    const preview_attachment = document.getElementById("attachment_Img");
+    const error = document.getElementById("file_large");
+    const maxSizeBytes = 1024 * 1024; // 1MB
+
+    if (selectedFiles.length > 0) {
+        const firstSelectedFile = selectedFiles[0];
+
+        // Check if file size exceeds 1MB
+        if (firstSelectedFile.size > maxSizeBytes) {
+            error.style.display = "block";
+            attachment_container.style.display = "none";
+            setTimeout(function () {
+                error.style.display = "none";
+            }, 5000);
+            return;
+        }
+
+        const reader = new FileReader();
+
+        // Closure to capture the file information.
+        reader.onload = function (e) {
+            // Render thumbnail.
+            attachment_container.style.display = "block";
+            preview_attachment.src = e.target.result;
+            preview_attachment.dataset.imageDataUrl = e.target.result;
+        };
+
+        // Read in the file as a data URL.
+        reader.readAsDataURL(firstSelectedFile);
+    }
+}
+
+
+function delete_attatchment() {
+    const attachment_container = document.getElementById("Attachments_Container");
+    const preview_attachment = document.getElementById("attachment_Img");
+    attachment_container.style.display = "none";
+    preview_attachment.src = "";
+
+}
+
+
+
+function fullscreen_on_image(src) {
+    const container = document.getElementById("view_img_full");
+    container.style.display = "block";
+
+    const img = document.getElementById("main_img_full");
+    img.src = "";
+    img.src = src;
+}
+
+function close_fullscreen_on_image() {
+    const container = document.getElementById("view_img_full");
+    container.style.display = "none";
+}
+
+
+
+function downloadImage(dataUrl, filename) {
+
+    const anchor = document.createElement('a');
+    anchor.href = dataUrl;
+
+
+    anchor.download = filename;
+
+    anchor.click();
+}
+
+/*open file*/
 
 
 
@@ -1773,10 +2405,10 @@ function add_user(friend) {
     const Login_Cookie = getJwtCookie("Login_Token"); //Getting Login Token
     const userData = Login_Cookie;
 
-    console.log("Cookie from Account_Format.tsx : ", userData);
 
 
-    fetch('http://localhost:4000/api/account_information', {
+
+    fetch('http://50.18.247.63:4000/api/account_information', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -1785,7 +2417,7 @@ function add_user(friend) {
     })
         .then((response) => {
             if (response.ok) {
-                console.log("From Account React: Request sent"); // Sent to the server
+
                 return response.json();
             } else {
                 loader.style.display = "none";
@@ -1793,16 +2425,16 @@ function add_user(friend) {
                 setTimeout(function () {
                     Pending_add_3.style.display = "none";
                 }, 4000);
-                console.log("From Account React: Request failed"); // Failed to send to the server
+
                 return response.json();
             }
         })
         .then((data) => {
             if (data.success === 1) {
-                console.log("From Account, Success token: ", data.username);
+
                 const formattedDate = formatDateAsZeroes();
                 loader.style.display = "block";
-                fetch('http://localhost:4000/api/Add_User', {
+                fetch('http://50.18.247.63:4000/api/Add_User', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1811,7 +2443,7 @@ function add_user(friend) {
                 })
                     .then(response => {
                         if (response.ok) {
-                            console.log("From Sign React: Request sent"); //Sent to express server
+
                             return response.json();
                         } else {
 
@@ -1852,7 +2484,7 @@ function add_user(friend) {
                         setTimeout(function () {
                             Pending_add_3.style.display = "none";
                         }, 4000);
-                        console.log("added -failed catch error- from index.js", error);
+
                     });
             } else if (data.success === 0) {
                 loader.style.display = "none";
@@ -1876,10 +2508,10 @@ function decline_friend_request(username) {
     const Login_Cookie = getJwtCookie("Login_Token"); //Getting Login Token
     const userData = Login_Cookie;
 
-    console.log("Cookie from Account_Format.tsx : ", userData);
+
 
     loader.style.display = "block";
-    fetch('http://localhost:4000/api/account_information', {
+    fetch('http://50.18.247.63:4000/api/account_information', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -1888,10 +2520,10 @@ function decline_friend_request(username) {
     })
         .then((response) => {
             if (response.ok) {
-                console.log("From Account React: Request sent"); // Sent to the server
+
                 return response.json();
             } else {
-                console.log("From Account React: Request failed"); // Failed to send to the server
+
                 Pending_deny_3.style.display = "block";
                 loader.style.display = "none";
                 return response.json();
@@ -1900,8 +2532,8 @@ function decline_friend_request(username) {
         .then((data) => {
             if (data.success === 1) {
 
-                console.log("From Account, Success token: ", data.username);
-                fetch('http://localhost:4000/api/decline_Request', {
+
+                fetch('http://50.18.247.63:4000/api/decline_Request', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -1910,7 +2542,7 @@ function decline_friend_request(username) {
                 })
                     .then(response => {
                         if (response.ok) {
-                            console.log("From decline FR: Request sent"); //Sent to express server
+
                             return response.json();
                         } else {
                             loader.style.display = "none";
@@ -1949,7 +2581,7 @@ function decline_friend_request(username) {
                         setTimeout(function () {
                             Pending_deny_3.style.display = "none";
                         }, 4000);
-                        console.log("decline FR: Error with server");
+
                     });
             } else if (data.success === 0) {
                 loader.style.display = "none";
@@ -1959,105 +2591,220 @@ function decline_friend_request(username) {
 
 }
 
+function change_pass_actual() {
+    const username = document.getElementById("Username_Personal");
+    const input_1 = document.getElementById("Change_pass1_input");
+    const input_2 = document.getElementById("Change_pass2_input");
 
+    const loader = document.getElementById("Loader_Area");
+
+    const error_img = document.getElementById("error_img");
+    const error_match = document.getElementById("error_match");
+    const error_er = document.getElementById("error_er");
+
+    if (input_1.value === "" && input_2.value === "") {
+
+    } else if (input_1.value !== "" && input_2.value === "") {
+        error_img.style.display = "block";
+        error_match.style.display = "block";
+        setTimeout(function () {
+            error_img.style.display = "none";
+            error_match.style.display = "none";
+        }, 4000);
+    } else if (input_1.value === "" && input_2.value !== "") {
+        error_img.style.display = "block";
+        error_match.style.display = "block";
+        setTimeout(function () {
+            error_img.style.display = "none";
+            error_match.style.display = "none";
+        }, 4000);
+    } else if ((input_1.value !== "" && input_2.value !== "") && (input_1.value !== input_2.value)) {
+        error_img.style.display = "block";
+        error_match.style.display = "block";
+        setTimeout(function () {
+            error_img.style.display = "none";
+            error_match.style.display = "none";
+        }, 4000);
+    } else if ((input_1.value !== "" && input_2.value !== "") && (input_1.value === input_2.value)) {
+        loader.style.display = "block";
+
+        const newPassword = input_2.value;
+        const username_actual = username.textContent;
+        fetch('http://50.18.247.63:4000/api/update_password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username: username_actual, newPassword: newPassword })
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to update password');
+                }
+            })
+            .then(data => {
+                if (data.success === 1) {
+                    setJwtCookie("reset_pass", "", 1);
+                    loader.style.display = "none";
+                    Log_Out();
+                } else {
+                    loader.style.display = "none";
+                    error_img.style.display = "block";
+                    error_er.style.display = "block";
+                    setTimeout(function () {
+                        error_img.style.display = "none";
+                        error_er.style.display = "none";
+                    }, 4000);
+
+                }
+            })
+            .catch(error => {
+
+                loader.style.display = "none";
+                error_img.style.display = "block";
+                error_er.style.display = "block";
+                setTimeout(function () {
+                    error_img.style.display = "none";
+                    error_er.style.display = "none";
+                }, 4000);
+            });
+    }
+
+
+
+}
+
+
+function account_name() {
+    const name = document.getElementById("Username_Personal");
+    const acc_name = document.getElementById("My_Account_Name");
+    acc_name.textContent = name.textContent;
+}
+
+function change_pass() {
+    const container = document.getElementById("Change_Password_Container");
+    container.style.display = "block";
+}
+
+function close_change_pass() {
+    const container = document.getElementById("Change_Password_Container");
+    const input_1 = document.getElementById("Change_pass1_input");
+    const input_2 = document.getElementById("Change_pass2_input");
+    container.style.display = "none";
+    input_1.value = "";
+    input_2.value = "";
+}
 
 
 /*Add User*/
+function Connect_to_Chat(friend, src) {
+    return new Promise(async (resolve, reject) => {
+        var chats = document.querySelectorAll('.rec_sent_style');
+        chats.forEach(function (element) {
+            element.style.display = 'none';
+        });
+
+        const idle_chat = document.getElementById("Idle_Chat");
+        const idle_tab = document.getElementById("Idle_tab");
+
+        const friend_profile_img = document.getElementById("Current_User_Img");
+
+        const friend_container = document.getElementById("Add_Friend_Tab");
+        const Setting_container = document.getElementById("Settings_Tab");
+        const Logout_container = document.getElementById("Logout_Tab");
+        const Raven_Container = document.getElementById("Not_Chatting_Cover");
+
+        const friend_marker = document.getElementById("Friend_Marker");
+        const msg_marker = document.getElementById("Message_Marker");
+        const settings_marker = document.getElementById("Settings_Marker");
+        const logout_marker = document.getElementById("Logout_Marker");
+
+        const friend_id_field = document.getElementById("User_Chat");
+
+        const personal_id = document.getElementById("Your_IP_Actual");
+
+        const loader = document.getElementById("loader_friends_M");
+
+        const current_text = document.getElementById("Current_User_Text");
+        const current_img = document.getElementById("Current_User_Img");
+
+        const not_online_notif = document.getElementById("Not_Online_Container");
+        loader.style.display = "block";
+        friend_id_field.value = "";
+        getStatusAndLog_ForChat();
+        close_side_nav();
+        async function getStatusAndLog_ForChat() {
+            const status = await friend_status(friend);
+
+            if (status === 0) {
+                logout_marker.style.opacity = 0;
+                msg_marker.style.opacity = 1;
+                settings_marker.style.opacity = 0;
+                friend_marker.style.opacity = 0;
+
+                Setting_container.style.display = "none";
+                friend_container.style.display = "none";
+                Logout_container.style.display = "none";
+                Raven_Container.style.display = "none";
+                idle_chat.style.display = "block";
+
+                loader.style.display = "none";
+
+                idle_tab.style.display = "none";
+                not_online_notif.style.display = "block";
+                current_img.style.display = "block";
+                current_text.textContent = friend;
+            } else if (status === 1) {
 
 
-function Connect_to_Chat(friend, id) {
+                logout_marker.style.opacity = 0;
+                msg_marker.style.opacity = 1;
+                settings_marker.style.opacity = 0;
+                friend_marker.style.opacity = 0;
 
-    const idle_chat = document.getElementById("Idle_Chat");
-    const idle_tab = document.getElementById("Idle_tab");
+                Setting_container.style.display = "none";
+                friend_container.style.display = "none";
+                Logout_container.style.display = "none";
+                Raven_Container.style.display = "none";
+                idle_chat.style.display = "none";
 
+                loader.style.display = "none";
 
-    const friend_container = document.getElementById("Add_Friend_Tab");
-    const Setting_container = document.getElementById("Settings_Tab");
-    const Logout_container = document.getElementById("Logout_Tab");
-    const Raven_Container = document.getElementById("Not_Chatting_Cover");
+                not_online_notif.style.display = "none";
+                current_img.style.display = "block";
+                current_text.textContent = friend;
+                friend_profile_img.src = src;
+                const chat_tab_id = document.getElementById("User_Sent");
+                chat_tab_id.value = "";
+                chat_tab_id.value = friend + "_sent";
+                const chat_tab = document.getElementById(chat_tab_id.value);
+                chat_tab.style.display = "block";
+                get_id_chat(friend);
 
-    const friend_marker = document.getElementById("Friend_Marker");
-    const msg_marker = document.getElementById("Message_Marker");
-    const settings_marker = document.getElementById("Settings_Marker");
-    const logout_marker = document.getElementById("Logout_Marker");
-
-
-    const friend_id_field = document.getElementById("User_Chat");
-
-    const notice = document.getElementById("Notice_Text");
-
-    const personal_id = document.getElementById("Your_IP_Actual");
-
-    const loader = document.getElementById("loader_friends_M");
-
-    const current_text = document.getElementById("Current_User_Text");
-    const current_img = document.getElementById("Current_User_Img");
-
-    const not_online_notif = document.getElementById("Not_Online_Container");
-    loader.style.display = "block";
-    friend_id_field.value = "";
-    getStatusAndLog_ForChat();
-    async function getStatusAndLog_ForChat() {
-        const status = await friend_status(friend);
-
-        if (status === 0) {
-
-            logout_marker.style.opacity = 0;
-            msg_marker.style.opacity = 1;
-            settings_marker.style.opacity = 0;
-            friend_marker.style.opacity = 0;
-
-            Setting_container.style.display = "none";
-            friend_container.style.display = "none";
-            Logout_container.style.display = "none";
-            Raven_Container.style.display = "none";
-            idle_chat.style.display = "block";
-
-            loader.style.display = "none";
-            notice.style.display = "none";
-            idle_tab.style.display = "none";
-            not_online_notif.style.display = "block";
-            current_img.style.display = "block";
-            current_text.textContent = friend;
-
-        } else if (status === 1) {
-            logout_marker.style.opacity = 0;
-            msg_marker.style.opacity = 1;
-            settings_marker.style.opacity = 0;
-            friend_marker.style.opacity = 0;
-
-            Setting_container.style.display = "none";
-            friend_container.style.display = "none";
-            Logout_container.style.display = "none";
-            Raven_Container.style.display = "none";
-            idle_chat.style.display = "none";
-
-            loader.style.display = "none";
-            notice.style.display = "block";
-            not_online_notif.style.display = "none";
-            current_img.style.display = "block";
-            current_text.textContent = friend;
-            get_id_chat(friend);
-            async function get_id_chat(friend) {
-                const id = await get_friend_id(friend);
-
-                friend_id_field.value = id;
-
-
+                async function get_id_chat(friend) {
+                    const id = await get_friend_id(friend);
+                    friend_id_field.value = id;
+                    resolve();  // Resolve the promise here, after the last async operation
+                }
+                get_id_chat(friend);
             }
-
         }
-
-    }
-
+        getStatusAndLog_ForChat();
+    });
 }
+
+
+
+
 
 
 
 
 async function get_friend_id(user) {
     try {
-        const response = await fetch('http://localhost:4000/api/get_friend_id', {
+        const response = await fetch('http://50.18.247.63:4000/api/get_friend_id', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -2072,7 +2819,7 @@ async function get_friend_id(user) {
         const data = await response.json();
 
         if (data.success === 1) {
-            console.log("Here is user id:", data.id);
+
             return data.id;
         } else if (data.success === 0) {
             console.error('User not found or internal server error');
@@ -2082,7 +2829,23 @@ async function get_friend_id(user) {
     }
 }
 
+function play_rec_sound() {
 
+    var rec_msg_sound = document.getElementById('recevied_msg_sound');
+    rec_msg_sound.play();
+}
+
+
+function encryptAES(text, key) {
+    return CryptoJS.AES.encrypt(text, key).toString();
+}
+
+// AES Decryption function
+function decryptAES(ciphertext, key) {
+    var bytes = CryptoJS.AES.decrypt(ciphertext, key);
+    return bytes.toString(CryptoJS.enc.Utf8);
+}
+const key = "dasdikje23i1j_!sdsqqd!---2S";
 
 /*Socket IO */
 
@@ -2120,47 +2883,161 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const Ip = document.getElementById("Your_IP_Actual");
 
+    const friend_name = document.getElementById("Current_User_Text");
+    const friend_img = document.getElementById("Current_User_Img");
+    var imgElement = document.getElementById("send_img_btn");
+    imgElement.addEventListener('click', function () {
+        Connect_to_Chat(friend_name.textContent, friend_img.src)
+            .then(() => {
+                sendImg();
+            });
+    });
+
+    function sendImg() {
+        const friend = document.getElementById("Current_User_Text");
+        const notif = document.getElementById(friend.textContent + "_notif");
+        notif.style.display = "none";
+        const username_actual = document.getElementById('Username_Personal'); //Sent Messages
+        const get_personal_img = document.getElementById('My_Account_Img');
+        const get_personal_img_src = get_personal_img.src;
+        const encryptedText_name = encryptAES(username_actual.textContent, key);
+        const encryptedText_src = encryptAES(get_personal_img_src, key);
+        const imageDataUrl = document.getElementById('attachment_Img').dataset.imageDataUrl;
+
+        const imageDataUrl_src = document.getElementById('attachment_Img');
+
+        var recipientId = document.getElementById('User_Chat'); //connect_IP
+        var recipientId_value = recipientId.value;
+        if (imageDataUrl !== "") {
+            console.log("image data sending: ", imageDataUrl);
+            const encryptedText = encryptAES(imageDataUrl, key);
+            socket.emit('chat image', { recipientId: recipientId_value, content: encryptedText, name: encryptedText_name, img: encryptedText_src });
+            const id_sent = document.getElementById("User_Sent");
+
+            const messages = document.getElementById(id_sent.value);
+
+            // Create the <li> element
+            const listItem = document.createElement('li');
+            listItem.classList.add('msg_style_sent');
+
+            // Create and add the content <p> element
+            const contentParagraph = document.createElement('img');
+            contentParagraph.classList.add('sent_img_style');
+            contentParagraph.src = imageDataUrl_src.src;
+            contentParagraph.onclick = function () {
+                fullscreen_on_image(contentParagraph.src);
+            };
+            listItem.appendChild(contentParagraph);
+
+            // Create and add the user image <img> element
+            const userImage = document.createElement('img');
+            userImage.classList.add('Sent_User_Img');
+            userImage.src = get_personal_img_src; // Set the user image source accordingly
+            listItem.appendChild(userImage);
+
+            // Create and add the user name <p> element
+            const userNameParagraph = document.createElement('p');
+            userNameParagraph.classList.add('User_Name_Sent');
+            userNameParagraph.textContent = username_actual.textContent; // Set the user name accordingly
+            listItem.appendChild(userNameParagraph);
+
+            // Create and add the time <p> element
+            const timeParagraph = document.createElement('span');
+            timeParagraph.classList.add('sent_time');
+            const time = getCurrentTime12Hour();
+            const date = formatDateAsZeroes();
+            timeParagraph.textContent = date + " " + time;
+            userNameParagraph.appendChild(timeParagraph);
+
+            // Append the <li> element to the messages container
+            messages.appendChild(listItem);
+
+            // Scroll to the bottom of the container
+            messages.scrollTop = messages.scrollHeight;
+
+            delete_attatchment();
+        } else if (input.value.trim() === "") {
+
+        }
+
+    }
+
+
+
+
     //Send Message--------------------------------------------------------
     var input = document.getElementById('Msg_Area');
 
     input.addEventListener('keydown', function (e) {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
-            sendMessage();
+            Connect_to_Chat(friend_name.textContent, friend_img.src)
+                .then(() => {
+                    sendMessage();
+                });
         }
     });
-
     function sendMessage() {
+        const friend = document.getElementById("Current_User_Text");
+        const notif = document.getElementById(friend.textContent + "_notif");
+        notif.style.display = "none";
+        const username_actual = document.getElementById('Username_Personal'); //Sent Messages
+        const get_personal_img = document.getElementById('My_Account_Img');
+        const get_personal_img_src = get_personal_img.src;
         var recipientId = document.getElementById('User_Chat'); //connect_IP
-
         var recipientId_value = recipientId.value;
-        console.log("id here eweq: ", recipientId_value);
-        if (input.value) {
-            console.log("ID: ", recipientId_value);
-            socket.emit('chat message', { recipientId: recipientId_value, content: input.value });
+
+        if (input.value.trim() !== "") {
+            const encryptedText = encryptAES(input.value, key);
+            const encryptedText_name = encryptAES(username_actual.textContent, key);
+            const encryptedText_src = encryptAES(get_personal_img_src, key);
+            socket.emit('chat message', { recipientId: recipientId_value, content: encryptedText, name: encryptedText_name, img: encryptedText_src });
+            const id_sent = document.getElementById("User_Sent");
+
+            const messages = document.getElementById(id_sent.value);
+
+            // Create the <li> element
+            const listItem = document.createElement('li');
+            listItem.classList.add('msg_style_sent');
+
+            // Create and add the content <p> element
+            const contentParagraph = document.createElement('p');
+            contentParagraph.classList.add('sent_text_style');
+            contentParagraph.textContent = input.value;
+            listItem.appendChild(contentParagraph);
+
+            // Create and add the user image <img> element
+            const userImage = document.createElement('img');
+            userImage.classList.add('Sent_User_Img');
+            userImage.src = get_personal_img_src; // Set the user image source accordingly
+            listItem.appendChild(userImage);
+
+            // Create and add the user name <p> element
+            const userNameParagraph = document.createElement('p');
+            userNameParagraph.classList.add('User_Name_Sent');
+            userNameParagraph.textContent = username_actual.textContent; // Set the user name accordingly
+            listItem.appendChild(userNameParagraph);
+
+            // Create and add the time <p> element
+            const timeParagraph = document.createElement('span');
+            timeParagraph.classList.add('sent_time');
+            const time = getCurrentTime12Hour();
+            const date = formatDateAsZeroes();
+            timeParagraph.textContent = date + " " + time;
+            userNameParagraph.appendChild(timeParagraph);
+
+            // Append the <li> element to the messages container
+            messages.appendChild(listItem);
+
+            // Scroll to the bottom of the container
+            messages.scrollTop = messages.scrollHeight;
+
+            input.value = '';
+        } else if (input.value.trim() === "") {
+
         }
 
-        var item = document.createElement('li');
-        var messages = document.getElementById('Sent');
-        const spanElement = document.createElement('span');
-
-        const time = getCurrentTime12Hour();
-        const date = formatDateAsZeroes();
-
-        item.classList.add('msg_style_sent');
-        item.textContent = input.value;
-        spanElement.classList.add('sent_time');
-        spanElement.textContent = "Sent: " + time + " - " + date;
-        item.appendChild(spanElement);
-        messages.appendChild(item);
-        messages.scrollTop = messages.scrollHeight;
-        input.value = '';
     }
-
-
-
-
-
 
 
     //Send Message--------------------------------------------------------
@@ -2183,7 +3060,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const off = document.getElementById("Offline_Status");
         const on = document.getElementById("Online_Status");
 
-        console.log(`Received message from user ${data.message}`);
+
 
         if (data.message === "1") {
             connect_1();
@@ -2191,12 +3068,12 @@ document.addEventListener('DOMContentLoaded', function () {
             connected_to.style.display = "block";
             off.style.display = "none";
             on.style.display = "block";
-            console.log("we are connected");
+
         } else if (data.message === "0") {
             connect_3();
             off.style.display = "block";
             on.style.display = "none";
-            console.log("did not connect or doesn't exist");
+
         }
     });
     //Check if User ID exists --------------------------------------------------------
@@ -2204,39 +3081,133 @@ document.addEventListener('DOMContentLoaded', function () {
     socket.on("")
 
     socket.on('chat message', function (data) {
-        console.log(`Received message from user ${data.senderId}: ${data.content}`);
+
     });
 
     socket.on('user connected', function (userId) {
-
-        console.log('Received user ID:', userId);
         Ip.textContent = userId;
-        Re_Write_UserID()
+        Re_Write_UserID(userId);
 
     });
 
-    //Received messages--------------------------------------------------------
+    //Received messages-------------------------------------------------------
     socket.on('chat message', function (data) {
-        const item = document.createElement('li');
-        const spanElement = document.createElement('span');
-        const messages = document.getElementById('Sent');
+        const text_decoded_name = decryptAES(data.name, key);
+        const notif = document.getElementById(text_decoded_name + "_notif");
+        const text_decoded_img = decryptAES(data.img, key);
+        const messages = document.getElementById(text_decoded_name + "_sent");
+        const get_profile_img = document.getElementById("Current_User_Img");
+        const get_profile_img_src = get_profile_img.src;
 
+        notif.style.display = "block";
+
+        // Create the <li> element
+        const listItem = document.createElement('li');
+        listItem.classList.add('msg_style_rec');
+
+        // Create and add the content <p> element
+        const contentParagraph = document.createElement('p');
+        contentParagraph.classList.add('rec_text_style');
+        const text_decoded = decryptAES(data.content, key);
+        contentParagraph.textContent = text_decoded;
+        listItem.appendChild(contentParagraph);
+
+        // Create and add the user name <p> element
+        const userNameParagraph = document.createElement('p');
+        userNameParagraph.classList.add('User_Name_Rec');
+        userNameParagraph.textContent = text_decoded_name // Assuming 'userName' is part of your data
+        listItem.appendChild(userNameParagraph);
+
+        // Create and add the user image <img> element
+        const userImage = document.createElement('img');
+        userImage.classList.add('Rec_User_Img');
+        userImage.src = text_decoded_img; // Assuming 'userImageSrc' is part of your data
+        listItem.appendChild(userImage);
+
+        // Create and add the time <p> element
+        const timeParagraph = document.createElement('span');
+        timeParagraph.classList.add('rec_time');
         const time = getCurrentTime12Hour();
         const date = formatDateAsZeroes();
+        timeParagraph.textContent = date + " " + time;
+        userNameParagraph.appendChild(timeParagraph);
 
-        item.classList.add('msg_style_rec');
-        item.textContent = data.content;
+        // Append the <li> element to the messages container
+        messages.appendChild(listItem);
 
-        spanElement.classList.add('rec_time');
-        spanElement.textContent = "Received: " + time + " - " + date;
-
-        item.appendChild(spanElement);
-        messages.appendChild(item);
-
-        // Scroll to the bottom of the container (assuming 'Sent' is the container element)
+        // Scroll to the bottom of the container
         messages.scrollTop = messages.scrollHeight;
+        play_rec_sound();
     });
     //Received messages--------------------------------------------------------
+
+
+    //Received Imgs-------------------------------------------------------
+    socket.on('chat image', function (data) {
+
+        const text_decoded_name = decryptAES(data.name, key);
+        const text_decoded_img = decryptAES(data.img, key);
+        const friend = document.getElementById("Current_User_Text");
+        const notif = document.getElementById(friend.textContent + "_notif");
+        const Rec_username = document.getElementById("Current_User_Text");
+        const id_sent = document.getElementById("User_Sent");
+        const messages = document.getElementById(text_decoded_name + "_sent");
+        const get_profile_img = document.getElementById("Current_User_Img");
+        const get_profile_img_src = get_profile_img.src;
+        notif.style.display = "block";
+
+        const text_decoded = decryptAES(data.content, key);
+        console.log("image data received: ", text_decoded);
+        // Create the <li> element
+        const listItem = document.createElement('li');
+        listItem.classList.add('msg_style_rec');
+
+        // Create and add the content <p> element
+        const contentParagraph = document.createElement('img');
+        contentParagraph.classList.add('sent_img_style');
+        contentParagraph.src = text_decoded;
+        contentParagraph.onclick = function () {
+            fullscreen_on_image(text_decoded);
+        };
+        listItem.appendChild(contentParagraph);
+
+        // Create and add the user name <p> element
+        const userNameParagraph = document.createElement('p');
+        userNameParagraph.classList.add('User_Name_Rec');
+        userNameParagraph.textContent = text_decoded_name; // Assuming 'userName' is part of your data
+        listItem.appendChild(userNameParagraph);
+
+        // Create and add the user image <img> element
+        const userImage = document.createElement('img');
+        userImage.classList.add('Rec_User_Img');
+        userImage.src = text_decoded_img; // Assuming 'userImageSrc' is part of your data
+        listItem.appendChild(userImage);
+
+        const download = document.createElement('img');
+        download.classList.add('download_img');
+        download.src = "Images/download.png"; // Assuming 'userImageSrc' is part of your data
+        download.onclick = function () {
+            downloadImage(contentParagraph.src, "Raven_Img");
+        };
+        listItem.appendChild(download);
+
+        // Create and add the time <p> element
+        const timeParagraph = document.createElement('span');
+        timeParagraph.classList.add('rec_time');
+        const time = getCurrentTime12Hour();
+        const date = formatDateAsZeroes();
+        timeParagraph.textContent = date + " " + time;
+        userNameParagraph.appendChild(timeParagraph);
+
+        // Append the <li> element to the messages container
+        messages.appendChild(listItem);
+
+        // Scroll to the bottom of the container
+        messages.scrollTop = messages.scrollHeight;
+        play_rec_sound();
+    });
+    //Received image--------------------------------------------------------
+
 
 });
 

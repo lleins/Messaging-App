@@ -38,7 +38,7 @@ async function HashPassword(pass) {
 }
 
 app.post('/api/create_account', async (req, res) => {  //Creating Account
-    const { email_create, password_create, date_create } = req.body;
+    const { email_create, password_create, date_create, profile_pic } = req.body;
 
     const existingUser = await Login.findOne({ username: email_create });
 
@@ -51,7 +51,7 @@ app.post('/api/create_account', async (req, res) => {  //Creating Account
         const newUser = new Login({ username: email_create, password: hashedPassword, date: date_create }); // Create and save the new user
         await newUser.save();
 
-        const newUser_User = new User({ username: email_create, userid: "", status: 1 }); // Create and save the new user
+        const newUser_User = new User({ username: email_create, userid: "", status: 1, pic: profile_pic }); // Create and save the new user
         await newUser_User.save();
 
         return res.status(201).json({ message: 1 }); // User created successfully
@@ -76,13 +76,13 @@ app.post('/api/login', (req, res) => { //Logging in
         .then(user => {
             if (!user) {
                 // User not found
-                console.log('User not found');
+                //console.log('User not found');
                 res.status(400).json({ success: 0, message: 'User not found' });
             } else {
                 bcrypt.compare(password, user.password, (err, result) => { //compares hashed passwords
                     if (err) {
                         res.status(401).json({ success: 0, message: 'Authentication failed' }); //Server failed/Issue
-                        console.log("Error Comparing");
+                        //console.log("Error Comparing");
                         return;
                     }
                     if (result) {
@@ -105,10 +105,10 @@ app.post('/api/login', (req, res) => { //Logging in
                             });
 
                         res.status(200).json({ success: 1, message: 'Authentication successful', token: token, }); //sends token
-                        console.log("Password comparing success");
+                        //console.log("Password comparing success");
                     } else {
                         res.status(401).json({ success: 0, message: 'Authentication failed' }); //failed
-                        console.log("Password Comparing Failed");
+                        //console.log("Password Comparing Failed");
                     }
                 });
             }
@@ -135,11 +135,11 @@ app.post('/api/log_out', (req, res) => {
         .then(updatedUser => {
             if (username) {
                 res.status(200).json({ message: 1 });
-                console.log("Password comparing success");
+                //console.log("Password comparing success");
             } else {
                 // Password comparison failed
                 res.status(401).json({ message: 0 });
-                console.log("Password Comparing Failed");
+                //console.log("Password Comparing Failed");
             }
         })
         .catch(err => {
@@ -163,14 +163,14 @@ app.post('/api/user_id', (req, res) => { //Logging in
     User.findOneAndUpdate({ username: username }, { $set: { userid: user_id } }, { new: true })
         .then(updatedUser => {
 
-            console.log('User updated:', updatedUser);
+            //console.log('User updated:', updatedUser);
         })
         .catch(err => {
             console.error('Error updating user:', err);
         });
 
     res.status(200).json({ success: 1, message: 'Authentication successful' }); //sends token
-    console.log("Password comparing success");
+    //console.log("Password comparing success");
 
 });
 //New User ID----------------------------------------------------------------------------------------------
@@ -190,24 +190,22 @@ app.post('/api/account_information', (req, res) => { //Grabbing Account Informat
     const { username } = req.body;
     try {
         const Decoded_Login_Token = jsonwebtoken.verify(username, secretKey); //Decoded Token tested for validity
-        console.log("username from Token in verification: ", Decoded_Login_Token.username);
         const Login_username = Decoded_Login_Token.username; //Uses email in payload to find user in database
 
         Login.findOne({ username: Login_username }) //Finds user with corresponding email
             .then((user) => {
                 if (!user) {
-                    console.log('User not found');
+
                     res.status(400).json({ success: 0, message: 'User not found' });
                 } else {
+                    res.status(200).json({ success: 1, message: 'Authentication successful', username: user.username, date: user.date }); //sends email and date as a reponse
 
-                    res.status(200).json({ success: 1, message: 'Authentication successful', username: user.username }); //sends email and date as a reponse
-                    console.log("Here is Data Sending to Account: ", user.username);
                 }
             })
 
 
     } catch (error) {
-        console.error('Error:', error);
+
         return res.status(500).json({ message: 0 }); // Server error
     }
 });
@@ -216,6 +214,28 @@ app.post('/api/account_information', (req, res) => { //Grabbing Account Informat
 
 //Token Verification/Account Information ---------------------------------------------------------------------------------------------------------
 
+
+//Get Profile Image ---------------------------------------------------------------------------------------------------------
+
+
+app.post('/api/profile_image', (req, res) => {
+    const { username } = req.body;
+
+    User.findOne({ username: username })
+        .then((user) => {
+            if (!user) {
+
+                res.status(400).json({ success: 0, message: 'User not found' });
+            } else {
+                res.status(200).json({ success: 1, message: 'Authentication successful', pic: user.pic }); //sends email and date as a reponse
+            }
+        })
+
+});
+
+
+
+//Get Profile Image ---------------------------------------------------------------------------------------------------------
 
 
 //Get friend Status---------------------------------------------------------------------------------------------------------
@@ -227,7 +247,7 @@ app.post('/api/get_status', (req, res) => {
         .then(user => {
             if (user) {
                 const userStatus = user.status;
-                console.log("Status: ", userStatus);
+
                 res.status(200).json({ success: 1, status: userStatus });
             } else {
 
@@ -251,7 +271,7 @@ app.post('/api/get_friend_id', (req, res) => {
         .then(user => {
             if (user) {
                 const userid = user.userid;
-                console.log("user id fofr 312312321: ", userid);
+
                 res.status(200).json({ success: 1, id: userid });
             } else {
 
@@ -286,7 +306,7 @@ app.post('/api/Send_Friend_Request', async (req, res) => {
 
         if (!existingFriendRequest) {
             // Check if a friend request already exists in the Add_Friend collection
-            const existingAddFriendRequest = await Add_Friend.findOne({ sender: sender, recipient: recipient });
+            const existingAddFriendRequest = await Add_Friend.findOne({ user: sender, friend: recipient });
 
             if (!existingAddFriendRequest) {
                 const newFriendRequest = new Friend({ recipient: recipient, sender: sender });
@@ -299,7 +319,7 @@ app.post('/api/Send_Friend_Request', async (req, res) => {
             res.status(200).json({ success: 4 }); // Friend request already exists in Friend
         }
     } catch (error) {
-        console.error('Error:', error);
+
         res.status(500).json({ success: 3 }); // Server error
     }
 });
@@ -329,18 +349,18 @@ app.post('/api/Check_Pending', (req, res) => {
         Friend.find({ recipient: recipient })
             .then((users) => {
                 if (!users || users.length === 0) {
-                    res.status(400).json({ success: 0 }); // Didn't find any pending
+                    res.status(200).json({ success: 0 }); // Didn't find any pending
                 } else {
                     found_users = users;
                     res.status(200).json({ success: 1, pending: found_users }); // Found
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+
                 res.status(500).json({ success: 3 }); // Server error
             });
     } catch (error) {
-        console.error('Error:', error);
+
         res.status(500).json({ success: 4 }); // Server error
     }
 });
@@ -365,18 +385,18 @@ app.post('/api/Check_Sent', (req, res) => {
         Friend.find({ sender: sender })
             .then((users) => {
                 if (!users || users.length === 0) {
-                    res.status(400).json({ success: 0 }); // Didn't find any pending
+                    res.status(200).json({ success: 0 }); // Didn't find any pending
                 } else {
                     found_users = users;
                     res.status(200).json({ success: 1, sent: found_users }); // Found
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+
                 res.status(500).json({ success: 3 }); // Server error
             });
     } catch (error) {
-        console.error('Error:', error);
+
         res.status(500).json({ success: 4 }); // Server error
     }
 });
@@ -412,7 +432,7 @@ app.post('/api/Add_User', async (req, res) => {  //Creating Account
 
         return res.status(201).json({ message: 1 }); // Friend succesfully added
     } catch (error) {
-        console.error('Error:', error);
+
         return res.status(500).json({ message: 0 }); // Server error
     }
 })
@@ -473,11 +493,11 @@ app.post('/api/Get_Friends', (req, res) => {
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
+
                 res.status(500).json({ success: 3 }); // Server error
             });
     } catch (error) {
-        console.error('Error:', error);
+
         res.status(500).json({ success: 4 }); // Server error
     }
 });
@@ -519,8 +539,39 @@ app.post('/api/Remove_Friend', (req, res) => {
 
 
 
+//Rewrite Password---------------------------------------------------------------------------------------------------------
+app.post('/api/update_password', async (req, res) => {
+    const { username, newPassword } = req.body;
 
-mongoose.connect('mongodb://127.0.0.1:27017/Raven', {
+    try {
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+        // Find the user by username and update their password
+        const updatedUser = await Login.findOneAndUpdate(
+            { username: username },
+            { $set: { password: hashedPassword } },
+            { new: true } // Return the updated document
+        );
+
+        if (updatedUser) {
+            res.status(200).json({ success: 1 });
+        } else {
+            res.status(404).json({ success: 0 });
+        }
+    } catch (error) {
+
+        res.status(500).json({ success: 3 });
+    }
+});
+
+
+//Rewrite Password---------------------------------------------------------------------------------------------------------
+
+//Local -'mongodb://127.0.0.1:27017/Raven'
+//Cloud - 'mongodb+srv://lleins237:9JQmeNpmMVVage4@cluster0.vrxb658.mongodb.net/Raven?retryWrites=true&w=majority&appName=Cluster0'
+
+mongoose.connect('mongodb+srv://lleins237:9JQmeNpmMVVage4@cluster0.vrxb658.mongodb.net/Raven?retryWrites=true&w=majority&appName=Cluster0', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
@@ -536,11 +587,8 @@ PP_Login_Connection.once('open', () => {
 
 // Start the server
 app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+    //console.log(`Server is running on port ${port}`);
 });
-
-
-
 
 
 

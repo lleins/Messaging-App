@@ -1,6 +1,8 @@
 body {
-    background-color: rgb(0, 89, 255);
+    background-color: rgb(20, 20, 20);
+    /*background-color: rgb(0, 89, 255);*/
     overflow-y: hidden;
+    user-select: none !important;
 }
 
 @font-face {
@@ -8,39 +10,61 @@ body {
     src: url('Fonts/Gotham/Gotham Light/Gotham Light.otf') format('opentype'),
 }
 
+
+@font-face {
+    font-family: 'Gotham_Font_bold';
+    src: url('Fonts/Gotham/Gotham Bold/Gotham Bold.otf') format('opentype'),
+}
+
 /*Reload animation*/
+
+
+#main_loader {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 25;
+}
+
 
 .loading-container {
     position: fixed;
+    display: flex;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(15, 15, 15, 1);
-
     justify-content: center;
     align-items: center;
-    z-index: 21;
+    z-index: 20;
 }
 
-#LoadingText {
+#Load_container {
     justify-content: center;
     align-items: center;
-    animation: scaleAnimation .5s ease;
 }
 
-@keyframes scaleAnimation {
-    0% {
-        transform: scale(.5);
-        /* Initial scale */
-    }
 
-    100% {
-        transform: scale(1.5);
-        /* Final scale */
-    }
+#loader_loader {
+    margin-left: -138px;
+    margin-top: -10px;
 }
 
+.loader_loader {
+    width: 148px;
+    height: 148px;
+    border-radius: 50%;
+    display: inline-block;
+    border-top: 3px solid rgb(150, 150, 150);
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    animation: rotation .6s linear infinite;
+    position: absolute;
+}
 
 
 /*Reload animation*/
@@ -132,7 +156,7 @@ body {
     position: fixed;
     width: 95%;
     height: 200px;
-    background-color: rgb(0, 89, 255);
+    background-color: rgb(25, 25, 25);
     z-index: 19;
     bottom: -500px;
     opacity: 0;
@@ -141,20 +165,10 @@ body {
     left: 50%;
     transform: translate(-50%, 0%);
     transition: 2s;
-
+    border: 2px solid rgb(50, 50, 50);
 }
 
-#Cookies_Video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: .6;
-    filter: blur(0px) brightness(100%);
 
-}
 
 #Cookies_Content {
     width: 98%;
@@ -163,8 +177,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgb(15, 15, 15);
-    border: 2px solid rgb(50, 50, 50);
+    background-color: rgb(25, 25, 25);
     display: block;
 }
 
@@ -242,9 +255,10 @@ body {
 
 #Currently_Chatting_User {
     position: absolute;
-    left: 69px;
+    left: -500px;
     top: 69px;
     z-index: 0;
+    opacity: 0;
 }
 
 
@@ -325,24 +339,37 @@ body {
 
 #Account_Created {
     z-index: 20;
-    width: 50%;
-    left: 25%;
+    width: 300px;
+    left: 50%;
+    transform: translate(-50%, 0%);
     position: fixed;
-    background-color: rgb(80, 80, 80);
-    top: 0px;
-    height: 30px;
+    background-color: rgb(245, 245, 245);
+    top: 15px;
+    height: 55px;
+    border-radius: 5px;
+    display: none;
+}
+
+#password_reset {
+    z-index: 20;
+    width: 300px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    position: fixed;
+    background-color: rgb(245, 245, 245);
+    top: 15px;
+    height: 55px;
     border-radius: 5px;
     display: none;
 }
 
 #Signed_In {
     position: fixed;
-    width: 65%;
-    background-color: rgb(80, 80, 80);
-    top: 5px;
-    left: 95%;
-    transform: translate(-95%, 0%);
-    height: 30px;
+    width: 300px;
+    background-color: rgb(245, 245, 245);
+    top: 15px;
+    left: 50%;
+    height: 55px;
     z-index: 20;
     border-radius: 5px;
     display: none;
@@ -476,23 +503,14 @@ body {
     left: 0px;
     width: 100%;
     height: 100%;
+    background-color: rgb(10, 10, 10);
+    z-index: 18;
     display: block;
-    background-color: rgb(7, 7, 7);
-    z-index: 16;
-    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
-#Login_Video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 1;
-    filter: blur(5px) brightness(50%);
 
-}
 
 #Logo_Sign {
     position: absolute;
@@ -504,7 +522,6 @@ body {
 
 #SignIn_Title {
     font-size: 20px;
-    letter-spacing: 1px;
     font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
     position: absolute;
@@ -518,7 +535,7 @@ body {
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 5px;
-    border: 2px solid rgb(20, 20, 20);
+    border: 2px solid rgb(50, 50, 50);
     display: block;
 
 }
@@ -531,7 +548,7 @@ body {
     width: 250px;
     height: 205px;
     background-color: rgb(15, 15, 15);
-    border: 2px solid rgb(20, 20, 20);
+    border: 2px solid rgb(50, 50, 50);
     border-radius: 5px;
     display: block;
 }
@@ -548,15 +565,15 @@ body {
     font-size: 12px;
     font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
-
-    letter-spacing: 1px;
 }
+
+
 
 .sign_create_input {
     font-family: "Gotham_Font", sans-serif;
     height: 20px;
     font-size: 12px;
-    background-color: rgb(15, 15, 15);
+    background-color: rgb(10, 10, 10);
     width: 180px;
     border: 1px solid rgb(70, 70, 70);
     border-radius: 5px;
@@ -611,7 +628,10 @@ body {
     border: none;
     background-color: rgb(213, 45, 255);
     cursor: pointer;
+}
 
+#Sign_In_Button:hover {
+    background-color: rgb(207, 14, 255);
 }
 
 #Switch_Tabs {
@@ -622,7 +642,7 @@ body {
     width: 250px;
     height: 70px;
     background-color: rgb(15, 15, 15);
-    border: 2px solid rgb(20, 20, 20);
+    border: 2px solid rgb(50, 50, 50);
     border-radius: 5px;
 }
 
@@ -642,8 +662,12 @@ body {
 #Switch_Create_Account {
     color: rgb(213, 45, 255);
     cursor: pointer;
-
 }
+
+#Switch_Create_Account:hover {
+    text-decoration: underline;
+}
+
 
 
 #Bottom_Links_Container {
@@ -692,7 +716,7 @@ body {
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 5px;
-    border: 2px solid rgb(20, 20, 20);
+    border: 2px solid rgb(50, 50, 50);
     display: none;
 
 }
@@ -705,7 +729,7 @@ body {
     width: 250px;
     height: 275px;
     background-color: rgb(15, 15, 15);
-    border: 2px solid rgb(20, 20, 20);
+    border: 2px solid rgb(50, 50, 50);
     border-radius: 5px;
     display: none;
 }
@@ -757,8 +781,10 @@ body {
     border: none;
     background-color: rgb(213, 45, 255);
     cursor: pointer;
+}
 
-
+#Create_Acc_Button:hover {
+    background-color: rgb(207, 14, 255);
 }
 
 
@@ -796,6 +822,9 @@ body {
 }
 
 
+#Switch_Log_In:hover {
+    text-decoration: underline;
+}
 
 /*Create Account*/
 
@@ -837,7 +866,7 @@ body {
 
 .connect_notif {
     position: fixed;
-    width: 200px;
+    width: 300px;
     background-color: rgb(245, 245, 245);
     top: 15px;
     left: 50%;
@@ -851,6 +880,7 @@ body {
     height: 55px;
     position: relative;
     left: 40px;
+    top: 3px;
     /*5px*/
     font-family: "Gotham_Font", sans-serif;
     font-size: 14px;
@@ -860,16 +890,17 @@ body {
 .notif_warn {
     position: absolute;
     left: 5px;
-    top: 11px;
+    top: 10px;
     transform: scale(.8);
 }
 
 .remove_notif {
     position: absolute;
     right: 5px;
-    top: -1px;
+    top: 8px;
     transform: scale(.3);
     cursor: pointer;
+    filter: brightness(10%);
 }
 
 
@@ -918,20 +949,36 @@ body {
 
 
 /*Confirm Connection Tab*/
-#Confirm_Remove_Friend {
+
+#Confirm_Remove_Friend_tab {
     position: fixed;
-    width: 25%;
+    left: calc(25% + 60px);
+    top: 0px;
+    width: calc(75% - 60px);
+    height: calc(100%);
+    backdrop-filter: blur(10px);
+    background-color: rgb(20, 20, 20, 1);
+    transition: .2s;
+    display: none;
+    /*none*/
+    z-index: 15;
+    overflow-y: auto;
+}
+
+#Confirm_Remove_Friend {
+    position: absolute;
+    width: 300px;
     left: 50%;
-    top: 40%;
-    box-shadow: 0 0 100vw 100vh rgba(0, 0, 0, 0.8);
-    transform: translate(0%, -50%);
-    height: 200px;
-    background-color: rgb(40, 40, 40);
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 180px;
+    border: 2px solid rgb(50, 50, 50);
+    background-color: rgb(15, 15, 15);
     z-index: 16;
     display: block;
     transition: .5s;
     border-radius: 5px;
-    display: none;
+
 }
 
 #Confirm_Remove_Friend_Loader {
@@ -963,12 +1010,12 @@ body {
 }
 
 
-
 #Warning_Connect_Img {
     position: absolute;
     left: 50%;
-    transform: translate(0%, -50%);
-    top: 20px;
+    transform: translate(-50%, 0%);
+    top: 10px;
+    filter: brightness(30%);
 }
 
 #Chat_Request_text {
@@ -978,6 +1025,12 @@ body {
     font-size: 18px;
     left: 20px;
     top: 30px;
+    width: 85%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+
 }
 
 #Remove_Text_Warning {
@@ -992,8 +1045,8 @@ body {
 
 #Button_Connect_Container {
     position: absolute;
-    right: 110px;
-    top: 155px;
+    right: 100px;
+    top: 145px;
 }
 
 #Join_Chat {
@@ -1004,7 +1057,6 @@ body {
     font-family: "Gotham_Font", sans-serif;
     background-color: rgb(210, 0, 0);
     color: white;
-
     border-radius: 5px;
     padding-left: 20px;
     padding-right: 20px;
@@ -1058,35 +1110,43 @@ body {
     top: 0px;
     width: calc(75% - 60px);
     height: calc(100%);
-    background-color: rgb(15, 15, 15);
+    background-color: rgb(20, 20, 20);
     transition: .2s;
     display: none;
     z-index: 15;
+    /*zindex 15 none*/
+    overflow-y: auto;
+
 }
 
 
-#Settings_Title {
-    position: absolute;
-    top: 60px;
-    font-family: "Gotham_Font", sans-serif;
-    color: rgb(170, 170, 170);
-    font-size: 14px;
-    left: 43px;
-    border-bottom: 2px solid rgb(120, 120, 120);
-    width: 115px;
-    padding-bottom: 5px;
-}
 
-
-#Left_menu {
+#Left_menu_Settings {
     position: absolute;
+    top: 80px;
+    left: 0px;
+    width: 100%;
     display: flex;
-    width: 25%;
-    height: 100%;
-    left: 40px;
-    top: 100px;
-    flex-direction: column;
+    justify-content: space-around;
+    flex-direction: row;
+    border-right: 0px solid rgb(30, 30, 30);
+    /*background-color: rgb(0, 89, 255);*/
+    z-index: 15;
+
 }
+
+
+#tab_mobile {
+    position: fixed;
+    width: 24px;
+    height: 24px;
+    top: 30px;
+    left: 25px;
+    z-index: 17;
+    display: none;
+}
+
+
 
 .setting_nav {
     color: rgb(245, 245, 245);
@@ -1094,7 +1154,8 @@ body {
     font-size: 14px;
     cursor: pointer;
     background-color: rgb(200, 200, 200, 0);
-    width: 120px;
+    padding-left: 10px;
+    padding-right: 10px;
     height: 30px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -1102,57 +1163,175 @@ body {
     white-space: nowrap;
     border-radius: 5px;
     text-align: left;
+
 }
 
-#My_Account {
+#My_Account_btn {
     background-color: rgb(40, 40, 40);
 }
 
 #My_Account_Container {
     position: absolute;
-    left: 25%;
-    top: 10%;
-    height: 80%;
-    width: 65%;
-    background-color: rgb(40, 40, 40);
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 150px;
+    height: 40%;
+    width: 90%;
+    max-width: 700px;
+    max-height: 500px;
+    min-height: 400px;
+    background-color: rgb(30, 30, 30);
     border-radius: 5px;
+    border: 10px solid rgb(20, 20, 20);
+
+}
+
+#Privacy_Container {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 150px;
+    width: 90%;
+    max-width: 700px;
+    background-color: rgb(30, 30, 30);
+    border-radius: 5px;
+    border: 10px solid rgb(20, 20, 20);
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 600px;
+    height: calc(100% - 150px);
+    display: none;
+}
+
+
+#Privacy_Acc_title {
+    position: relative;
+    top: 80px;
+    width: 90%;
+    color: rgb(245, 245, 245);
+    font-family: "Gotham_Font_bold", sans-serif;
+    font-size: 15px;
+    left: 35px;
+
+}
+
+#Privacy_Acc_writeup {
+    position: relative;
+    top: 80px;
+    width: calc(90% - 35px);
+    color: rgb(150, 150, 150);
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 15px;
+    left: 35px;
+    line-height: 20px;
+}
+
+#Privacy_messaging_title {
+    position: relative;
+    color: rgb(245, 245, 245);
+    font-family: "Gotham_Font_bold", sans-serif;
+    font-size: 15px;
+    left: 35px;
+
+    top: 100px;
+}
+
+#Privacy_messaging_writeup {
+    position: relative;
+    top: 100px;
+    width: calc(90% - 35px);
+    color: rgb(150, 150, 150);
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 15px;
+    left: 35px;
+    line-height: 20px;
+}
+
+
+#Cookie_Container {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 150px;
+    width: 90%;
+    max-width: 700px;
+    background-color: rgb(30, 30, 30);
+    border-radius: 5px;
+    border: 10px solid rgb(20, 20, 20);
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 600px;
+    height: calc(100% - 150px);
+    display: none;
+}
+
+
+#Local_Login_title {
+    position: relative;
+    top: 80px;
+    width: 90%;
+    color: rgb(245, 245, 245);
+    font-family: "Gotham_Font_bold", sans-serif;
+    font-size: 15px;
+    left: 35px;
+
+}
+
+#Local_Storage_writeup {
+    position: relative;
+    top: 80px;
+    width: calc(90% - 35px);
+    color: rgb(150, 150, 150);
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 15px;
+    left: 35px;
+    line-height: 20px;
+}
+
+#Local_UserId_title {
+    position: relative;
+    color: rgb(245, 245, 245);
+    font-family: "Gotham_Font_bold", sans-serif;
+    font-size: 15px;
+    left: 35px;
+
+    top: 100px;
+}
+
+#Local_UserID_writeup {
+    position: relative;
+    top: 100px;
+    width: calc(90% - 35px);
+    color: rgb(150, 150, 150);
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 15px;
+    left: 35px;
+    line-height: 20px;
 }
 
 #My_Account_Title {
     position: absolute;
     color: rgb(245, 245, 245);
     font-family: "Gotham_Font", sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     top: 15px;
     left: 35px;
 }
 
-#My_Account_Container_2 {
-    position: absolute;
-    width: 100%;
-    height: 80%;
-    left: 50%;
-    top: 100%;
-    transform: translate(-50%, -100%);
-    background-color: rgb(60, 60, 60);
-    border-radius: 5px;
-}
 
 #My_Account_Img {
     position: absolute;
-    top: 30px;
-    left: 30px;
+    top: 100px;
+    left: 50%;
+    transform: translate(-50%, 0%);
     width: 72px;
     height: 72px;
     border-radius: 50%;
-    filter: brightness(100%);
-    transition: .2s;
-    cursor: pointer;
 }
 
 #Change_Profile_Img {
     position: absolute;
-    top: 58px;
+    top: 70px;
     left: 35px;
     background-color: rgb(0, 0, 0, 0);
     border: none;
@@ -1161,19 +1340,365 @@ body {
     color: rgb(245, 245, 245);
     transition: .2s;
     opacity: 0;
-    cursor: pointer;
+}
+
+#Account_details_container {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 200px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 200px;
+}
+
+#My_Account_Name_Title {
+    color: rgb(150, 150, 150);
+    font-family: "Gotham_Font_bold", sans-serif;
+    font-size: 15px;
+
 }
 
 #My_Account_Name {
-    position: absolute;
-    top: 20px;
-    left: 130px;
+    margin-top: -10px;
     color: rgb(245, 245, 245);
     font-family: "Gotham_Font", sans-serif;
-    font-size: 25px;
+    font-size: 15px;
+}
+
+#My_Account_Password_title {
+
+    color: rgb(150, 150, 150);
+    font-family: "Gotham_Font_bold", sans-serif;
+    font-size: 15px;
+
+}
+
+#My_Account_Password {
+    margin-top: -10px;
+    color: rgb(245, 245, 245);
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 15px;
+}
+
+#My_Account_Reset_Password {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    font-family: "Gotham_Font", sans-serif;
+    background-color: rgb(213, 45, 255);
+    color: white;
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: none;
+    cursor: pointer;
+    transform: 0s;
+    transition: 0s;
+    white-space: nowrap;
+}
+
+#My_Account_Reset_Password:hover {
+    background-color: rgb(207, 14, 255);
+}
+
+#My_Account_Delete_Acc {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    font-family: "Gotham_Font", sans-serif;
+    background-color: rgb(231, 22, 40);
+    color: white;
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: none;
+    cursor: pointer;
+    transform: .2s;
+    transition: .2s;
+    white-space: nowrap;
+}
+
+#My_Account_Delete_Acc:hover {
+    background-color: rgb(210, 0, 0);
+}
+
+
+#Privacy_Info_Tab {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(10, 10, 10);
+    z-index: 20;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: none;
+}
+
+#My_Privacy_Title {
+    position: absolute;
+    top: 25px;
+    left: 35px;
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 18px;
+    color: rgb(245, 245, 245);
+
+}
+
+#exit_privacy_policy {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+#Policies_Info_Tab {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(10, 10, 10);
+    z-index: 20;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: none;
 }
 
 /*Settings Tab*/
+
+
+
+/*Change Password*/
+
+#Change_Password_Container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(10, 10, 10);
+    z-index: 18;
+    display: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#error_img {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    left: 30px;
+    top: 88px;
+    display: none;
+}
+
+#error_match {
+    position: absolute;
+    color: rgb(231, 22, 40);
+    font-size: 10px;
+    font-family: "Gotham_Font", sans-serif;
+    left: 45px;
+    top: 79px;
+    display: none;
+}
+
+#error_er {
+    position: absolute;
+    color: rgb(231, 22, 40);
+    font-size: 10px;
+    font-family: "Gotham_Font", sans-serif;
+    left: 45px;
+    top: 79px;
+    display: none;
+}
+
+
+#Change_Container {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 140px;
+    width: 250px;
+    height: 275px;
+    background-color: rgb(15, 15, 15);
+    border: 2px solid rgb(50, 50, 50);
+    border-radius: 5px;
+    display: block;
+}
+
+#Change_pass1_text {
+    position: absolute;
+    left: 30px;
+    top: 20px;
+}
+
+#Change_pass1_input {
+    position: absolute;
+    left: 30px;
+    top: 55px;
+}
+
+
+#Change_pass2_text {
+    position: absolute;
+    left: 30px;
+    top: 95px;
+}
+
+#Change_pass2_input {
+    position: absolute;
+    left: 30px;
+    top: 130px;
+}
+
+#Change_pass_Button {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 185px;
+    border-radius: 5px;
+    height: 25px;
+    width: 180px;
+    font-size: 12px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+    border: none;
+    background-color: rgb(213, 45, 255);
+    cursor: pointer;
+}
+
+#Change_pass_Button:hover {
+    background-color: rgb(207, 14, 255);
+}
+
+#Cancel_change {
+    position: absolute;
+    color: rgb(231, 22, 40);
+    font-size: 12px;
+    font-family: "Gotham_Font", sans-serif;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 228px;
+    cursor: pointer;
+}
+
+#Cancel_change:hover {
+    text-decoration: underline;
+}
+
+/*Change Password*/
+
+
+/*Change Profile Img*/
+
+#Change_Profile_Img_Container {
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(30, 30, 30);
+    box-shadow: 0 0 100vw 100vh rgba(10, 10, 10, 0.5);
+    z-index: 19;
+    /*19*/
+    border-radius: 5px;
+    display: none;
+    overflow: none;
+}
+
+#New_User_Img {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+}
+
+#Submit_Img_Container {
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    top: 200px;
+    white-space: nowrap;
+}
+
+#container_submit {
+    position: absolute;
+    left: 50%;
+    transform: translate(-34%, 0%);
+}
+
+#Select_Img_text {
+    color: rgb(245, 245, 245);
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 14px;
+
+}
+
+#Select_Img {
+    color: rgb(245, 245, 245);
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 14px;
+
+}
+
+#Cancel_Btn {
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: none;
+    cursor: pointer;
+    transform: .2s;
+    transition: .2s;
+    white-space: nowrap;
+    background-color: rgb(10, 10, 10, 0);
+    text-decoration: underline;
+}
+
+#Upload_Btn {
+    font-family: "Gotham_Font", sans-serif;
+    background-color: rgb(213, 45, 255);
+    color: white;
+    border-radius: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border: none;
+    cursor: pointer;
+    transform: .2s;
+    transition: .2s;
+    white-space: nowrap;
+}
+
+#submit_button_container {
+    white-space: nowrap;
+    position: absolute;
+    top: 275px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+/*Change Profile Img*/
+
+
+
 
 
 /*Logout Tab*/
@@ -1183,30 +1708,19 @@ body {
     top: 0px;
     width: calc(75% - 60px);
     height: calc(100%);
-    background-color: rgb(0, 89, 255);
+    background-color: rgb(20, 20, 20, 1);
     transition: .2s;
     display: none;
     z-index: 15;
-
 }
 
-#Logout_Video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: .6;
-    display: block;
-}
 
 #Logout_Container {
     position: absolute;
     width: 300px;
     height: 150px;
-    background-color: rgb(10, 10, 10);
-    border: 2px solid rgb(70, 70, 70);
+    background-color: rgb(15, 15, 15);
+    border: 2px solid rgb(50, 50, 50);
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
@@ -1265,11 +1779,12 @@ body {
     top: 0px;
     width: calc(75% - 60px);
     height: calc(100%);
-    background-color: rgb(15, 15, 15);
+    background-color: rgb(20, 20, 20);
     transition: .2s;
     display: none;
     /*none*/
     z-index: 15;
+    overflow-y: auto;
 }
 
 #Loader_FR {
@@ -1335,10 +1850,10 @@ body {
 #Title_Add_Friend {
     position: absolute;
     top: 10px;
-    left: 50px;
+    left: 50%;
+    transform: translate(-50%, 0%);
     font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
-
     font-size: 25px;
 }
 
@@ -1347,7 +1862,7 @@ body {
     position: absolute;
     cursor: default;
     display: block;
-    width: 90%;
+    width: 100%;
     height: 130px;
     top: 120px;
     left: 50%;
@@ -1356,24 +1871,34 @@ body {
 
 }
 
+#Input_Bar_Container {
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    width: 90%;
+    max-width: 1200px;
+}
+
 #connect_IP_FR {
     font-family: "Gotham_Font", sans-serif;
     position: absolute;
     font-size: 12px;
     border-radius: 5px;
     padding-left: 50px;
-    padding-right: 2px;
+    padding-right: 102px;
     padding-top: 12px;
     padding-bottom: 12px;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    top: 0px;
-    width: 85%;
-    background-color: rgb(25, 25, 25);
+    width: calc(100% - 152px);
+    background-color: rgb(30, 30, 30);
     border: 1px solid rgb(70, 70, 70);
     color: rgb(245, 245, 245);
     font-size: 15px;
 
+}
+
+#connect_IP_FR:focus {
+    outline: 1px solid rgb(213, 45, 255);
 }
 
 #Search_Ip_connect_FR {
@@ -1381,19 +1906,18 @@ body {
     z-index: 14;
     transform: scale(.5);
     top: 4px;
-    left: 5%;
+    left: 10px;
 }
 
 #Friend_Request_FR {
     position: absolute;
     top: 7px;
-    left: 86%;
+    right: -30px;
     font-size: 12px;
     transform: translate(-50%, 0%);
     font-family: "Gotham_Font", sans-serif;
     background-color: rgb(213, 45, 255);
     color: white;
-
     border-radius: 5px;
     padding-left: 20px;
     padding-right: 20px;
@@ -1433,7 +1957,6 @@ body {
 }
 
 
-
 #Reload_Pending {
     position: absolute;
     right: 8px;
@@ -1467,7 +1990,6 @@ body {
     background-color: rgb(0, 0, 0, 0);
     font-family: "Gotham_Font", sans-serif;
     color: rgb(215, 215, 215);
-
     border: none;
     cursor: pointer;
     font-size: 15px;
@@ -1486,10 +2008,20 @@ body {
     transform: translate(-50%, 0%);
     top: 290px;
     width: 90%;
-    height: 52%;
-    background-color: rgb(20, 20, 20);
-    overflow-y: auto;
+    height: 50%;
+    max-height: 600px;
+    max-width: 1200px;
+    min-height: 250px;
+    background-color: rgb(30, 30, 30);
     overflow-x: hidden;
+}
+
+#Space {
+    position: absolute;
+    top: 100%;
+    height: 7%;
+    width: 100%;
+    left: 0px;
 }
 
 #Added_Tab {
@@ -1514,9 +2046,9 @@ body {
 }
 
 .Pending_Notifs {
-    position: relative;
-    top: 307px;
-    left: 400px;
+    position: absolute;
+    top: 322px;
+    left: 8%;
     font-family: "Gotham_Font", sans-serif;
     font-size: 12px;
 }
@@ -1575,12 +2107,13 @@ body {
 .Pending_Sent_Style {
     position: relative;
     left: 20px;
-    width: 500px;
+    width: 65%;
+    max-width: 500px;
     height: 80px;
     background-color: rgb(40, 40, 40, 0);
-    margin-top: 20px;
+    margin-top: 0px;
     top: 50px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
     transition: .2s;
 }
 
@@ -1590,22 +2123,28 @@ body {
 
 .Account_Img_Sent {
     position: absolute;
-    top: 25px;
-    left: 40px;
+    top: 20px;
+    left: 25px;
+    width: 42px;
+    height: 42px;
 }
 
 .Account_Username_Sent {
     position: absolute;
-    top: 10px;
+    top: 5px;
     left: 85px;
     font-family: "Gotham_Font", sans-serif;
     color: rgb(215, 215, 215);
-
+    width: 35%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
 
 .Sent_Text_sec {
     position: absolute;
-    top: 40px;
+    top: 35px;
     left: 105px;
     font-size: 11px;
     font-family: "Gotham_Font", sans-serif;
@@ -1615,7 +2154,7 @@ body {
 .Sent_Text {
     position: absolute;
     top: 20px;
-    left: 300px;
+    left: 70%;
     font-size: 13px;
     font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
@@ -1624,20 +2163,19 @@ body {
 
 .alert_Img_Sent {
     position: absolute;
-    top: 45px;
+    top: 35px;
     left: 78px;
-    transform: scale(.7);
+    transform: scale(.4);
 }
 
 .Pending_FR_Style {
     position: relative;
     left: 20px;
-    width: 500px;
+    max-width: 500px;
+    width: 70%;
     height: 80px;
     background-color: rgb(40, 40, 40, 0);
-    margin-top: 20px;
     top: 50px;
-    margin-bottom: 20px;
     transition: .2s;
 }
 
@@ -1647,73 +2185,64 @@ body {
 
 .alert_Img {
     position: absolute;
-    top: 45px;
+    top: 35px;
     left: 78px;
-    transform: scale(.7);
+    transform: scale(.5);
 }
 
 .FR_Text {
     position: absolute;
-    top: 40px;
+    top: 35px;
     left: 105px;
     font-size: 11px;
     font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
-
 }
 
 .Account_Img {
     position: absolute;
-    top: 25px;
-    left: 40px;
+    top: 20px;
+    left: 25px;
+    width: 42px;
+    height: 42px;
 }
 
 .Account_Username {
     position: absolute;
-    top: 10px;
+    top: 5px;
     left: 85px;
     font-family: "Gotham_Font", sans-serif;
     color: rgb(215, 215, 215);
-
+    width: 35%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .Deny_Friend {
     position: absolute;
-
-    top: 10px;
-    left: 350px;
-    width: 48px;
-    height: 48px;
-    border-radius: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    top: 20px;
+    left: 70%;
+    width: 38px;
+    height: 38px;
     border: none;
-
-    cursor: pointer;
     transform: .2s;
     transition: .2s;
-
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .Accept_Friend {
     position: absolute;
-    width: 48px;
-    height: 48px;
-    top: 10px;
-    left: 410px;
-    border-radius: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-top: 8px;
-    padding-bottom: 8px;
+    width: 38px;
+    height: 38px;
+    top: 20px;
+    left: calc(70% + 40px);
     border: none;
-
     cursor: pointer;
     transform: .2s;
     transition: .2s;
-
+    border-radius: 50%;
 }
 
 
@@ -1727,7 +2256,6 @@ body {
     font-size: 18px;
     top: 40%;
     display: block;
-
 }
 
 #pending_none_text {
@@ -1760,12 +2288,14 @@ body {
     height: 100%;
     width: 60px;
     background-color: rgb(10, 10, 10);
-    border-right: 2px solid rgb(30, 30, 30);
+    border-right: 0px solid rgb(30, 30, 30);
     /*background-color: rgb(0, 89, 255);*/
     z-index: 15;
 
 
 }
+
+
 
 /*
 #Left_Menu_Video {
@@ -1873,7 +2403,7 @@ body {
     left: 60px;
     background-color: rgb(15, 15, 15);
     width: 25%;
-    height: calc(100% - 70px);
+    height: calc(100%);
     transition: .2s;
 
 }
@@ -1897,7 +2427,7 @@ body {
     top: 0px;
     background-color: rgb(10, 10, 10, .5);
     display: none;
-    z-index: 19;
+    z-index: 18;
 }
 
 .loader_Friend_main {
@@ -1923,33 +2453,107 @@ body {
 
 #Friends_Container {
     position: absolute;
-    height: calc(100vh - 60px - 160px);
+    height: calc(100vh - 125px);
     width: 100%;
-    top: 150px;
+    top: 125px;
     overflow-y: auto;
-    z-index: 16;
+    z-index: 15;
+    background-color: rgb(15, 15, 15);
+
 }
 
 #Top_Title {
-    position: relative;
+    position: absolute;
     top: 0px;
     left: 0px;
-    background-color: rgb(35, 35, 35);
+    background-color: rgb(30, 30, 30);
     width: 100%;
     height: 60px;
-    box-shadow: 0px 5px 10px rgb(10, 10, 10, .1);
+
 }
 
-#Main_Title {
+
+#Username_Personal {
+    width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#Your_IP_Actual {
+    position: relative;
+    left: -500px;
+    top: 0px;
+    opacity: 0;
+    z-index: -1;
+}
+
+#Messages {
     position: absolute;
-    top: -7px;
-    left: 30px;
-    font-size: 22px;
-    letter-spacing: 1px;
+    top: 64px;
+    left: 20px;
+    font-family: "Gotham_Font_bold", sans-serif;
+    color: rgb(245, 245, 245);
+    font-size: 18px;
+
+    z-index: 10;
+}
+
+#Pending {
+    position: absolute;
+    top: 69px;
+    right: 25px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(120, 120, 120);
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 10;
+    font-weight: bold;
+}
+
+.user_notif {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    font-family: "Gotham_Font_Bold", sans-serif;
+    color: rgb(245, 245, 245);
+    font-size: 12px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: rgb(250, 0, 0);
+
+    text-align: center;
+    z-index: 5;
+    border: 4px solid rgb(15, 15, 15);
+    display: none;
+}
+
+.user_ip {
+    position: absolute;
+    top: 0px;
+    left: 75px;
     font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
+    font-size: 16px;
+    width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
 }
+
+.personal_ip {
+    position: absolute;
+    top: -7px;
+    left: 20px;
+    white-space: nowrap;
+    font-family: "Gotham_Font_bold", sans-serif;
+    color: rgb(245, 245, 245);
+    font-size: 22px;
+
+}
+
 
 #Top_Logo_Main {
     position: absolute;
@@ -1959,9 +2563,10 @@ body {
 
 #Setting_Btn {
     position: absolute;
-    right: 15px;
-    top: 12px;
-    transform: scale(.6);
+    right: 20px;
+    top: 15px;
+    width: 24px;
+    height: 24px;
     cursor: pointer;
 }
 
@@ -1984,18 +2589,16 @@ body {
 }
 
 
-#Username_Personal {
-    top: 5%;
-    font-size: 18px;
-}
+
 
 #Your_Username {
     position: absolute;
-    left: 60px;
-    font-size: 12px;
-    top: 50%;
+    left: 25px;
+    font-size: 8px;
+    top: 0px;
     font-family: "Gotham_Font", sans-serif;
     color: rgb(245, 245, 245);
+    opacity: 0;
 }
 
 #Online_Indicator_Personal {
@@ -2004,14 +2607,6 @@ body {
     top: 40%;
 }
 
-
-#test_img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 30;
-    display: none;
-}
 
 .Profile_Img {
     border-radius: 50%;
@@ -2023,17 +2618,17 @@ body {
 .Status_Text {
     position: absolute;
     font-family: "Gotham_Font", sans-serif;
-    color: rgb(245, 245, 245);
+    color: rgb(200, 200, 200);
     font-size: 10px;
-    top: 25px;
-    left: 60px;
+    bottom: 5px;
+    left: 75px;
 }
 
 
 .Status_Icon {
     position: absolute;
-    top: 18px;
-    left: 95px;
+    bottom: -3px;
+    left: 110px;
     transform: scale(.7);
 }
 
@@ -2042,14 +2637,14 @@ body {
     position: relative;
     background-color: rgb(35, 35, 35, 0);
     width: 100%;
-    height: 60px;
-    top: 20px;
-    margin-bottom: 10px;
+    height: 70px;
+    top: 0px;
+    margin-bottom: 0px;
     z-index: 14;
     left: 50%;
     transform: translate(-50%, 0%);
     cursor: pointer;
-    transition: .2s;
+    transition: 0s;
 
 }
 
@@ -2062,24 +2657,14 @@ body {
     left: 20px;
     top: 50%;
     transform: translate(0%, -50%);
-    width: 28px;
-    height: 28px;
+    width: 42px;
+    height: 42px;
 }
 
-.user_ip {
-    position: absolute;
-    left: 60px;
-    top: 1%;
-    white-space: nowrap;
-    font-family: "Gotham_Font", sans-serif;
-    color: rgb(245, 245, 245);
-    font-size: 15px;
-
-}
 
 .delete_saved {
     position: absolute;
-    right: 10px;
+    right: 20px;
     top: 25%;
     transform: scale(.3);
     cursor: pointer;
@@ -2120,22 +2705,17 @@ body {
     padding-bottom: 5px;
     border: none;
     cursor: pointer;
-    transform: .2s;
-    transition: .2s;
+    transform: 0s;
+    transition: 0s;
 }
 
 #Add_IP:hover {
     background-color: rgb(0, 89, 255);
 }
 
-#Add_New_Tab {
-    cursor: default;
-    top: 80px;
-}
 
-#Add_New_Tab:hover {
-    background-color: rgb(15, 15, 15);
-}
+
+
 
 #Loader_Area_Friend_Req {
     position: absolute;
@@ -2288,7 +2868,7 @@ body {
     font-size: 18px;
     top: 300px;
     white-space: nowrap;
-    z-index: 14;
+    z-index: 16;
 }
 
 /*Side Nav Scroll*/
@@ -2320,12 +2900,67 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    opacity: .6;
+    opacity: 0;
 
 }
 
 /*Messaging Area*/
 
+
+
+/*Call User*/
+#call_user_container {
+    position: absolute;
+    width: 100%;
+    height: 250px;
+    z-index: 13;
+    background-color: rgb(10, 10, 10);
+    border-bottom: 2px solid rgb(15, 15, 15);
+    box-shadow: 0px 2px 5px rgba(15, 15, 15, 0.5);
+    z-index: 14;
+    display: none;
+}
+
+#Call_Users_Container {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -20%);
+    top: 20%;
+}
+
+
+.call_user_img {
+    width: 80px;
+    height: 80px;
+    padding: 2px;
+    border: 3px solid rgb(0, 235, 0);
+    border-radius: 50%;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+#Call_Options_Container {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -90%);
+    top: 90%;
+}
+
+.call_options_style {
+    padding: 10px;
+    height: 60px;
+    width: 60px;
+    filter: brightness(95%);
+    cursor: pointer;
+    transition: .2s;
+
+}
+
+.call_options_style:hover {
+    filter: brightness(105%);
+}
+
+/*Call User*/
 
 
 
@@ -2393,53 +3028,109 @@ body {
 
 
 
+/*View Full Image*/
+
+#view_img_full {
+    position: absolute;
+    left: calc(0px);
+    top: 0px;
+    height: 100%;
+    width: calc(100%);
+    display: none;
+    background-color: rgb(10, 10, 10, .8);
+    z-index: 18;
+}
+
+#main_img_full {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 50vw;
+    height: 90vh;
+    max-height: 800px;
+    max-width: 650px;
+    object-fit: cover;
+}
+
+#exit_full_img {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    cursor: pointer;
+}
+
+/*View Full Image*/
+
+
+
 /*msg area*/
+
+#Time_Elapsed {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 17;
+    top: 0px;
+}
+
+#Time_Elapsed_Style {
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 12px;
+    color: rgb(70, 70, 70);
+}
 
 #Not_Chatting_Cover {
     position: absolute;
     z-index: 15;
-    width: 97%;
-    height: 97%;
+    width: 100%;
+    height: 100%;
     left: 50%;
-    top: 11%;
+    top: 10%;
     transform: translate(-50%, -10%);
-    border: 1px solid rgb(70, 70, 70);
-    background-color: rgb(15, 15, 15);
-    display: none;
+    border: 0px solid rgb(70, 70, 70);
+    background-color: rgb(20, 20, 20);
+    display: block;
 
 }
 
-#Not_Chatting_Img {
+#Not_Chatting_Cover_Container {
     position: absolute;
     left: 50%;
     top: 38%;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -38%);
+}
+
+#Not_Chatting_Img {
+    top: 0px;
 }
 
 #text_not_Chatting {
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0%);
-    top: 47%;
+    top: 110px;
     font-family: "Gotham_Font", sans-serif;
     font-size: 22px;
     color: rgb(245, 245, 245);
+    white-space: nowrap;
 }
 
 #text_not_Chatting_2 {
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0%);
-    top: 54%;
+    top: 150px;
     font-family: "Gotham_Font", sans-serif;
     font-size: 14px;
     color: rgb(120, 120, 120);
+    white-space: nowrap;
 }
 
 #not_chatting_button {
     position: absolute;
     left: 50%;
-    top: 59%;
+    top: 180px;
     font-size: 12px;
     transform: translate(-50%, 54%);
     font-family: "Gotham_Font", sans-serif;
@@ -2465,27 +3156,53 @@ body {
 #Idle_Chat {
     position: absolute;
     z-index: 14;
-    width: 97%;
-    height: 97%;
+    width: 100%;
+    height: 100%;
     left: 50%;
-    top: 11%;
+    top: 10%;
     transform: translate(-50%, -10%);
-    border: 1px solid rgb(70, 70, 70);
-    background-color: rgb(15, 15, 15);
+    border: 0px solid rgb(70, 70, 70);
+
+    background-color: rgb(20, 20, 20);
 }
 
 #Idle_tab {
     display: block;
 }
 
+#Idle_tab_Container {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    transform: translate(-50%, -30%);
+}
 
+
+
+#Idle_Msg {
+    position: absolute;
+    left: 50%;
+    top: 0px;
+    transform: translate(-50%, 0%) scale(.8);
+}
+
+#idle_text {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    top: 110px;
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 15px;
+    color: rgb(245, 245, 245);
+    white-space: nowrap;
+}
 
 #idle_button {
     position: absolute;
     left: 50%;
-    top: 54%;
+    top: 160px;
     font-size: 12px;
-    transform: translate(-50%, 54%);
+    transform: translate(-50%, 0%);
     font-family: "Gotham_Font", sans-serif;
     background-color: rgb(213, 45, 255);
     color: white;
@@ -2506,62 +3223,82 @@ body {
     background-color: rgb(207, 14, 255);
 }
 
-#Idle_Msg {
-    position: absolute;
-    left: 50%;
-    top: 38%;
-    transform: translate(-50%, -50%) scale(.8);
-}
-
-#idle_text {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    top: 47%;
-    font-family: "Gotham_Font", sans-serif;
-    font-size: 18px;
-    color: rgb(245, 245, 245);
-}
-
 #Currently_Chatting {
     position: absolute;
-    width: 97%;
-    height: 10%;
-    top: 15px;
+    width: 100%;
+    height: 85px;
+    top: 0px;
     left: 50%;
     transform: translate(-50%, 0%);
-    background-color: red;
     z-index: 13;
-    background-color: rgb(15, 15, 15);
-    border: 1px solid rgb(70, 70, 70);
+    background-color: rgb(20, 20, 20);
+    border-bottom: 2px solid rgb(15, 15, 15);
+    box-shadow: 0px 2px 5px rgba(15, 15, 15, 0.5);
 }
 
-#Notice_Text {
-    position: absolute;
-    right: 2%;
-    top: 20%;
-    color: rgb(245, 245, 245);
-    font-family: "Gotham_Font", sans-serif;
-    font-size: 12px;
-    color: rgb(70, 70, 70);
-    display: none;
-}
 
 #Current_User_Img {
     position: absolute;
-    left: 2%;
-    top: 25%;
+    left: 5%;
+    margin-top: 15px;
+    width: 52px;
+    height: 52px;
     display: none;
 }
 
 #Current_User_Text {
     position: absolute;
-    left: 7%;
-    top: 5%;
+    left: calc(65px + 5%);
+    font-family: "Gotham_Font_bold", sans-serif;
     color: rgb(245, 245, 245);
-    font-family: "Gotham_Font", sans-serif;
+    font-size: 20px;
+    margin-top: 35px;
+    width: 70%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
-    font-size: 18px;
+#Call_User {
+    position: absolute;
+    right: 140px;
+    top: -8%;
+    transform: scale(.5);
+    cursor: pointer;
+    filter: brightness(70%);
+    transition: .2s;
+}
+
+#Call_User:hover {
+    filter: brightness(100%);
+}
+
+#VideoCall_User {
+    position: absolute;
+    right: 80px;
+    top: -8%;
+    transform: scale(.5);
+    cursor: pointer;
+    filter: brightness(70%);
+    transition: .2s;
+}
+
+#VideoCall_User:hover {
+    filter: brightness(100%);
+}
+
+#Share_Screen_User {
+    position: absolute;
+    right: 20px;
+    top: -8%;
+    transform: scale(.5);
+    cursor: pointer;
+    filter: brightness(70%);
+    transition: .2s;
+}
+
+#Share_Screen_User:hover {
+    filter: brightness(100%);
 }
 
 #Message {
@@ -2576,26 +3313,247 @@ body {
     display: none;
 }
 
-#Msg_Area {
-    font-family: "Gotham_Font", sans-serif;
+#Upload_File_Send_Container {
     position: absolute;
-    bottom: 10px;
+    width: 170px;
+    height: 70px;
+    background-color: rgb(35, 35, 35);
+    left: 4%;
+    bottom: 100px;
+    z-index: 10;
+    border-radius: 10px;
+    display: none;
+}
+
+#Upload_File_Send {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 155px;
+    height: 55px;
+    background-color: rgb(35, 35, 35);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#Upload_File_Send:hover {
+    background-color: rgb(172, 10, 212);
+
+}
+
+#upload_file_img {
+    position: absolute;
+    top: 50%;
+    left: -5px;
+    transform: translate(0%, -50%) scale(.5);
+}
+
+#Upload_File_Text {
+    position: absolute;
+    top: 5px;
+    left: 55px;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(245, 245, 245);
+    font-size: 14px;
+}
+
+
+#emoji_container {
+    position: absolute;
+    width: 225px;
+    height: 200px;
+    background-color: rgb(35, 35, 35);
+    right: 6%;
+    bottom: 100px;
+    z-index: 10;
+    border-radius: 10px;
+    display: none;
+}
+
+#Emoji_Title {
+    position: absolute;
+    font-family: "Gotham_Font", sans-serif;
+    color: rgb(150, 150, 150);
+    font-size: 18px;
+    top: 0px;
+    left: 25px;
+}
+
+.emoji {
+    cursor: pointer;
+    font-size: 20px;
+    margin-bottom: -20px;
+}
+
+#emoji_icon_container {
+    position: absolute;
     left: 50%;
     transform: translate(-50%, 0%);
-    height: 50px;
-    font-size: 14px;
-    background-color: rgb(15, 15, 15);
-    width: 89%;
-    resize: none;
-    border: 1px solid rgb(70, 70, 70);
-    padding: 10px;
-    padding-right: 7%;
-    color: rgb(245, 245, 245);
+    height: 130px;
+    width: 175px;
+    background-color: rgb(45, 45, 45);
+    overflow-y: auto;
+    top: 50px;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(28, 1fr);
+    grid-gap: 7px;
 
+}
+
+#add_file_msg {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    left: -55px;
+    top: 50%;
+    transform: translate(0%, -50%);
+    cursor: pointer;
+    z-index: 10;
+    transition: .2s;
+}
+
+
+#add_emoji_msg {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    right: -55px;
+    top: 50%;
+    transform: translate(0%, -50%);
+    cursor: pointer;
+    z-index: 10;
+
+    transition: .2s;
+}
+
+
+
+#add_img_msg {
+    position: absolute;
+    width: 28px;
+    height: 32px;
+    right: -20px;
+    top: 50%;
+    transform: translate(0%, -50%);
+    cursor: pointer;
+    z-index: 10;
+
+    transition: .2s;
+}
+
+
+#Attachments_Container {
+    position: absolute;
+    width: 75%;
+    height: 220px;
+    z-index: 13;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    bottom: 100px;
+    background-color: rgb(30, 30, 30);
+    border-radius: 20px;
+    padding-right: 85px;
+    padding-left: 60px;
+    display: none;
+}
+
+#attachment_Img {
+    position: absolute;
+    left: 25px;
+    top: 20px;
+    height: 180px;
+    width: 155px;
+    object-fit: cover;
+    z-index: 12;
+}
+
+#btn_container {
+    position: absolute;
+    top: 20px;
+    width: 75px;
+    left: 106px;
+    background-color: rgb(85, 85, 85);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 13;
+    height: 30px;
+}
+
+#Replace_Img {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+}
+
+#Remove_Img {
+    cursor: pointer;
+    width: 20px;
+    height: 18px;
+}
+
+#send_img_btn {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    bottom: 21px;
+    left: 190px;
+    cursor: pointer;
+}
+
+
+
+#Send_Msg_Container {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    width: 75%;
+    height: 60px;
+    z-index: 13;
+}
+
+#file_large {
+    position: absolute;
+    right: -60px;
+    top: -30px;
+    color: rgb(231, 22, 40);
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 12px;
+    display: none;
+}
+
+#Msg_Area {
+    position: absolute;
+    font-family: "Gotham_Font", sans-serif;
+    /*height: 40px;*/
+    height: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 15px;
+    background-color: rgb(30, 30, 30, 1);
+    resize: none;
+    border: 0px solid rgb(70, 70, 70);
+    padding-right: 115px;
+    color: rgb(245, 245, 245);
+    border-radius: 20px;
+    padding-left: 30px;
+    width: 100%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+#Msg_Area::placeholder {
+    color: rgb(150, 150, 150);
 }
 
 #Msg_Area:focus {
     outline: none;
+
 }
 
 #Send_Img {
@@ -2606,61 +3564,141 @@ body {
     cursor: pointer;
 }
 
+
 #Receive_Area {
     position: absolute;
-    overflow-y: auto;
-    width: 97%;
-    height: 73%;
+    width: 100%;
+    height: calc(100% - 165px);
     left: 50%;
-    top: 19%;
-    transform: translate(-50%, -10%);
-    border: 1px solid rgb(70, 70, 70);
-    background-color: rgb(15, 15, 15);
+    top: 70px;
+    transform: translate(-50%, 0%);
+    border: 0px solid rgb(70, 70, 70);
+    background-color: rgb(20, 20, 20);
     overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+
+.sent_img_style {
+    position: relative;
+    object-fit: cover;
+    margin-bottom: 20px;
+    left: -8px;
+    top: 20px;
+    height: 180px;
+    width: 155px;
+    cursor: pointer;
+}
+
+.download_img {
+    position: absolute;
+    left: 175px;
+    top: 32px;
+    width: 20px;
+    height: 20px;
 }
 
 .rec_sent_style {
     list-style-type: none;
+    position: absolute;
+    right: 10px;
+    display: flex;
+    flex-direction: column-reverse;
+    height: 100%;
+    overflow-x: hidden;
+    left: 10px;
+    z-index: 15;
+    background-color: rgb(20, 20, 20);
+    display: block
 }
+
+
 
 .msg_style_sent {
     position: relative;
     color: rgb(245, 245, 245);
     font-family: "Gotham_Font", sans-serif;
-    font-size: 14px;
-    background-color: rgb(0, 89, 255);
-    /*rgb(134, 42, 255)*/
-    /*rgb(42, 117, 255)*/
+    font-size: 16px;
+    background-color: rgb(0, 89, 255, 0);
+    /*rgb(0, 89, 255, .1)*/
     padding-right: 20px;
     padding-left: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 15px;
-    cursor: pointer;
-    margin-bottom: 60px;
-    left: 66%;
-    width: 240px;
-
+    margin-bottom: 20px;
+    left: 5%;
+    width: 85%;
     word-wrap: break-word;
     overflow-wrap: break-word;
     max-width: 100%;
+}
+
+.User_Name_Sent {
+    position: absolute;
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 14px;
+    color: rgb(245, 245, 245);
+    font-weight: bold;
+    top: -7px;
+    left: 10px;
+
+}
+
+.sent_text_style {
+    position: relative;
+    top: 0px;
+    left: -10px;
+}
+
+.rec_text_style {
+    position: relative;
+    top: 0px;
+    left: -10px;
+}
+
+.User_Name_Rec {
+    position: absolute;
+    font-family: "Gotham_Font", sans-serif;
+    font-size: 14px;
+    color: rgb(245, 245, 245);
+    font-weight: bold;
+    top: -7px;
+    left: 10px;
+}
+
+
+.Sent_User_Img {
+    position: absolute;
+    top: 8px;
+    left: -45px;
+    width: 38px;
+    height: 38px;
+}
+
+.Rec_User_Img {
+    position: absolute;
+    top: 8px;
+    left: -45px;
+    width: 38px;
+    height: 38px;
 }
 
 .msg_style_rec {
     position: relative;
     color: rgb(245, 245, 245);
     font-family: "Gotham_Font", sans-serif;
-    font-size: 14px;
-    background-color: rgb(60, 60, 60);
+    font-size: 16px;
+    background-color: rgb(60, 60, 60, 0);
     padding-right: 20px;
     padding-left: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
     border-radius: 15px;
     cursor: pointer;
-    margin-bottom: 60px;
-    left: -30px;
-    width: 240px;
+    margin-bottom: 20px;
+    left: 5%;
+    width: 80%;
     word-wrap: break-word;
     overflow-wrap: break-word;
     max-width: 100%;
@@ -2676,10 +3714,10 @@ body {
     height: 90%;
     overflow-y: auto;
     overflow-x: hidden;
-    left: 0px;
+    left: 10px;
     top: 10px;
     z-index: 15;
-    background-color: rgb(15, 15, 15);
+    background-color: rgb(20, 20, 20);
     display: block;
 }
 
@@ -2688,9 +3726,9 @@ body {
     font-family: "Gotham_Font", sans-serif;
     font-size: 10px;
     color: rgb(90, 90, 90);
-    margin-top: 30px;
-    position: absolute;
-    left: 110px;
+    top: 0px;
+    margin-left: 10px;
+    position: relative;
     white-space: nowrap;
 }
 
@@ -2698,11 +3736,10 @@ body {
     background-color: rgb(10, 10, 10, 0);
     font-family: "Gotham_Font", sans-serif;
     font-size: 10px;
-
     color: rgb(90, 90, 90);
-    margin-top: 30px;
-    position: absolute;
-    left: 10px;
+    top: 0px;
+    margin-left: 10px;
+    position: relative;
     white-space: nowrap;
 }
 
@@ -2869,7 +3906,7 @@ body {
     top: 50px;
     width: 85%;
     background-color: rgb(15, 15, 15);
-    border: 1px solid rgb(70, 70, 70);
+    border: 0px solid rgb(70, 70, 70);
     color: rgb(245, 245, 245);
 }
 
@@ -3029,3 +4066,289 @@ body {
 }
 
 /*Connection Area*/
+
+
+
+
+
+
+@media (min-width: 1026px) {
+    #Settings_Tab {
+        position: fixed;
+        left: calc(25% + 60px);
+        top: 0px;
+        width: calc(75% - 60px);
+        height: calc(100%);
+        background-color: rgb(20, 20, 20);
+        transition: .2s;
+        display: none;
+        z-index: 15;
+        /*zindex 15 none*/
+        overflow-y: auto;
+
+    }
+
+    #Left_Menu {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 100%;
+        width: 60px;
+        background-color: rgb(10, 10, 10);
+        border-right: 0px solid rgb(30, 30, 30);
+        /*background-color: rgb(0, 89, 255);*/
+        z-index: 15;
+
+
+    }
+
+    #Left_NavBar {
+        position: absolute;
+        top: 0px;
+        left: 60px;
+        background-color: rgb(15, 15, 15);
+        width: 25%;
+        height: calc(100%);
+        transition: .2s;
+    }
+
+
+    #Friends_Container {
+        position: absolute;
+        height: calc(100vh - 125px);
+        width: 100%;
+        top: 125px;
+        overflow-y: auto;
+        z-index: 15;
+        background-color: rgb(15, 15, 15);
+
+    }
+
+
+    #Scrollable_Nav {
+        position: absolute;
+        left: 0px;
+        top: 100px;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+        background-color: rgb(15, 15, 15);
+        transition: .2s;
+    }
+
+    #Logout_Tab {
+        position: fixed;
+        left: calc(25% + 60px);
+        top: 0px;
+        width: calc(75% - 60px);
+        height: calc(100%);
+        background-color: rgb(20, 20, 20, 1);
+        transition: .2s;
+        display: none;
+        z-index: 15;
+    }
+
+    #Add_Friend_Tab {
+        position: fixed;
+        left: calc(25% + 60px);
+        top: 0px;
+        width: calc(75% - 60px);
+        height: calc(100%);
+        background-color: rgb(20, 20, 20);
+        transition: .2s;
+        display: none;
+        /*none*/
+        z-index: 15;
+        overflow-y: auto;
+    }
+
+    #Messaging_Area {
+        position: absolute;
+        left: calc(25% + 60px);
+        top: 0px;
+        height: 100%;
+        width: calc(75% - 60px);
+        transition: .2s;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+
+    #Confirm_Remove_Friend_tab {
+        position: fixed;
+        left: calc(25% + 60px);
+        top: 0px;
+        width: calc(75% - 60px);
+        height: calc(100%);
+        backdrop-filter: blur(10px);
+        background-color: rgb(20, 20, 20, 1);
+        transition: .2s;
+        display: none;
+        /*none*/
+        z-index: 15;
+        overflow-y: auto;
+    }
+
+
+    #tab_mobile {
+        position: fixed;
+        width: 24px;
+        height: 24px;
+        top: 30px;
+        left: 25px;
+        z-index: 17;
+        display: none;
+    }
+
+    #Send_Msg_Container {
+        position: absolute;
+        bottom: 30px;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        width: 75%;
+        height: 60px;
+    }
+
+    #Current_User_Img {
+        position: absolute;
+        left: 5%;
+        top: 2%;
+        width: 52px;
+        height: 52px;
+        display: none;
+    }
+
+    #Current_User_Text {
+        position: absolute;
+        left: calc(65px + 5%);
+        font-family: "Gotham_Font_bold", sans-serif;
+        color: rgb(245, 245, 245);
+        font-size: 20px;
+        top: -5px;
+    }
+
+
+}
+
+
+
+@media (max-width: 1025px) {
+
+    #Left_Menu {
+        left: -250px;
+        transition: .1s;
+        z-index: 17;
+    }
+
+
+    #main_img_full {
+        width: 80vw;
+    }
+
+
+    #Signed_In {
+        position: fixed;
+        width: 300px;
+        background-color: rgb(245, 245, 245);
+        top: 15px;
+        left: 50%;
+        transform: translate(-50%, 0%);
+        height: 55px;
+        z-index: 20;
+        border-radius: 5px;
+        display: none;
+    }
+
+    #Left_NavBar {
+        left: -250px;
+        width: 250px;
+        z-index: 17;
+        transition: .1s;
+        height: 100%;
+    }
+
+    #Friends_Container {
+        width: 250px;
+
+    }
+
+    #Scrollable_Nav {
+        left: -250px;
+        width: 190px;
+        transition: .1s;
+    }
+
+    #Settings_Tab {
+        left: calc(0px);
+        width: calc(100%);
+
+    }
+
+    #Logout_Tab {
+        left: calc(0px);
+        width: calc(100%);
+
+    }
+
+
+    #Add_Friend_Tab {
+        left: calc(0px);
+        width: calc(100%);
+
+    }
+
+    #Messaging_Area {
+        left: calc(0px);
+        width: calc(100%);
+    }
+
+    #Confirm_Remove_Friend_tab {
+        left: calc(0px);
+        width: calc(100%);
+
+    }
+
+    #tab_mobile {
+        display: block;
+        transition: .1s;
+        z-index: 17;
+
+    }
+
+    #Send_Msg_Container {
+        width: 60%;
+
+    }
+
+    #Attachments_Container {
+        width: 60%;
+
+    }
+
+    #Current_User_Img {
+        left: 15%;
+    }
+
+    #Current_User_Text {
+        left: calc(65px + 15%);
+    }
+
+}
+
+
+@media (max-height: 325px) {
+    #Left_Menu {
+        overflow-y: auto;
+        overflow-x: hidden;
+
+    }
+
+    #Main_Icon {
+
+        height: 325px;
+    }
+
+
+
+}

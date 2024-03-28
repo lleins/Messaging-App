@@ -4,6 +4,7 @@ const Userschema = new mongoose.Schema({
     username: String,
     userid: String,
     status: Number,
+    pic: String,
 
 }, {
     collection: 'User-Information' // Specify the collection name

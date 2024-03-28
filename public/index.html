@@ -5,35 +5,39 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="icon" href="favicon.ico">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <link rel="icon" href="Images/favicon.ico">
   <link rel="stylesheet" href="index.css">
 
-  <title>Raven - Messaging App</title>
+  <title>Raven • Messaging App</title>
 </head>
 
 <body>
 
+  <audio id="recevied_msg_sound" src="Sound/new_msg_mod.mp4"></audio>
 
   <div class="loading-container">
-    <img id="LoadingText" src="Images/Logo_XLarge.png">
+    <div id="Load_container">
+      <img id="LoadingText" src="Images/Logo_XLarge.png">
+      <div id="loader_loader" class="loader_loader"></div>
+    </div>
   </div>
 
 
+
   <div id="Accept_Cookies_Container">
-    <video id="Cookies_Video" autoplay muted loop>
-      <source src="Videos/purple.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+
     <div id="Cookie_Loader">
       <div id="loader_cookie" class="loader_cookie"></div>
     </div>
     <div id="Cookies_Content">
-      <p id="Cookies_Title">Cookies</p>
-      <p id="Cookie_Writeup">This site uses cookies to function properly and to offer the best experience possible.
+      <p id="Cookies_Title">Local Storage</p>
+      <p id="Cookie_Writeup">This site uses local storage to function properly and to offer the best experience
+        possible.
         Please accept the use of
-        cookies on this site. Please read our policy on cookie use below.</p>
+        cookies on this site. Please read our policy on local storage use below.</p>
       <div id="Cookie_Button_Container">
-        <p id="Cookie_Policy">Cookie Policy</p>
+        <p id="Cookie_Policy" onclick="open_policy()">Local Storage Policy</p>
         <button id="Cookie_Accept" onclick="Cookies_Accept()">ACCEPT</button>
       </div>
     </div>
@@ -50,10 +54,13 @@
   <!--Area to store currently chatting user-->
   <div id="Currently_Chatting_User">
     <input type="text" id="User_Chat">
+    <input type="text" id="User_Sent">
   </div>
 
 
-  <img src="Images/Squid glasses.jpg" id="test_img" class="Profile_Img">
+
+
+
 
   <!--Area to store currently chatting user-->
 
@@ -69,13 +76,20 @@
 
   <div id="Account_Created">
     <p class="notif_text">Account Created! Please sign in</p>
-    <img class="notif_warn" src="Images/warning.png">
+    <img class="notif_warn" src="Images/check_notif.png">
+    <img onclick="Created_Account_Remove()" class="remove_notif" src="Images/remove.png">
+  </div>
 
+  <div id="password_reset">
+    <p class="notif_text">Password reset! Please sign in</p>
+    <img class="notif_warn" src="Images/check_notif.png">
+    <img onclick="password_reset_Remove()" class="remove_notif" src="Images/remove.png">
   </div>
 
   <div id="Signed_In">
     <p class="notif_text">Successfully signed in!</p>
-    <img class="notif_warn" src="Images/warning.png">
+    <img class="notif_warn" src="Images/check_notif.png">
+    <img onclick="Sign_In_Remove()" class="remove_notif" src="Images/remove.png">
   </div>
 
   <div id="Loader_Area">
@@ -84,17 +98,15 @@
 
 
   <div id="Cookie_Error">
-    <p class="notif_text">Please enable cookies. This site uses cookies to function and to offer you a better
+    <p class="notif_text">Please enable local storage. This site uses local storage to function and to offer you a
+      better
       experience.
     </p>
     <img class="notif_warn" src="Images/warning.png">
   </div>
 
   <div id="Login_Area">
-    <video id="Login_Video" autoplay muted loop>
-      <source src="Videos/blue.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+
     <img id="Logo_Sign" src="Images/Logo_Large.png">
     <p id="SignIn_Title">Sign in to Raven</p>
     <p id="CreateAcc_Title">Create Account</p>
@@ -102,7 +114,6 @@
       <p id="email_Login_text" class="Sign_create_text">Username</p>
       <input id="Login_Email_Input" class="sign_create_input" type="text">
 
-      <p id="Forgot_Pass">Forgot password?</p>
       <p id="pass_Login_text" class="Sign_create_text">Password</p>
       <input id="Login_pass_Input" class="sign_create_input" type="password">
 
@@ -132,41 +143,159 @@
     </div>
 
     <div id="Bottom_Links_Container">
-      <p class="Bottom_Links">Terms</p>
-      <p class="Bottom_Links">Privacy</p>
-      <p class="Bottom_Links">Docs</p>
-      <p class="Bottom_Links">Contact Support</p>
+      <p class="Bottom_Links" onclick="open_privacy()">Privacy</p>
+      <p class="Bottom_Links" onclick="open_policy()">Local Storage Policy</p>
+      <p class="Bottom_Links" onclick="open_git()">Git</p>
     </div>
+  </div>
+
+
+  <div id="Privacy_Info_Tab">
+    <p id="My_Privacy_Title">Privacy</p>
+    <p id="Privacy_Acc_title">Account Creation</p>
+    <p id="Privacy_Acc_writeup">Upon account creation, we encrypt and securely store user passwords, ensuring
+      confidentiality and privacy. We have a strict policy against sharing or disclosing encrypted password
+      information. Our commitment to robust encryption techniques ensures the security of user account credentials.
+    </p>
+    <p id="Privacy_messaging_title">Messaging</p>
+
+    <p id="Privacy_messaging_writeup">All messages sent and received through our platform undergo encryption
+      processes, ensuring that their contents remain confidential and secure. It's important to note that we do not
+      store any messages in our database, adhering to a strict policy of non-retention. Additionally, messages are
+      transmitted directly between users and do not pass through our servers, further enhancing privacy and minimizing
+      the risk of interception. This approach underscores our commitment to protecting user data and fostering a
+      secure environment for communication.
+    </p>
+    <img id="exit_privacy_policy" onclick="close_privacy()" src="Images/remove.png">
+  </div>
+
+  <div id="Policies_Info_Tab">
+    <p id="My_Account_Title">Local Storage Policy</p>
+    <p id="Local_Login_title">Login</p>
+    <p id="Local_Storage_writeup">Our platform utilizes local storage to maintain user login sessions, ensuring
+      seamless access to personalized
+      features.Upon successful login, a session token is securely stored in the user's browser for a duration of one
+      day, facilitating convenient access to their account during subsequent visits. This approach enhances user
+      experience by eliminating the need for repeated logins within the session timeframe, while prioritizing security
+      and privacy through the utilization of browser-local storage mechanisms.</p>
+    <p id="Local_UserId_title">User ID</p>
+
+    <p id="Local_UserID_writeup">Our platform leverages local storage to efficiently update and track user IDs for
+      messaging functionality. Upon user engagement with the messaging feature, their unique identifier is stored
+      locally within the browser environment, facilitating seamless communication and message delivery. By utilizing
+      local storage, we optimize performance by reducing the need for frequent server requests while ensuring a
+      responsive and interactive messaging experience for our users. This approach not only enhances the efficiency of
+      our messaging system but also prioritizes user privacy by securely managing user data within the confines of
+      their browser.</p>
+    <img id="exit_privacy_policy" onclick="close_policy()" src="Images/remove.png">
   </div>
 
 
   <!--Settings Tab-->
   <div id="Settings_Tab">
-    <p id="Settings_Title">Settings</p>
-    <div id="Left_menu">
-      <button id="My_Account" class="setting_nav">My Account</button>
-      <button class="setting_nav">Privacy</button>
-      <button class="setting_nav">Information</button>
-      <button class="setting_nav">Cookie Policy</button>
+    <p id="Title_Add_Friend">Settings</p>
+    <div id="Left_menu_Settings">
+      <button id="My_Account_btn" onclick="My_Account()" class="setting_nav">My Account</button>
+      <button id="Privacy_btn" onclick="Privacy()" class="setting_nav">Privacy</button>
+      <button id="Cookie_btn" onclick="Cookie_Policy()" class="setting_nav">Local Storage Policy</button>
     </div>
     <div id="My_Account_Container">
       <p id="My_Account_Title">My Account</p>
-      <div id="My_Account_Container_2">
-        <img id="My_Account_Img" src="Images/user_big.png">
-        <p id="My_Account_Name"></p>
-        <button id="Change_Profile_Img">CHANGE</button>
+      <img id="My_Account_Img" src="Images/user_big.png">
+      <button id="Change_Profile_Img">CHANGE</button>
+      <div id="Account_details_container">
+        <div>
+          <p id="My_Account_Name_Title">Username</p>
+          <p id="My_Account_Name"></p>
+        </div>
+        <div>
+          <p id="My_Account_Password_title">Date created</p>
+          <p id="My_Account_Password"></p>
+        </div>
+
       </div>
 
+      <button id="My_Account_Reset_Password" onclick="change_pass()">Reset Password</button>
     </div>
+
+    <div id="Privacy_Container">
+      <p id="My_Account_Title">Privacy</p>
+      <p id="Privacy_Acc_title">Account Creation</p>
+      <p id="Privacy_Acc_writeup">Upon account creation, we encrypt and securely store user passwords, ensuring
+        confidentiality and privacy. We have a strict policy against sharing or disclosing encrypted password
+        information. Our commitment to robust encryption techniques ensures the security of user account credentials.
+      </p>
+      <p id="Privacy_messaging_title">Messaging</p>
+
+      <p id="Privacy_messaging_writeup">All messages sent and received through our platform undergo encryption
+        processes, ensuring that their contents remain confidential and secure. It's important to note that we do not
+        store any messages in our database, adhering to a strict policy of non-retention. Additionally, messages are
+        transmitted directly between users and do not pass through our servers, further enhancing privacy and minimizing
+        the risk of interception. This approach underscores our commitment to protecting user data and fostering a
+        secure environment for communication.</p>
+    </div>
+    <div id="Cookie_Container">
+      <p id="My_Account_Title">Local Storage Policy</p>
+      <p id="Local_Login_title">Login</p>
+      <p id="Local_Storage_writeup">Our platform utilizes local storage to maintain user login sessions, ensuring
+        seamless access to personalized
+        features.Upon successful login, a session token is securely stored in the user's browser for a duration of one
+        day, facilitating convenient access to their account during subsequent visits. This approach enhances user
+        experience by eliminating the need for repeated logins within the session timeframe, while prioritizing security
+        and privacy through the utilization of browser-local storage mechanisms.</p>
+      <p id="Local_UserId_title">User ID</p>
+
+      <p id="Local_UserID_writeup">Our platform leverages local storage to efficiently update and track user IDs for
+        messaging functionality. Upon user engagement with the messaging feature, their unique identifier is stored
+        locally within the browser environment, facilitating seamless communication and message delivery. By utilizing
+        local storage, we optimize performance by reducing the need for frequent server requests while ensuring a
+        responsive and interactive messaging experience for our users. This approach not only enhances the efficiency of
+        our messaging system but also prioritizes user privacy by securely managing user data within the confines of
+        their browser.</p>
+    </div>
+
+
   </div>
   <!--Settings Tab-->
 
+  <div id="Change_Password_Container">
+    <img id="Logo_Sign" src="Images/Logo_Large.png">
+    <p id="SignIn_Title">Reset Password</p>
+    <div id="Change_Container">
+      <p id="Change_pass1_text" class="Sign_create_text">New password</p>
+      <input id="Change_pass1_input" class="sign_create_input" type="password">
+      <img id="error_img" src="Images/notice.png">
+      <p id="error_match">Passwords don't match</p>
+      <p id="error_er">Something went wrong</p>
+      <p id="Change_pass2_text" class="Sign_create_text">Re-enter new password</p>
+      <input id="Change_pass2_input" class="sign_create_input" type="password">
+      <button id="Change_pass_Button" onclick="change_pass_actual()">Reset Password</button>
+      <p id="Cancel_change" onclick="close_change_pass()">Cancel</p>
+    </div>
+  </div>
+
+
+  <!--Change Profile Img-->
+  <div id="Change_Profile_Img_Container">
+    <img id="New_User_Img" src="Images/user_big.png">
+    <div id="Submit_Img_Container">
+      <div id="container_submit">
+        <label id="Select_Img_text" for="imageInput">Select an image:</label>
+        <input id="Select_Img" type="file" name="image" accept="image/*"
+          onchange="displayImage(this), uploadFile_input(this)">
+      </div>
+
+    </div>
+    <div id="submit_button_container">
+      <button id="Cancel_Btn" type="button" onclick="close_profile_prompt()">CANCEL</button>
+      <button id="Upload_Btn" type="button" onclick="uploadImage()">UPLOAD</button>
+    </div>
+  </div>
+  <!--Change Profile Img-->
+
+
   <!--Logout Tab-->
   <div id="Logout_Tab">
-    <video id="Logout_Video" autoplay muted loop>
-      <source src="Videos/purple.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
     <div id="Logout_Container">
       <img id="Logout_Img" src="Images/Logout.png">
       <p id="Logout_Confirm_Text">Are you sure you want to logout?</p>
@@ -184,10 +313,11 @@
     </div>
     <p id="Title_Add_Friend">Add new users</p>
     <div id="Search_Bar_Add_FR">
-      <img id="Search_Ip_connect_FR" src="Images/search.png">
-      <input id="connect_IP_FR" type="text" placeholder="Enter User ID" />
-      <button id="Friend_Request_FR" onclick="Friend_Request(), Disable_Button('Friend_Request_FR')">SEND
-        REQUEST</button>
+      <div id="Input_Bar_Container">
+        <img id="Search_Ip_connect_FR" src="Images/search.png">
+        <input id="connect_IP_FR" type="text" placeholder="Enter username" />
+        <button id="Friend_Request_FR" onclick="Friend_Request()">SEND</button>
+      </div>
       <p id="User_DNE_FR" class="Error_Friend_FR">User does not exist.</p>
       <p id="User_Error_FR" class="Error_Friend_FR">An error has occured. Cannot be sent at this time.</p>
       <p id="User_Pending_FR" class="Error_Friend_FR">Friend request already pending or your already friends</p>
@@ -211,9 +341,9 @@
     </div>
 
     <p id="Pending_add_1" class="Pending_Notifs">User successfully added!</p>
-    <p id="Pending_add_3" class="Pending_Notifs">Something went wrong. Cannot add user at this time.</p>
+    <p id="Pending_add_3" class="Pending_Notifs">Cannot add user at this time.</p>
     <p id="Pending_deny_1" class="Pending_Notifs">Friend request denied!</p>
-    <p id="Pending_deny_3" class="Pending_Notifs">Something went wrong. Cannot deny friend request at this time.</p>
+    <p id="Pending_deny_3" class="Pending_Notifs">Cannot deny friend request at this time.</p>
 
     <div id="Pending_Tab" class="Add_Friends_Tabs_Style">
       <img id="Reload_Pending" onclick="check_pending(), rotateImage('Reload_Pending')" src="Images/reload.png">
@@ -241,34 +371,45 @@
         <p class="Account_Username_Sent">Username</p>
         <img class="alert_Img_Sent" src="Images/warning.png">
         <p class="Sent_Text_sec">Sent</p>
-        <p class="Sent_Text">Friend request pending...</p>
+        <p class="Sent_Text">Pending...</p>
       </div>
       -->
     </div>
-
+    <div id="Space"></div>
   </div>
   <!--Add Friend Tab-->
 
 
 
+  <!--View Image-->
+
+  <div id="view_img_full">
+    <img id="main_img_full" src="">
+    <img src="Images/Exit.png" onclick="close_fullscreen_on_image()" id="exit_full_img">
+  </div>
+
+  <!--View Image-->
+
+
 
   <!--Confirm Connect-->
-  <div id="Confirm_Remove_Friend">
-    <div id="Confirm_Remove_Friend_Loader">
-      <div id="Loader_confirm_Remove" class="loader_Friend"></div>
+  <div id="Confirm_Remove_Friend_tab">
+    <div id="Confirm_Remove_Friend">
+      <div id="Confirm_Remove_Friend_Loader">
+        <div id="Loader_confirm_Remove" class="loader_Friend"></div>
+      </div>
+      <img id="Warning_Connect_Img" src="Images/warning.png">
+      <p id="Chat_Request_text">Remove <span id="Chat_Request_actual"></span>?</p>
+      <p id="Remove_Text_Warning">They will be permantly removed from your friends list. You can re-add them in the
+        add
+        friends tab.
+      </p>
+      <p id="Error_Remove">Cannot be removed at this time.</p>
+      <div id="Button_Connect_Container">
+        <button id="Join_Chat">REMOVE</button>
+        <button id="Deny_Chat" onclick="deny_connection()">CANCEL</button>
+      </div>
     </div>
-
-    <img id="Warning_Connect_Img" src="Images/warning.png">
-    <p id="Chat_Request_text">Remove <span id="Chat_Request_actual"></span>?</p>
-    <p id="Remove_Text_Warning">They will be permantly removed from your friends list. You can re-add them in the add
-      friends tab.
-    </p>
-    <p id="Error_Remove">Cannot be removed at this time.</p>
-    <div id="Button_Connect_Container">
-      <button id="Join_Chat">REMOVE</button>
-      <button id="Deny_Chat" onclick="deny_connection()">CANCEL</button>
-    </div>
-
   </div>
   <!--Confirm Connect-->
 
@@ -303,6 +444,8 @@
   <!--Connection Notifs-->
 
 
+  <img id="tab_mobile" onclick="open_side_nav()" src="Images/menu.png">
+
   <div id="Left_Menu">
     <!--
     <video id="Left_Menu_Video" autoplay muted loop>
@@ -319,12 +462,11 @@
     </div>
     <div id="Main_Icon">
 
-      <img id="Logo_Icon" onclick="Raven_Tab()" src="Images/Logo_large.png">
-
+      <img id="Logo_Icon" onclick="Raven_Tab()" src="Images/Logo_Large.png">
       <img id="Add_Friend" onclick="add_friend_tab(),check_pending(),check_sent()" src="Images/add_friend.png">
       <img id="Message_Icon" onclick="message_tab()" src="Images/message.png">
       <img id="Logout_Icon" onclick="Logout_Open_Tab()" src="Images/Logout.png">
-      <img id="Setting" onclick="Open_Settings()" src="Images/setting_icon.png">
+      <img id="Setting" onclick="Open_Settings(), account_name()" src="Images/setting_icon.png">
     </div>
 
   </div>
@@ -337,17 +479,9 @@
 
 
     <div id="Top_Title">
-      <img id="reload_friends_M" onclick="Friends_Left_Bar(), rotateImage_main('reload_friends_M')"
-        src="Images/reload.png">
-      <p id="Main_Title">Raven</p>
-
-      <img id="Setting_Btn" onclick="Open_Settings()" src="Images/settings_2.png">
-      <div id="Add_New_Tab" class="added_ip">
-        <p id="Add_New_Text">Add a new user</p>
-        <img id="Add_New_Img" onclick="open_new_user()" src="Images/add.png">
-
-      </div>
-
+      <p id="Username_Personal" class="personal_ip">Username</p>
+      <p id="Your_IP_Actual"></p>
+      <img id="Setting_Btn" onclick="Open_Settings()" src="Images/edit.png">
       <!--
       <div id="Connect_Tab">
         <img id="Search_Ip_connect" src="Images/search.png">
@@ -356,34 +490,10 @@
       </div>
       -->
       <p id="friends_none_text_F">You have no users added</p>
-      <div id="Personal_Tab">
-        <img class="user_img" src="Images/user.png">
-        <p id="Username_Personal" class="user_ip"></p>
-        <p id="Your_Username">Id: <span id="Your_IP_Actual"></span></p>
-        <div id="Online_Indicator_Personal" class="online-indicator"></div>
-      </div>
+      <p id="Messages">Chats</p>
+      <p id="Pending" onclick="add_friend_tab(),check_pending(),check_sent()">Pending</p>
       <div id="Friends_Container">
 
-        <!--
-
-        <div class="added_ip">
-          <img class="user_img" src="Images/user.png">
-          <p class="user_ip"></p>
-          <img class="delete_saved" src="Images/remove.png">
-          <p class="Status_Text">Online</p>
-          <p class="online-indicator Status_Icon"></p>
-        </div>
-
-
-      <div class="added_ip">
-        <img class="user_img" src="Images/user.png">
-        <p class="user_ip">00.00.0.0</p>
-        <img class="delete_saved" src="Images/remove.png">
-        <p class="Status_Text">Offline</p>
-        <p class="offline-indicator Status_Icon"></p>
-        <p class="Message_Count">1</p>
-      </div>
-    -->
       </div>
     </div>
 
@@ -398,17 +508,23 @@
   <!--Middle Nav Bar-->
   <div id="Messaging_Area">
     <div id="Not_Chatting_Cover">
-      <img id="Not_Chatting_Img" src="Images/Logo_XLarge.png">
-      <p id="text_not_Chatting">Raven</p>
-      <p id="text_not_Chatting_2">Send private messages and photos to friends</p>
-      <button id="not_chatting_button" onclick="message_tab()">START MESSAGING</button>
+      <div id="Not_Chatting_Cover_Container">
+        <img id="Not_Chatting_Img" src="Images/Logo_XLarge.png">
+        <p id="text_not_Chatting">Raven</p>
+        <p id="text_not_Chatting_2">Send private messages and photos to friends</p>
+        <button id="not_chatting_button" onclick="message_tab()">START MESSAGING</button>
+      </div>
+
     </div>
 
     <div id="Idle_Chat">
       <div id="Idle_tab">
-        <img id="Idle_Msg" src="Images/message_big.png">
-        <p id="idle_text">Add and select a friend to start messaging</p>
-        <button id="idle_button" onclick="add_friend_tab()">ADD FRIEND</button>
+        <div id="Idle_tab_Container">
+          <img id="Idle_Msg" src="Images/message_big.png">
+          <p id="idle_text">Add and select a friend to start messaging</p>
+          <button id="idle_button" onclick="add_friend_tab()">ADD FRIEND</button>
+        </div>
+
       </div>
       <div id="Not_Online_Container">
         <img id="Disconnect_Img" src="Images/disconnect_big.png">
@@ -418,41 +534,161 @@
 
       </div>
     </div>
-    <video id="Msg_Video" autoplay muted loop>
-      <source src="Videos/purple.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
+
+    <div id="call_user_container">
+      <div id="Call_Users_Container">
+        <img class="call_user_img" src="Profile/blue.png">
+        <img class="call_user_img" src="Profile/orange.png">
+      </div>
+      <div id="Call_Options_Container">
+        <img class="call_options_style" src="Images/camera_off.png">
+        <img class="call_options_style" src="Images/share_call.png">
+        <img class="call_options_style" src="Images/microphone.png">
+        <img class="call_options_style" onclick="end_call()" src="Images/hang_up.png">
+      </div>
+    </div>
+
     <div id="Search_Bar">
       <div>
+        <div id="Upload_File_Send_Container">
+          <div id="Upload_File_Send">
+            <img id="upload_file_img" src="Images/upload.png">
+            <p id="Upload_File_Text">Upload a File</p>
+          </div>
+        </div>
+        <div id="emoji_container">
+          <p id="Emoji_Title">Emoji's</p>
+          <div id="emoji_icon_container">
+            <p id="smile_1" class="emoji" onclick="add_emoji_msg('smile_1')">😃</p>
+            <p id="smile_2" class="emoji" onclick="add_emoji_msg('smile_2')">😄</p>
+            <p id="smile_3" class="emoji" onclick="add_emoji_msg('smile_3')">😁</p>
+            <p id="smile_4" class="emoji" onclick="add_emoji_msg('smile_4')">😆</p>
+            <p id="smile_5" class="emoji" onclick="add_emoji_msg('smile_5')">😅</p>
+            <p id="smile_6" class="emoji" onclick="add_emoji_msg('smile_6')">🤣</p>
+            <p id="smile_7" class="emoji" onclick="add_emoji_msg('smile_7')">😂</p>
+            <p id="smile_8" class="emoji" onclick="add_emoji_msg('smile_8')">🙂</p>
+            <p id="smile_9" class="emoji" onclick="add_emoji_msg('smile_9')">🙃</p>
+            <p id="smile_10" class="emoji" onclick="add_emoji_msg('smile_10')">😉</p>
+            <p id="smile_11" class="emoji" onclick="add_emoji_msg('smile_11')">😊</p>
+            <p id="smile_12" class="emoji" onclick="add_emoji_msg('smile_12')">😊</p>
+            <p id="smile_13" class="emoji" onclick="add_emoji_msg('smile_13')">😇</p>
+            <p id="smile_14" class="emoji" onclick="add_emoji_msg('smile_14')">🥰</p>
+            <p id="smile_15" class="emoji" onclick="add_emoji_msg('smile_15')">😍</p>
+            <p id="smile_16" class="emoji" onclick="add_emoji_msg('smile_16')">🤩</p>
+            <p id="smile_17" class="emoji" onclick="add_emoji_msg('smile_17')">😘</p>
+            <p id="smile_18" class="emoji" onclick="add_emoji_msg('smile_18')">😗</p>
+            <p id="smile_19" class="emoji" onclick="add_emoji_msg('smile_19')">😚</p>
+            <p id="smile_20" class="emoji" onclick="add_emoji_msg('smile_20')">😙</p>
+            <p id="smile_21" class="emoji" onclick="add_emoji_msg('smile_21')">😋</p>
+            <p id="smile_22" class="emoji" onclick="add_emoji_msg('smile_22')">😛</p>
+            <p id="smile_23" class="emoji" onclick="add_emoji_msg('smile_23')">😜</p>
+            <p id="smile_24" class="emoji" onclick="add_emoji_msg('smile_24')">🤪</p>
+            <p id="smile_25" class="emoji" onclick="add_emoji_msg('smile_25')">😝</p>
+            <p id="smile_26" class="emoji" onclick="add_emoji_msg('smile_26')">🤑</p>
+            <p id="smile_27" class="emoji" onclick="add_emoji_msg('smile_27')">🤗</p>
+            <p id="smile_28" class="emoji" onclick="add_emoji_msg('smile_28')">🤭</p>
+            <p id="smile_29" class="emoji" onclick="add_emoji_msg('smile_29')">🤫</p>
+            <p id="smile_30" class="emoji" onclick="add_emoji_msg('smile_30')">🤔</p>
+            <p id="smile_31" class="emoji" onclick="add_emoji_msg('smile_31')">🤐</p>
+            <p id="smile_32" class="emoji" onclick="add_emoji_msg('smile_32')">🤨</p>
+            <p id="smile_33" class="emoji" onclick="add_emoji_msg('smile_33')">😐</p>
+            <p id="smile_34" class="emoji" onclick="add_emoji_msg('smile_34')">😑</p>
+            <p id="smile_35" class="emoji" onclick="add_emoji_msg('smile_35')">😶</p>
+            <p id="smile_36" class="emoji" onclick="add_emoji_msg('smile_36')">😏</p>
+            <p id="smile_37" class="emoji" onclick="add_emoji_msg('smile_37')">🙄</p>
+            <p id="smile_38" class="emoji" onclick="add_emoji_msg('smile_38')">😬</p>
+            <p id="smile_39" class="emoji" onclick="add_emoji_msg('smile_39')">😮</p>
+            <p id="smile_40" class="emoji" onclick="add_emoji_msg('smile_40')">😔</p>
+            <p id="smile_41" class="emoji" onclick="add_emoji_msg('smile_41')">🤤</p>
+            <p id="smile_42" class="emoji" onclick="add_emoji_msg('smile_42')">😴</p>
+            <p id="smile_43" class="emoji" onclick="add_emoji_msg('smile_43')">🤢</p>
+            <p id="smile_44" class="emoji" onclick="add_emoji_msg('smile_44')">🤮</p>
+            <p id="smile_45" class="emoji" onclick="add_emoji_msg('smile_45')">🥵</p>
+            <p id="smile_46" class="emoji" onclick="add_emoji_msg('smile_46')">🥶</p>
+            <p id="smile_47" class="emoji" onclick="add_emoji_msg('smile_47')">🥴</p>
+            <p id="smile_48" class="emoji" onclick="add_emoji_msg('smile_48')">🧐</p>
+            <p id="smile_49" class="emoji" onclick="add_emoji_msg('smile_49')">😕</p>
+            <p id="smile_50" class="emoji" onclick="add_emoji_msg('smile_50')">😟</p>
+            <p id="smile_51" class="emoji" onclick="add_emoji_msg('smile_51')">☹️</p>
+            <p id="smile_52" class="emoji" onclick="add_emoji_msg('smile_52')">😮</p>
+            <p id="smile_53" class="emoji" onclick="add_emoji_msg('smile_53')">😳</p>
+            <p id="smile_54" class="emoji" onclick="add_emoji_msg('smile_54')">🥺</p>
+            <p id="smile_55" class="emoji" onclick="add_emoji_msg('smile_55')">😦</p>
+            <p id="smile_56" class="emoji" onclick="add_emoji_msg('smile_56')">😨</p>
+            <p id="smile_57" class="emoji" onclick="add_emoji_msg('smile_57')">😰</p>
+            <p id="smile_58" class="emoji" onclick="add_emoji_msg('smile_58')">😭</p>
+            <p id="smile_59" class="emoji" onclick="add_emoji_msg('smile_59')">😥</p>
+            <p id="smile_60" class="emoji" onclick="add_emoji_msg('smile_60')">😱</p>
+            <p id="smile_61" class="emoji" onclick="add_emoji_msg('smile_61')">😞</p>
+            <p id="smile_62" class="emoji" onclick="add_emoji_msg('smile_62')">🥱</p>
+            <p id="smile_63" class="emoji" onclick="add_emoji_msg('smile_63')">😤</p>
+            <p id="smile_64" class="emoji" onclick="add_emoji_msg('smile_64')">😡</p>
+            <p id="smile_65" class="emoji" onclick="add_emoji_msg('smile_65')">🤬</p>
+            <p id="smile_66" class="emoji" onclick="add_emoji_msg('smile_66')">😈</p>
+            <p id="smile_67" class="emoji" onclick="add_emoji_msg('smile_67')">🤡</p>
+            <p id="smile_68" class="emoji" onclick="add_emoji_msg('smile_68')">👽</p>
+            <p id="smile_69" class="emoji" onclick="add_emoji_msg('smile_69')">👶</p>
+            <p id="icon_2" class="emoji" onclick="add_emoji_msg('icon_2')">🤟</p>
+            <p id="icon_3" class="emoji" onclick="add_emoji_msg('icon_3')">💯</p>
+            <p id="icon_4" class="emoji" onclick="add_emoji_msg('icon_4')">❤️</p>
+            <p id="icon_5" class="emoji" onclick="add_emoji_msg('icon_5')">👋</p>
+            <p id="icon_6" class="emoji" onclick="add_emoji_msg('icon_6')">👌</p>
+            <p id="icon_7" class="emoji" onclick="add_emoji_msg('icon_7')">👍</p>
+            <p id="icon_8" class="emoji" onclick="add_emoji_msg('icon_8')">👎</p>
+            <p id="icon_9" class="emoji" onclick="add_emoji_msg('icon_9')">👊</p>
+            <p id="icon_10" class="emoji" onclick="add_emoji_msg('icon_10')">🤛</p>
+            <p id="icon_11" class="emoji" onclick="add_emoji_msg('icon_11')">🤜</p>
+            <p id="icon_12" class="emoji" onclick="add_emoji_msg('icon_12')">👏</p>
+            <p id="icon_14" class="emoji" onclick="add_emoji_msg('icon_14')">🤟</p>
+            <p id="icon_16" class="emoji" onclick="add_emoji_msg('icon_16')">🤟</p>
+            <p id="icon_17" class="emoji" onclick="add_emoji_msg('icon_17')">🙏</p>
+            <p id="icon_18" class="emoji" onclick="add_emoji_msg('icon_18')">💪</p>
+            <p id="icon_19" class="emoji" onclick="add_emoji_msg('icon_19')">🧠</p>
+            <p id="icon_20" class="emoji" onclick="add_emoji_msg('icon_20')">👀</p>
+            <p id="icon_21" class="emoji" onclick="add_emoji_msg('icon_21')">👁️</p>
+            <p id="icon_22" class="emoji" onclick="add_emoji_msg('icon_22')">🦴</p>
+            <p id="icon_23" class="emoji" onclick="add_emoji_msg('icon_23')">🍆</p>
+            <p id="icon_26" class="emoji" onclick="add_emoji_msg('icon_26')">🍅</p>
+            <p id="icon_27" class="emoji" onclick="add_emoji_msg('icon_27')">🌽</p>
+            <p id="icon_24" class="emoji" onclick="add_emoji_msg('icon_24')">🍒</p>
+            <p id="icon_28" class="emoji" onclick="add_emoji_msg('icon_28')">🍉</p>
+            <p id="icon_25" class="emoji" onclick="add_emoji_msg('icon_25')">🍑</p>
+          </div>
+        </div>
 
-        <textarea id="Msg_Area" autocomplete="off" type="text" placeholder="Send a message"></textarea>
+        <div id="Attachments_Container">
+          <img src="" id="attachment_Img">
+          <div id="btn_container">
+            <img id="Replace_Img" onclick="openFileExplorer()" src="Images/replace.png">
+            <img id="Remove_Img" onclick="delete_attatchment()" src="Images/bin.png">
+          </div>
+          <img src="Images/SendImg.png" id="send_img_btn">
+        </div>
+
+        <div id="Send_Msg_Container">
+          <p id="file_large">Image too large. Must be less than 1 MB</p>
+          <input type="file" id="fileInput" accept="image/*" style="display: none;">
+
+          <img id="add_emoji_msg" onclick="open_emoji_container()" src="Images/emoji2.png">
+          <img id="add_img_msg" onclick="openFileExplorer()" src="Images/add_image.png">
+          <textarea id="Msg_Area" autocomplete="off" type="text" placeholder="Send a message"></textarea>
+        </div>
+
         <!--<img id="Send_Img" src="./Images/SendImg.png">-->
-
-
 
         <p id="Connected_to_text">Connected to <span id="user_id_actual"></span></p>
         <div id="Currently_Chatting">
-          <p id="Notice_Text">All messages sent and received are deleted when chat is left.</p>
           <img id="Current_User_Img" src="Images/user.png">
           <p id="Current_User_Text"></p>
+          <!--
+          <img id="Call_User" onclick="start_call()" src="Images/call.png">
+          <img id="VideoCall_User" src="Images/camera.png">
+          <img id="Share_Screen_User" src="Images/sharescreen.png">
+          -->
         </div>
         <div id="Receive_Area">
-          <ul id="Sent" class="rec_sent_style">
 
-            <!--
-              <li class="msg_style_sent">good thanks- sent<span class="sent_time">Sent: 09:49pm - 00/00/0000</span>
-              <span class="loader"></span>
-            </li>
-            <li class="msg_style_sent">good thanks- sent<span class="sent_time">Sent: 09:49pm</span> <span
-                class="loader"></span></li>
-            <li class="msg_style_sent">good thanks- sent<span class="sent_time">Sent: 09:49pm</span></li>
-            <li class="msg_style_sent">good thanks- sent<span class="sent_time">Sent: 09:49pm</span></li>
-            <li class="msg_style_rec">good how are you - received<span class="rec_time">Received: 09:49pm</span></li>
-            <li class="msg_style_sent">how are you - sent<span class="sent_time">Sent: 09:49pm</span></li>
-            <li class="msg_style_rec">hi - received<span class="rec_time">Received: 09:49pm</span></li>
-            <li class="msg_style_sent">hi - sent<span class="sent_time">Sent: 09:49pm</span></li>
-            -->
-          </ul>
+
         </div>
         <p id="Message">Connect to user to start chatting!</p>
 

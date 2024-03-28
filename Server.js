@@ -1,29 +1,25 @@
-
 const express = require('express');
 const app = express();
-const http = require('http');
-const server = http.createServer(app);
+const https = require('https');
+const server = https.createServer(app);
 const { Server } = require("socket.io");
 const path = require('path');
-
-
-
+const cors = require('cors');
 
 /*Socket--------------------------------------------------------------------------------*/
-const io = require('socket.io')(server);
+const io = new Server(server);
+
+// Use cors middleware
+app.use(cors());
 
 io.on('connection', (socket) => {
     const userId = socket.id;
     socket.emit('user connected', userId);
     console.log(`User connected with ID: ${userId}`);
 
-
-
-
     socket.on('disconnect', () => {
         console.log(`User disconnected with ID: ${userId}`);
     });
-
 
     //Checks if recipient exists-----------------------------------------------------------------
     socket.on("recipient", (data) => {
@@ -42,10 +38,9 @@ io.on('connection', (socket) => {
     });
     //Checks if recipient exists-----------------------------------------------------------------
 
-
     //Send message to User ID-----------------------------------------------------------------
     socket.on('chat message', (data) => {
-        const { recipientId, content } = data;
+        const { recipientId, content, name, img } = data;
 
         const recipientSocket = io.to(recipientId);
 
@@ -53,12 +48,35 @@ io.on('connection', (socket) => {
             recipientSocket.emit('chat message', {
                 content,
                 senderId: userId,
+                name,
+                img,
+
             });
         } else {
             console.log(`Recipient with ID ${recipientId} not found.`);
         }
     });
     //Send message to User ID-----------------------------------------------------------------
+
+    //Send img to User ID-----------------------------------------------------------------
+    socket.on('chat image', (data) => {
+        const { recipientId, content, name, img } = data;
+
+        const recipientSocket = io.to(recipientId);
+        console.log("image data sent: ", content);
+        if (recipientSocket) {
+            recipientSocket.emit('chat image', {
+                content,
+                senderId: userId,
+                name,
+                img,
+            });
+        } else {
+            console.log(`Recipient with ID ${recipientId} not found.`);
+        }
+    });
+    //Send img to User ID-----------------------------------------------------------------
+
 
 });
 
@@ -69,17 +87,6 @@ app.get('/', (req, res) => {
 });
 
 server.listen(3000, () => {
-    console.log('listening on *:3000');
+    console.log('lstening on *:3000');
 });
-
 /*Socket--------------------------------------------------------------------------------*/
-
-
-
-
-
-
-
-
-
-
