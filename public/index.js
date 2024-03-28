@@ -2845,7 +2845,7 @@ function decryptAES(ciphertext, key) {
     var bytes = CryptoJS.AES.decrypt(ciphertext, key);
     return bytes.toString(CryptoJS.enc.Utf8);
 }
-const key = "dasdikje23i1j_!sdsqqd!---2S";
+
 
 /*Socket IO */
 
