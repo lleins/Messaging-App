@@ -5,7 +5,7 @@ In addition Raven does not save any messages or images sent between users!
 
 ## Usage
 
-To start using Raven, simply visit  [http://50.18.247.63:3000/](http://50.18.247.63:3000/) in your web browser.
+[Visit Website](http://50.18.247.63:3000/)
 
 Once you're on the Raven platform, you can:
 
